@@ -76,6 +76,7 @@ const getAllChatflows = async (req: Request, res: Response, next: NextFunction) 
         const apiResponse = await chatflowsService.getAllChatflows(
             req.query?.type as ChatflowType,
             req.user?.activeWorkspaceId,
+            req.user?.id,
             page,
             limit
         )

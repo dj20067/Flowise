@@ -8,11 +8,14 @@ import { QueryRunner } from 'typeorm'
 import { validate } from 'uuid'
 import { Platform } from '../../Interface'
 
-const createVariable = async (newVariable: Variable, orgId: string) => {
+const createVariable = async (newVariable: Variable, orgId: string, userId?: string) => {
     const appServer = getRunningExpressApp()
     if (appServer.identityManager.getPlatformType() === Platform.CLOUD && newVariable.type === 'runtime')
         throw new InternalFlowiseError(StatusCodes.BAD_REQUEST, 'Cloud platform does not support runtime variables!')
     try {
+        if (userId) {
+            newVariable.userId = userId
+        }
         const variable = await appServer.AppDataSource.getRepository(Variable).create(newVariable)
         const dbResponse = await appServer.AppDataSource.getRepository(Variable).save(variable)
         await appServer.telemetry.sendTelemetry(
@@ -45,7 +48,7 @@ const deleteVariable = async (variableId: string): Promise<any> => {
     }
 }
 
-const getAllVariables = async (workspaceId?: string, page: number = -1, limit: number = -1) => {
+const getAllVariables = async (workspaceId?: string, userId?: string, page: number = -1, limit: number = -1) => {
     try {
         const appServer = getRunningExpressApp()
         const queryBuilder = appServer.AppDataSource.getRepository(Variable)
@@ -57,6 +60,7 @@ const getAllVariables = async (workspaceId?: string, page: number = -1, limit: n
             queryBuilder.take(limit)
         }
         if (workspaceId) queryBuilder.andWhere('variable.workspaceId = :workspaceId', { workspaceId })
+        if (userId) queryBuilder.andWhere('variable.userId = :userId', { userId })
 
         if (appServer.identityManager.getPlatformType() === Platform.CLOUD) {
             queryBuilder.andWhere('variable.type != :type', { type: 'runtime' })
@@ -77,12 +81,14 @@ const getAllVariables = async (workspaceId?: string, page: number = -1, limit: n
     }
 }
 
-const getVariableById = async (variableId: string) => {
+const getVariableById = async (variableId: string, userId?: string) => {
     try {
         const appServer = getRunningExpressApp()
-        const dbResponse = await appServer.AppDataSource.getRepository(Variable).findOneBy({
-            id: variableId
-        })
+        const searchConditions: any = { id: variableId }
+        if (userId) {
+            searchConditions.userId = userId
+        }
+        const dbResponse = await appServer.AppDataSource.getRepository(Variable).findOneBy(searchConditions)
 
         if (appServer.identityManager.getPlatformType() === Platform.CLOUD && dbResponse?.type === 'runtime') {
             throw new InternalFlowiseError(StatusCodes.FORBIDDEN, 'Cloud platform does not support runtime variables!')

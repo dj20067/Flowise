@@ -67,4 +67,7 @@ export class ChatMessage implements IChatMessage {
 
     @Column({ nullable: true, type: 'text' })
     followUpPrompts?: string
+
+    @Column({ nullable: true })
+    userId?: string
 }

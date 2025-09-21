@@ -53,6 +53,15 @@ export enum UserPlan {
 /**
  * Databases
  */
+export interface IUser {
+    id: string
+    username: string
+    password: string
+    isAdmin: boolean
+    createdDate: Date
+    updatedDate: Date
+}
+
 export interface IChatFlow {
     id: string
     name: string
@@ -70,6 +79,7 @@ export interface IChatFlow {
     category?: string
     type?: ChatflowType
     workspaceId?: string
+    userId?: string
 }
 
 export interface IChatMessage {
@@ -92,6 +102,7 @@ export interface IChatMessage {
     leadEmail?: string
     action?: string | null
     followUpPrompts?: string
+    userId?: string
 }
 
 export interface IChatMessageFeedback {
@@ -115,6 +126,7 @@ export interface ITool {
     updatedDate: Date
     createdDate: Date
     workspaceId?: string
+    userId?: string
 }
 
 export interface IAssistant {
@@ -125,6 +137,7 @@ export interface IAssistant {
     updatedDate: Date
     createdDate: Date
     workspaceId?: string
+    userId?: string
 }
 
 export interface ICredential {
@@ -135,6 +148,7 @@ export interface ICredential {
     updatedDate: Date
     createdDate: Date
     workspaceId?: string
+    userId?: string
 }
 
 export interface IVariable {
@@ -145,6 +159,7 @@ export interface IVariable {
     updatedDate: Date
     createdDate: Date
     workspaceId?: string
+    userId?: string
 }
 
 export interface ILead {
@@ -352,6 +367,7 @@ export interface IApiKey {
     apiSecret: string
     updatedDate: Date
     workspaceId?: string
+    userId?: string
 }
 
 export interface ICustomTemplate {

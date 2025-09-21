@@ -38,6 +38,7 @@ import { AddErrorToEvaluationRun1744964560174 } from './1744964560174-AddErrorTo
 import { ModifyExecutionDataColumnType1747902489801 } from './1747902489801-ModifyExecutionDataColumnType'
 import { ModifyChatflowType1755066758601 } from './1755066758601-ModifyChatflowType'
 import { AddChatFlowNameIndex1755748356008 } from './1755748356008-AddChatFlowNameIndex'
+import { AddUserIdToEntities1756000000000 } from './1756000000000-AddUserIdToEntities'
 
 import { AddAuthTables1720230151482 } from '../../../enterprise/database/migrations/mariadb/1720230151482-AddAuthTables'
 import { AddWorkspace1725437498242 } from '../../../enterprise/database/migrations/mariadb/1725437498242-AddWorkspace'
@@ -102,5 +103,6 @@ export const mariadbMigrations = [
     ExecutionLinkWorkspaceId1746862866554,
     ModifyExecutionDataColumnType1747902489801,
     ModifyChatflowType1755066758601,
-    AddChatFlowNameIndex1755748356008
+    AddChatFlowNameIndex1755748356008,
+    AddUserIdToEntities1756000000000
 ]

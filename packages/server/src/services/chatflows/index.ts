@@ -136,7 +136,7 @@ const deleteChatflow = async (chatflowId: string, orgId: string, workspaceId: st
     }
 }
 
-const getAllChatflows = async (type?: ChatflowType, workspaceId?: string, page: number = -1, limit: number = -1) => {
+const getAllChatflows = async (type?: ChatflowType, workspaceId?: string, userId?: string, page: number = -1, limit: number = -1) => {
     try {
         const appServer = getRunningExpressApp()
 
@@ -159,6 +159,7 @@ const getAllChatflows = async (type?: ChatflowType, workspaceId?: string, page: 
             queryBuilder.andWhere('chat_flow.type = :type', { type: 'CHATFLOW' })
         }
         if (workspaceId) queryBuilder.andWhere('chat_flow.workspaceId = :workspaceId', { workspaceId })
+        if (userId) queryBuilder.andWhere('chat_flow.userId = :userId', { userId })
         const [data, total] = await queryBuilder.getManyAndCount()
 
         if (page > 0 && limit > 0) {
@@ -194,17 +195,21 @@ async function getAllChatflowsCountByOrganization(type: ChatflowType, organizati
     }
 }
 
-const getAllChatflowsCount = async (type?: ChatflowType, workspaceId?: string): Promise<number> => {
+const getAllChatflowsCount = async (type?: ChatflowType, workspaceId?: string, userId?: string): Promise<number> => {
     try {
         const appServer = getRunningExpressApp()
+        const searchOptions = {
+            ...getWorkspaceSearchOptions(workspaceId),
+            ...(userId && { userId })
+        }
         if (type) {
             const dbResponse = await appServer.AppDataSource.getRepository(ChatFlow).countBy({
                 type,
-                ...getWorkspaceSearchOptions(workspaceId)
+                ...searchOptions
             })
             return dbResponse
         }
-        const dbResponse = await appServer.AppDataSource.getRepository(ChatFlow).countBy(getWorkspaceSearchOptions(workspaceId))
+        const dbResponse = await appServer.AppDataSource.getRepository(ChatFlow).countBy(searchOptions)
         return dbResponse
     } catch (error) {
         throw new InternalFlowiseError(
@@ -261,10 +266,16 @@ const saveChatflow = async (
     orgId: string,
     workspaceId: string,
     subscriptionId: string,
-    usageCacheManager: UsageCacheManager
+    usageCacheManager: UsageCacheManager,
+    userId?: string
 ): Promise<any> => {
     validateChatflowType(newChatFlow.type)
     const appServer = getRunningExpressApp()
+
+    // Set userId if provided
+    if (userId) {
+        newChatFlow.userId = userId
+    }
 
     let dbResponse: ChatFlow
     if (containsBase64File(newChatFlow)) {
@@ -321,7 +332,8 @@ const updateChatflow = async (
     updateChatFlow: ChatFlow,
     orgId: string,
     workspaceId: string,
-    subscriptionId: string
+    subscriptionId: string,
+    userId?: string
 ): Promise<any> => {
     const appServer = getRunningExpressApp()
     if (updateChatFlow.flowData && containsBase64File(updateChatFlow)) {

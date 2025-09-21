@@ -10,13 +10,17 @@ import { getWorkspaceSearchOptions } from '../../enterprise/utils/ControllerServ
 import { WorkspaceShared } from '../../enterprise/database/entities/EnterpriseEntities'
 import { WorkspaceService } from '../../enterprise/services/workspace.service'
 
-const createCredential = async (requestBody: any) => {
+const createCredential = async (requestBody: any, userId?: string) => {
     try {
         const appServer = getRunningExpressApp()
         const newCredential = await transformToCredentialEntity(requestBody)
 
         if (requestBody.id) {
             newCredential.id = requestBody.id
+        }
+
+        if (userId) {
+            newCredential.userId = userId
         }
 
         const credential = await appServer.AppDataSource.getRepository(Credential).create(newCredential)
@@ -47,7 +51,7 @@ const deleteCredentials = async (credentialId: string): Promise<any> => {
     }
 }
 
-const getAllCredentials = async (paramCredentialName: any, workspaceId?: string) => {
+const getAllCredentials = async (paramCredentialName: any, workspaceId?: string, userId?: string) => {
     try {
         const appServer = getRunningExpressApp()
         let dbResponse = []
@@ -55,18 +59,20 @@ const getAllCredentials = async (paramCredentialName: any, workspaceId?: string)
             if (Array.isArray(paramCredentialName)) {
                 for (let i = 0; i < paramCredentialName.length; i += 1) {
                     const name = paramCredentialName[i] as string
-                    const searchOptions = {
+                    const searchOptions: any = {
                         credentialName: name,
                         ...getWorkspaceSearchOptions(workspaceId)
                     }
+                    if (userId) searchOptions.userId = userId
                     const credentials = await appServer.AppDataSource.getRepository(Credential).findBy(searchOptions)
                     dbResponse.push(...credentials)
                 }
             } else {
-                const searchOptions = {
+                const searchOptions: any = {
                     credentialName: paramCredentialName,
                     ...getWorkspaceSearchOptions(workspaceId)
                 }
+                if (userId) searchOptions.userId = userId
                 const credentials = await appServer.AppDataSource.getRepository(Credential).findBy(searchOptions)
                 dbResponse = [...credentials]
             }
@@ -124,12 +130,12 @@ const getAllCredentials = async (paramCredentialName: any, workspaceId?: string)
     }
 }
 
-const getCredentialById = async (credentialId: string, workspaceId?: string): Promise<any> => {
+const getCredentialById = async (credentialId: string, workspaceId?: string, userId?: string): Promise<any> => {
     try {
         const appServer = getRunningExpressApp()
-        const credential = await appServer.AppDataSource.getRepository(Credential).findOneBy({
-            id: credentialId
-        })
+        const searchConditions: any = { id: credentialId }
+        if (userId) searchConditions.userId = userId
+        const credential = await appServer.AppDataSource.getRepository(Credential).findOneBy(searchConditions)
         if (!credential) {
             throw new InternalFlowiseError(StatusCodes.NOT_FOUND, `Credential ${credentialId} not found`)
         }

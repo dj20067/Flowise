@@ -21,4 +21,7 @@ export class ApiKey implements IApiKey {
 
     @Column({ nullable: true, type: 'text' })
     workspaceId?: string
+
+    @Column({ nullable: true })
+    userId?: string
 }

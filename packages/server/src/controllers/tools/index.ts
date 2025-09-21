@@ -42,7 +42,7 @@ const deleteTool = async (req: Request, res: Response, next: NextFunction) => {
 const getAllTools = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { page, limit } = getPageAndLimitParams(req)
-        const apiResponse = await toolsService.getAllTools(req.user?.activeWorkspaceId, page, limit)
+        const apiResponse = await toolsService.getAllTools(req.user?.activeWorkspaceId, req.user?.id, page, limit)
         return res.json(apiResponse)
     } catch (error) {
         next(error)

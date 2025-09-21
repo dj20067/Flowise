@@ -29,6 +29,7 @@ export interface IDocumentStore {
     embeddingConfig: string | null // JSON string
     recordManagerConfig: string | null // JSON string
     workspaceId?: string
+    userId?: string
 }
 
 export interface IDocumentStoreFileChunk {
@@ -240,6 +241,7 @@ export class DocumentStoreDTO {
     totalChars: number
     chunkSize: number
     workspaceId?: string
+    userId?: string
     loaders: IDocumentStoreLoader[]
     vectorStoreConfig: any
     embeddingConfig: any

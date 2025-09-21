@@ -9,7 +9,7 @@ import { Not, IsNull } from 'typeorm'
 import { getWorkspaceSearchOptions } from '../../enterprise/utils/ControllerServiceUtils'
 import { v4 as uuidv4 } from 'uuid'
 
-const getAllApiKeysFromDB = async (workspaceId?: string, page: number = -1, limit: number = -1) => {
+const getAllApiKeysFromDB = async (workspaceId?: string, userId?: string, page: number = -1, limit: number = -1) => {
     const appServer = getRunningExpressApp()
     const queryBuilder = appServer.AppDataSource.getRepository(ApiKey).createQueryBuilder('api_key').orderBy('api_key.updatedDate', 'DESC')
     if (page > 0 && limit > 0) {
@@ -17,6 +17,7 @@ const getAllApiKeysFromDB = async (workspaceId?: string, page: number = -1, limi
         queryBuilder.take(limit)
     }
     if (workspaceId) queryBuilder.andWhere('api_key.workspaceId = :workspaceId', { workspaceId })
+    if (userId) queryBuilder.andWhere('api_key.userId = :userId', { userId })
     const [data, total] = await queryBuilder.getManyAndCount()
     const keysWithChatflows = await addChatflowsCount(data)
 
@@ -27,13 +28,13 @@ const getAllApiKeysFromDB = async (workspaceId?: string, page: number = -1, limi
     }
 }
 
-const getAllApiKeys = async (workspaceId?: string, autoCreateNewKey?: boolean, page: number = -1, limit: number = -1) => {
+const getAllApiKeys = async (workspaceId?: string, userId?: string, autoCreateNewKey?: boolean, page: number = -1, limit: number = -1) => {
     try {
-        let keys = await getAllApiKeysFromDB(workspaceId, page, limit)
+        let keys = await getAllApiKeysFromDB(workspaceId, userId, page, limit)
         const isEmpty = keys?.total === 0 || (Array.isArray(keys) && keys?.length === 0)
         if (isEmpty && autoCreateNewKey) {
-            await createApiKey('DefaultKey', workspaceId)
-            keys = await getAllApiKeysFromDB(workspaceId, page, limit)
+            await createApiKey('DefaultKey', workspaceId, userId)
+            keys = await getAllApiKeysFromDB(workspaceId, userId, page, limit)
         }
         return keys
     } catch (error) {
@@ -71,7 +72,7 @@ const getApiKeyById = async (apiKeyId: string) => {
     }
 }
 
-const createApiKey = async (keyName: string, workspaceId?: string) => {
+const createApiKey = async (keyName: string, workspaceId?: string, userId?: string) => {
     try {
         const apiKey = generateAPIKey()
         const apiSecret = generateSecretHash(apiKey)
@@ -82,6 +83,9 @@ const createApiKey = async (keyName: string, workspaceId?: string) => {
         newKey.apiSecret = apiSecret
         newKey.keyName = keyName
         newKey.workspaceId = workspaceId
+        if (userId) {
+            newKey.userId = userId
+        }
         const key = appServer.AppDataSource.getRepository(ApiKey).create(newKey)
         await appServer.AppDataSource.getRepository(ApiKey).save(key)
         return await getAllApiKeysFromDB(workspaceId)
@@ -91,7 +95,7 @@ const createApiKey = async (keyName: string, workspaceId?: string) => {
 }
 
 // Update api key
-const updateApiKey = async (id: string, keyName: string, workspaceId?: string) => {
+const updateApiKey = async (id: string, keyName: string, workspaceId?: string, userId?: string) => {
     try {
         const appServer = getRunningExpressApp()
         const currentKey = await appServer.AppDataSource.getRepository(ApiKey).findOneBy({
@@ -102,16 +106,19 @@ const updateApiKey = async (id: string, keyName: string, workspaceId?: string) =
         }
         currentKey.keyName = keyName
         await appServer.AppDataSource.getRepository(ApiKey).save(currentKey)
-        return await getAllApiKeysFromDB(workspaceId)
+        return await getAllApiKeysFromDB(workspaceId, userId)
     } catch (error) {
         throw new InternalFlowiseError(StatusCodes.INTERNAL_SERVER_ERROR, `Error: apikeyService.updateApiKey - ${getErrorMessage(error)}`)
     }
 }
 
-const deleteApiKey = async (id: string, workspaceId?: string) => {
+const deleteApiKey = async (id: string, workspaceId?: string, userId?: string) => {
     try {
         const appServer = getRunningExpressApp()
-        const dbResponse = await appServer.AppDataSource.getRepository(ApiKey).delete({ id, workspaceId })
+        const deleteConditions: any = { id }
+        if (workspaceId) deleteConditions.workspaceId = workspaceId
+        if (userId) deleteConditions.userId = userId
+        const dbResponse = await appServer.AppDataSource.getRepository(ApiKey).delete(deleteConditions)
         if (!dbResponse) {
             throw new InternalFlowiseError(StatusCodes.NOT_FOUND, `ApiKey ${id} not found`)
         }

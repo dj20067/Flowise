@@ -20,7 +20,7 @@ import { ASSISTANT_PROMPT_GENERATOR } from '../../utils/prompt'
 import { checkUsageLimit } from '../../utils/quotaUsage'
 import nodesService from '../nodes'
 
-const createAssistant = async (requestBody: any, orgId: string): Promise<Assistant> => {
+const createAssistant = async (requestBody: any, orgId: string, userId?: string): Promise<Assistant> => {
     try {
         const appServer = getRunningExpressApp()
         if (!requestBody.details) {
@@ -31,6 +31,10 @@ const createAssistant = async (requestBody: any, orgId: string): Promise<Assista
         if (requestBody.type === 'CUSTOM') {
             const newAssistant = new Assistant()
             Object.assign(newAssistant, requestBody)
+
+            if (userId) {
+                newAssistant.userId = userId
+            }
 
             const assistant = appServer.AppDataSource.getRepository(Assistant).create(newAssistant)
             const dbResponse = await appServer.AppDataSource.getRepository(Assistant).save(assistant)
@@ -225,18 +229,20 @@ async function getAssistantsCountByOrganization(type: AssistantType, organizatio
     }
 }
 
-const getAllAssistants = async (type?: AssistantType, workspaceId?: string): Promise<Assistant[]> => {
+const getAllAssistants = async (type?: AssistantType, workspaceId?: string, userId?: string): Promise<Assistant[]> => {
     try {
         const appServer = getRunningExpressApp()
-        if (type) {
-            const dbResponse = await appServer.AppDataSource.getRepository(Assistant).findBy({
-                type,
-                ...getWorkspaceSearchOptions(workspaceId)
-            })
-            return dbResponse
+        const searchOptions: any = {
+            ...getWorkspaceSearchOptions(workspaceId)
         }
-        const dbResponse = await appServer.AppDataSource.getRepository(Assistant).findBy(getWorkspaceSearchOptions(workspaceId))
-        return dbResponse
+        if (type) {
+            searchOptions.type = type
+        }
+        if (userId) {
+            searchOptions.userId = userId
+        }
+        const assistants = await appServer.AppDataSource.getRepository(Assistant).findBy(searchOptions)
+        return assistants
     } catch (error) {
         throw new InternalFlowiseError(
             StatusCodes.INTERNAL_SERVER_ERROR,
@@ -245,17 +251,19 @@ const getAllAssistants = async (type?: AssistantType, workspaceId?: string): Pro
     }
 }
 
-const getAllAssistantsCount = async (type?: AssistantType, workspaceId?: string): Promise<number> => {
+const getAllAssistantsCount = async (type?: AssistantType, workspaceId?: string, userId?: string): Promise<number> => {
     try {
         const appServer = getRunningExpressApp()
-        if (type) {
-            const dbResponse = await appServer.AppDataSource.getRepository(Assistant).countBy({
-                type,
-                ...getWorkspaceSearchOptions(workspaceId)
-            })
-            return dbResponse
+        const searchOptions: any = {
+            ...getWorkspaceSearchOptions(workspaceId)
         }
-        const dbResponse = await appServer.AppDataSource.getRepository(Assistant).countBy(getWorkspaceSearchOptions(workspaceId))
+        if (type) {
+            searchOptions.type = type
+        }
+        if (userId) {
+            searchOptions.userId = userId
+        }
+        const dbResponse = await appServer.AppDataSource.getRepository(Assistant).countBy(searchOptions)
         return dbResponse
     } catch (error) {
         throw new InternalFlowiseError(
@@ -265,12 +273,14 @@ const getAllAssistantsCount = async (type?: AssistantType, workspaceId?: string)
     }
 }
 
-const getAssistantById = async (assistantId: string): Promise<Assistant> => {
+const getAssistantById = async (assistantId: string, userId?: string): Promise<Assistant> => {
     try {
         const appServer = getRunningExpressApp()
-        const dbResponse = await appServer.AppDataSource.getRepository(Assistant).findOneBy({
-            id: assistantId
-        })
+        const searchConditions: any = { id: assistantId }
+        if (userId) {
+            searchConditions.userId = userId
+        }
+        const dbResponse = await appServer.AppDataSource.getRepository(Assistant).findOneBy(searchConditions)
         if (!dbResponse) {
             throw new InternalFlowiseError(StatusCodes.NOT_FOUND, `Assistant ${assistantId} not found`)
         }

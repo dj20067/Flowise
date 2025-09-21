@@ -55,9 +55,13 @@ import { checkStorage, updateStorageUsage } from '../../utils/quotaUsage'
 import { Telemetry } from '../../utils/telemetry'
 import nodesService from '../nodes'
 
-const createDocumentStore = async (newDocumentStore: DocumentStore, orgId: string) => {
+const createDocumentStore = async (newDocumentStore: DocumentStore, orgId: string, userId?: string) => {
     try {
         const appServer = getRunningExpressApp()
+
+        if (userId) {
+            newDocumentStore.userId = userId
+        }
 
         const documentStore = appServer.AppDataSource.getRepository(DocumentStore).create(newDocumentStore)
         const dbResponse = await appServer.AppDataSource.getRepository(DocumentStore).save(documentStore)
@@ -77,7 +81,7 @@ const createDocumentStore = async (newDocumentStore: DocumentStore, orgId: strin
     }
 }
 
-const getAllDocumentStores = async (workspaceId?: string, page: number = -1, limit: number = -1) => {
+const getAllDocumentStores = async (workspaceId?: string, userId?: string, page: number = -1, limit: number = -1) => {
     try {
         const appServer = getRunningExpressApp()
         const queryBuilder = appServer.AppDataSource.getRepository(DocumentStore)
@@ -89,6 +93,7 @@ const getAllDocumentStores = async (workspaceId?: string, page: number = -1, lim
             queryBuilder.take(limit)
         }
         if (workspaceId) queryBuilder.andWhere('doc_store.workspaceId = :workspaceId', { workspaceId })
+        if (userId) queryBuilder.andWhere('doc_store.userId = :userId', { userId })
 
         const [data, total] = await queryBuilder.getManyAndCount()
 
