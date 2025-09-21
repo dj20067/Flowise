@@ -64,6 +64,7 @@
    * 遍历所有 React 组件，将界面上的硬编码英文字符串替换为 useTranslation 钩子提供的 t('key') 函数。  
    * 在导航栏或设置中添加一个语言切换组件。  
 2. **精简连接器 (Nodes)**：  
+   状态：已完成
    * 采用**非破坏性**的过滤方法，避免直接修改 packages/components 目录下的文件。  
    * 在 packages/server/ 的 .env 文件中，定义一个环境变量，如 DISABLED\_NODES="Airtable,GoogleDrive"。  
    * 修改服务器端加载所有节点的逻辑：在将节点列表发送给前端之前，读取该环境变量，并过滤掉列表中指定的节点。  
