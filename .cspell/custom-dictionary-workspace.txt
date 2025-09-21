@@ -1,0 +1,26 @@
+# Custom Dictionary Words
+apikey
+apikeyid
+chatbot
+chatbots
+chatmessage
+Chatmessages
+jsonlines
+UPSERTED
+UPSERTING
+Decrpyt
+uuid
+uuidv4
+agentflow
+agentflowv2
+Millis
+Agentflows
+Airtable
+languagedector
+organizationuser
+loginmethod
+workspaceuser
+Locize
+kwargs
+chatlow
+langchain
