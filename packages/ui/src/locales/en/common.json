@@ -219,8 +219,7 @@
     "others": "Others",
     "logs": "Logs",
     "account": "Account Settings"
-  }
-  ,
+  },
   "marketplaces": {
     "title": "Marketplaces",
     "description": "Explore and use pre-built templates",
@@ -461,6 +460,51 @@
     },
     "common": {
       "chooseOption": "Choose an option"
+    }
+  },
+  "variables": {
+    "view": {
+      "searchPlaceholder": "Search Variables",
+      "title": "Variables",
+      "description": "Create and manage global variables",
+      "actions": {
+        "howToUse": "How To Use",
+        "add": "Add Variable",
+        "save": "Save"
+      },
+      "empty": { "title": "No Variables Yet" },
+      "table": {
+        "name": "Name",
+        "value": "Value",
+        "type": "Type",
+        "lastUpdated": "Last Updated",
+        "created": "Created",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "confirm": {
+        "delete": {
+          "title": "Delete",
+          "description": "Delete variable {{name}}?"
+        }
+      },
+      "snackbar": {
+        "deleteSuccess": "Variable deleted",
+        "deleteErrorPrefix": "Failed to delete Variable"
+      }
+    },
+    "howTo": {
+      "title": "How to use Variables",
+      "paragraph1": "Reference global variables in inputs using $vars.<variable-name>.",
+      "paragraph2": "In prompts, interpolate variables with double braces, for example:",
+      "paragraph3": "You can also override variables per request with overrideConfig.",
+      "paragraph4": "Add a <b>vars</b> object inside <b>overrideConfig</b> to supply temporary values for this execution.",
+      "readMore": "Read more:",
+      "docs": "Documentation"
+    },
+    "types": {
+      "static": "Static",
+      "runtime": "Runtime"
     }
   }
 }
