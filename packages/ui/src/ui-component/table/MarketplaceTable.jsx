@@ -19,6 +19,7 @@ import {
 } from '@mui/material'
 import { IconShare, IconTrash } from '@tabler/icons-react'
 import { PermissionIconButton } from '@/ui-component/button/RBACButtons'
+import { useTranslation } from 'react-i18next'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     borderColor: theme.palette.grey[900] + 25,
@@ -54,6 +55,7 @@ export const MarketplaceTable = ({
 }) => {
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
+    const { t } = useTranslation()
 
     const openTemplate = (selectedTemplate) => {
         if (selectedTemplate.flowData) {
@@ -75,19 +77,19 @@ export const MarketplaceTable = ({
                     >
                         <TableRow>
                             <StyledTableCell sx={{ minWidth: '150px' }} component='th' scope='row' key='0'>
-                                Name
+                                {t('marketplaces.table.name')}
                             </StyledTableCell>
                             <StyledTableCell sx={{ minWidth: '100px' }} component='th' scope='row' key='1'>
-                                Type
+                                {t('marketplaces.table.type')}
                             </StyledTableCell>
-                            <StyledTableCell key='2'>Description</StyledTableCell>
+                            <StyledTableCell key='2'>{t('marketplaces.table.description')}</StyledTableCell>
                             <StyledTableCell sx={{ minWidth: '100px' }} key='3'>
-                                Framework
+                                {t('marketplaces.table.framework')}
                             </StyledTableCell>
                             <StyledTableCell sx={{ minWidth: '100px' }} key='4'>
-                                Use cases
+                                {t('marketplaces.table.usecases')}
                             </StyledTableCell>
-                            <StyledTableCell key='5'>Badges</StyledTableCell>
+                            <StyledTableCell key='5'>{t('marketplaces.table.badges')}</StyledTableCell>
                             <StyledTableCell component='th' scope='row' key='6'></StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -208,36 +210,44 @@ export const MarketplaceTable = ({
                                             </StyledTableCell>
                                             <StyledTableCell key='5'>
                                                 <Typography>
-                                                    {row.badge &&
-                                                        row.badge
-                                                            .split(';')
-                                                            .map((tag, index) => (
-                                                                <Chip
-                                                                    color={
-                                                                        tag === 'POPULAR'
-                                                                            ? 'primary'
-                                                                            : tag === 'DEPRECATED'
-                                                                            ? 'warning'
-                                                                            : 'error'
-                                                                    }
-                                                                    key={index}
-                                                                    size='small'
-                                                                    label={tag.toUpperCase()}
-                                                                    style={{ marginRight: 5, marginBottom: 5 }}
-                                                                />
-                                                            ))}
+                                                    {row.badge && row.badge.split(';').map((tag, index) => {
+                                                        const upper = tag.toUpperCase()
+                                                        const label =
+                                                            upper === 'POPULAR'
+                                                                ? t('marketplaces.badges.popular')
+                                                                : upper === 'DEPRECATED'
+                                                                ? t('marketplaces.badges.deprecated')
+                                                                : upper === 'NEW'
+                                                                ? t('marketplaces.badges.new')
+                                                                : upper
+                                                        const color =
+                                                            upper === 'POPULAR'
+                                                                ? 'primary'
+                                                                : upper === 'DEPRECATED'
+                                                                ? 'warning'
+                                                                : 'error'
+                                                        return (
+                                                            <Chip
+                                                                key={index}
+                                                                color={color}
+                                                                size='small'
+                                                                label={label}
+                                                                style={{ marginRight: 5, marginBottom: 5 }}
+                                                            />
+                                                        )
+                                                    })}
                                                 </Typography>
                                             </StyledTableCell>
                                             <StyledTableCell key='6' colSpan={row.shared ? 2 : undefined}>
                                                 {row.shared ? (
-                                                    <Typography>Shared Template</Typography>
+                                                    <Typography>{t('marketplaces.table.sharedTemplate')}</Typography>
                                                 ) : (
                                                     <>
                                                         {onShare && (
                                                             <PermissionIconButton
                                                                 display={'feat:workspaces'}
                                                                 permissionId={'templates:custom-share'}
-                                                                title='Share'
+                                                                title={t('marketplaces.actions.share')}
                                                                 color='primary'
                                                                 onClick={() => onShare(row)}
                                                             >
@@ -247,7 +257,7 @@ export const MarketplaceTable = ({
                                                         {onDelete && (
                                                             <PermissionIconButton
                                                                 permissionId={'templates:custom-delete'}
-                                                                title='Delete'
+                                                                title={t('marketplaces.actions.delete')}
                                                                 color='error'
                                                                 onClick={() => onDelete(row)}
                                                             >

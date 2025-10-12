@@ -220,6 +220,97 @@
     "account": "账号设置"
   }
   ,
+  "marketplaces": {
+    "title": "市场",
+    "description": "探索并使用预设模板",
+    "searchPlaceholder": "搜索名称/描述/节点",
+    "filters": {
+      "tag": "标签",
+      "type": "类型",
+      "framework": "框架",
+      "usecases": "用例"
+    },
+    "view": {
+      "card": "卡片视图",
+      "list": "列表视图"
+    },
+    "tabs": {
+      "community": "社区模板",
+      "my": "我的模板"
+    },
+    "dialog": {
+      "deleteCustomTemplateDescription": "删除自定义模板 {{name}}？"
+    },
+    "toast": {
+      "deleteCustomTemplateSuccess": "自定义模板已成功删除！",
+      "deleteCustomTemplateFailed": "删除自定义模板失败：{{message}}"
+    },
+    "empty": "暂无市场内容",
+    "table": {
+      "name": "名称",
+      "type": "类型",
+      "description": "描述",
+      "framework": "框架",
+      "usecases": "用例",
+      "badges": "标记",
+      "sharedTemplate": "已分享的模板"
+    },
+    "actions": {
+      "share": "分享",
+      "useChatflow": "使用聊天流程",
+      "back": "返回",
+      "saveTemplate": "保存模板",
+      "delete": "删除"
+    },
+    "canvas": {
+      "toggleSnapping": "切换吸附"
+    },
+    "badges": {
+      "popular": "热门",
+      "new": "新",
+      "deprecated": "已弃用"
+    },
+    "types": {
+      "chatflow": "聊天流程",
+      "agentflowV2": "智能体流程 V2",
+      "tool": "工具"
+    },
+    "frameworks": {
+      "langchain": "LangChain",
+      "llamaIndex": "LlamaIndex"
+    },
+    "export": {
+      "errors": {
+        "nameRequired": "模板名称为必填项！"
+      },
+      "snackbar": {
+        "success": "已成功保存为模板！",
+        "failed": "保存模板失败！"
+      },
+      "form": {
+        "name": "名称",
+        "description": "描述",
+        "badge": "徽章",
+        "usecases": "用例"
+      },
+      "help": {
+        "usecaseInput": "输入用例并按回车添加到列表。你可以添加任意多个。"
+      }
+    },
+    "share": {
+      "columns": {
+        "workspace": "工作空间",
+        "share": "分享"
+      },
+      "form": {
+        "nameLabel": "名称"
+      },
+      "snackbar": {
+        "success": "项目分享成功",
+        "failedPrefix": "分享项目失败"
+      }
+    }
+  },
   "tools": {
     "title": "工具",
     "description": "代理可调用的外部函数或 API",

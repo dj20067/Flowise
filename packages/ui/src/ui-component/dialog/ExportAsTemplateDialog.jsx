@@ -17,6 +17,7 @@ import useNotifier from '@/utils/useNotifier'
 import { StyledButton } from '@/ui-component/button/StyledButton'
 import Chip from '@mui/material/Chip'
 import { IconX } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 
 // API
 import marketplacesApi from '@/api/marketplaces'
@@ -27,6 +28,7 @@ import useApi from '@/hooks/useApi'
 const ExportAsTemplateDialog = ({ show, dialogProps, onCancel }) => {
     const portalElement = document.getElementById('portal')
     const dispatch = useDispatch()
+    const { t } = useTranslation()
     const [name, setName] = useState('')
     const [flowType, setFlowType] = useState('')
     const [description, setDescription] = useState('')
@@ -98,7 +100,7 @@ const ExportAsTemplateDialog = ({ show, dialogProps, onCancel }) => {
     const onConfirm = () => {
         if (name.trim() === '') {
             enqueueSnackbar({
-                message: 'Template Name is mandatory!',
+                message: t('marketplaces.export.errors.nameRequired'),
                 options: {
                     key: new Date().getTime() + Math.random(),
                     variant: 'error',
@@ -136,7 +138,7 @@ const ExportAsTemplateDialog = ({ show, dialogProps, onCancel }) => {
     useEffect(() => {
         if (saveCustomTemplateApi.data) {
             enqueueSnackbar({
-                message: 'Saved as template successfully!',
+                message: t('marketplaces.export.snackbar.success'),
                 options: {
                     key: new Date().getTime() + Math.random(),
                     variant: 'success',
@@ -156,7 +158,7 @@ const ExportAsTemplateDialog = ({ show, dialogProps, onCancel }) => {
     useEffect(() => {
         if (saveCustomTemplateApi.error) {
             enqueueSnackbar({
-                message: 'Failed to save as template!',
+                message: t('marketplaces.export.snackbar.failed'),
                 options: {
                     key: new Date().getTime() + Math.random(),
                     variant: 'error',
@@ -183,13 +185,14 @@ const ExportAsTemplateDialog = ({ show, dialogProps, onCancel }) => {
             aria-describedby='alert-dialog-description'
         >
             <DialogTitle sx={{ fontSize: '1rem' }} id='alert-dialog-title'>
-                {dialogProps.title || 'Export As Template'}
+                {dialogProps.title || t('tools.export.title')}
             </DialogTitle>
             <DialogContent>
                 <Box sx={{ pt: 2, pb: 2 }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                         <Typography sx={{ mb: 1 }}>
-                            Name<span style={{ color: 'red' }}>&nbsp;*</span>
+                            {t('marketplaces.export.form.name')}
+                            <span style={{ color: 'red' }}>&nbsp;*</span>
                         </Typography>
                         <OutlinedInput
                             id={'name'}
@@ -206,7 +209,7 @@ const ExportAsTemplateDialog = ({ show, dialogProps, onCancel }) => {
                 </Box>
                 <Box sx={{ pt: 2, pb: 2 }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                        <Typography sx={{ mb: 1 }}>Description</Typography>
+                        <Typography sx={{ mb: 1 }}>{t('marketplaces.export.form.description')}</Typography>
                         <OutlinedInput
                             id={'description'}
                             type={'string'}
@@ -224,7 +227,7 @@ const ExportAsTemplateDialog = ({ show, dialogProps, onCancel }) => {
                 </Box>
                 <Box sx={{ pt: 2, pb: 2 }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                        <Typography sx={{ mb: 1 }}>Badge</Typography>
+                        <Typography sx={{ mb: 1 }}>{t('marketplaces.export.form.badge')}</Typography>
                         <OutlinedInput
                             id={'badge'}
                             type={'string'}
@@ -240,7 +243,7 @@ const ExportAsTemplateDialog = ({ show, dialogProps, onCancel }) => {
                 </Box>
                 <Box sx={{ pt: 2, pb: 2 }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                        <Typography sx={{ mb: 1 }}>Usecases</Typography>
+                        <Typography sx={{ mb: 1 }}>{t('marketplaces.export.form.usecases')}</Typography>
                         {usecases.length > 0 && (
                             <div style={{ marginBottom: 10 }}>
                                 {usecases.map((uc, index) => (
@@ -261,15 +264,15 @@ const ExportAsTemplateDialog = ({ show, dialogProps, onCancel }) => {
                             variant='outlined'
                         />
                         <Typography variant='body2' sx={{ fontStyle: 'italic', mt: 1 }} color='text.secondary'>
-                            Type a usecase and press enter to add it to the list. You can add as many items as you want.
+                            {t('marketplaces.export.help.usecaseInput')}
                         </Typography>
                     </div>
                 </Box>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onCancel}>{dialogProps.cancelButtonName || 'Cancel'}</Button>
+                <Button onClick={onCancel}>{dialogProps.cancelButtonName || t('cancel')}</Button>
                 <StyledButton disabled={dialogProps.disabled} variant='contained' onClick={onConfirm}>
-                    {dialogProps.confirmButtonName || 'Save Template'}
+                    {dialogProps.confirmButtonName || t('marketplaces.actions.saveTemplate')}
                 </StyledButton>
             </DialogActions>
         </Dialog>

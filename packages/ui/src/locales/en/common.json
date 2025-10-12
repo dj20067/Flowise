@@ -42,6 +42,7 @@
       "version": "Version"
     }
   },
+  "cancel": "Cancel",
   "auth": {
     "signInTitle": "Sign In",
     "noAccountQuestion": "Don’t have an account?",
@@ -220,6 +221,97 @@
     "account": "Account Settings"
   }
   ,
+  "marketplaces": {
+    "title": "Marketplaces",
+    "description": "Explore and use pre-built templates",
+    "searchPlaceholder": "Search Name/Description/Node",
+    "filters": {
+      "tag": "Tag",
+      "type": "Type",
+      "framework": "Framework",
+      "usecases": "Usecases"
+    },
+    "view": {
+      "card": "Card View",
+      "list": "List View"
+    },
+    "tabs": {
+      "community": "Community Templates",
+      "my": "My Templates"
+    },
+    "dialog": {
+      "deleteCustomTemplateDescription": "Delete Custom Template {{name}}?"
+    },
+    "toast": {
+      "deleteCustomTemplateSuccess": "Custom Template deleted successfully!",
+      "deleteCustomTemplateFailed": "Failed to delete custom template: {{message}}"
+    },
+    "empty": "No Marketplace Yet",
+    "table": {
+      "name": "Name",
+      "type": "Type",
+      "description": "Description",
+      "framework": "Framework",
+      "usecases": "Use cases",
+      "badges": "Badges",
+      "sharedTemplate": "Shared Template"
+    },
+    "actions": {
+      "share": "Share",
+      "useChatflow": "Use Chatflow",
+      "back": "Back",
+      "saveTemplate": "Save Template",
+      "delete": "Delete"
+    },
+    "canvas": {
+      "toggleSnapping": "Toggle snapping"
+    },
+    "badges": {
+      "popular": "Popular",
+      "new": "New",
+      "deprecated": "Deprecated"
+    },
+    "types": {
+      "chatflow": "Chatflow",
+      "agentflowV2": "Agentflow V2",
+      "tool": "Tool"
+    },
+    "frameworks": {
+      "langchain": "LangChain",
+      "llamaIndex": "LlamaIndex"
+    },
+    "export": {
+      "errors": {
+        "nameRequired": "Template Name is mandatory!"
+      },
+      "snackbar": {
+        "success": "Saved as template successfully!",
+        "failed": "Failed to save as template!"
+      },
+      "form": {
+        "name": "Name",
+        "description": "Description",
+        "badge": "Badge",
+        "usecases": "Usecases"
+      },
+      "help": {
+        "usecaseInput": "Type a usecase and press enter to add it to the list. You can add as many items as you want."
+      }
+    },
+    "share": {
+      "columns": {
+        "workspace": "Workspace",
+        "share": "Share"
+      },
+      "form": {
+        "nameLabel": "Name"
+      },
+      "snackbar": {
+        "success": "Items shared successfully",
+        "failedPrefix": "Failed to share item"
+      }
+    }
+  },
   "tools": {
     "title": "Tools",
     "description": "External functions or APIs the agent can use to take action",

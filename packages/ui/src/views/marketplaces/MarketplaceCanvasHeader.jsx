@@ -9,17 +9,19 @@ import { StyledButton } from '@/ui-component/button/StyledButton'
 // icons
 import { IconCopy, IconChevronLeft } from '@tabler/icons-react'
 import { Available } from '@/ui-component/rbac/available'
+import { useTranslation } from 'react-i18next'
 
 // ==============================|| CANVAS HEADER ||============================== //
 
 const MarketplaceCanvasHeader = ({ flowName, flowData, onChatflowCopy }) => {
     const theme = useTheme()
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     return (
         <>
             <Box>
-                <ButtonBase title='Back' sx={{ borderRadius: '50%' }}>
+                <ButtonBase title={t('marketplaces.actions.back')} sx={{ borderRadius: '50%' }}>
                     <Avatar
                         variant='rounded'
                         sx={{
@@ -58,11 +60,11 @@ const MarketplaceCanvasHeader = ({ flowName, flowData, onChatflowCopy }) => {
                     <StyledButton
                         color='secondary'
                         variant='contained'
-                        title='Use Chatflow'
+                        title={t('marketplaces.actions.useChatflow')}
                         onClick={() => onChatflowCopy(flowData)}
                         startIcon={<IconCopy />}
                     >
-                        Use Template
+                        {t('tools.actions.useTemplate')}
                     </StyledButton>
                 </Box>
             </Available>

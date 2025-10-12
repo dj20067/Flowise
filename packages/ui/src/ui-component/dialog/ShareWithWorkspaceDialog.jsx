@@ -15,6 +15,7 @@ import { Grid } from '@/ui-component/grid/Grid'
 
 // Icons
 import { IconX, IconShare } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 
 // API
 import workspaceApi from '@/api/workspace'
@@ -33,6 +34,7 @@ const ShareWithWorkspaceDialog = ({ show, dialogProps, onCancel, setError }) => 
     const portalElement = document.getElementById('portal')
 
     const dispatch = useDispatch()
+    const { t } = useTranslation()
 
     // ==============================|| Snackbar ||============================== //
 
@@ -63,10 +65,10 @@ const ShareWithWorkspaceDialog = ({ show, dialogProps, onCancel, setError }) => 
 
     const columns = useMemo(
         () => [
-            { field: 'workspaceName', headerName: 'Workspace', editable: false, flex: 1 },
-            { field: 'shared', headerName: 'Share', type: 'boolean', editable: true, width: 180 }
+            { field: 'workspaceName', headerName: t('marketplaces.share.columns.workspace'), editable: false, flex: 1 },
+            { field: 'shared', headerName: t('marketplaces.share.columns.share'), type: 'boolean', editable: true, width: 180 }
         ],
-        []
+        [t]
     )
 
     useEffect(() => {
@@ -145,7 +147,7 @@ const ShareWithWorkspaceDialog = ({ show, dialogProps, onCancel, setError }) => 
             const sharedResp = await workspaceApi.setSharedWorkspacesForItem(dialogProps.data.id, obj)
             if (sharedResp.data) {
                 enqueueSnackbar({
-                    message: 'Items Shared Successfully',
+                    message: t('marketplaces.share.snackbar.success'),
                     options: {
                         key: new Date().getTime() + Math.random(),
                         variant: 'success',
@@ -161,7 +163,7 @@ const ShareWithWorkspaceDialog = ({ show, dialogProps, onCancel, setError }) => 
         } catch (error) {
             if (setError) setError(error)
             enqueueSnackbar({
-                message: `Failed to share Item: ${
+                message: `${t('marketplaces.share.snackbar.failedPrefix')}: ${
                     typeof error.response.data === 'object' ? error.response.data.message : error.response.data
                 }`,
                 options: {
@@ -197,7 +199,7 @@ const ShareWithWorkspaceDialog = ({ show, dialogProps, onCancel, setError }) => 
             <DialogContent>
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
-                        <Typography variant='overline'>Name</Typography>
+                        <Typography variant='overline'>{t('marketplaces.share.form.nameLabel')}</Typography>
                     </Stack>
                     <OutlinedInput id='name' type='string' disabled={true} fullWidth placeholder={name} value={name} name='name' />
                 </Box>
@@ -206,9 +208,9 @@ const ShareWithWorkspaceDialog = ({ show, dialogProps, onCancel, setError }) => 
                 </Box>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => onCancel()}>{dialogProps.cancelButtonName}</Button>
+                <Button onClick={() => onCancel()}>{dialogProps.cancelButtonName || t('cancel')}</Button>
                 <StyledButton onClick={shareItemRequest} variant='contained'>
-                    {dialogProps.confirmButtonName}
+                    {dialogProps.confirmButtonName || t('marketplaces.actions.share')}
                 </StyledButton>
             </DialogActions>
             <ConfirmDialog />

@@ -59,6 +59,7 @@ import useNotifier from '@/utils/useNotifier'
 import { baseURL, AGENTFLOW_ICONS } from '@/store/constant'
 import { gridSpacing } from '@/store/constant'
 import { useError } from '@/store/context/ErrorContext'
+import { useTranslation } from 'react-i18next'
 
 const badges = ['POPULAR', 'NEW']
 const types = ['Chatflow', 'AgentflowV2', 'Tool']
@@ -80,6 +81,7 @@ const Marketplace = () => {
 
     const theme = useTheme()
     const { error, setError } = useError()
+    const { t } = useTranslation()
 
     const [isLoading, setLoading] = useState(true)
     const [images, setImages] = useState({})
@@ -218,10 +220,10 @@ const Marketplace = () => {
 
     const onDeleteCustomTemplate = async (template) => {
         const confirmPayload = {
-            title: `Delete`,
-            description: `Delete Custom Template ${template.name}?`,
-            confirmButtonName: 'Delete',
-            cancelButtonName: 'Cancel'
+            title: t('tools.actions.delete'),
+            description: t('marketplaces.dialog.deleteCustomTemplateDescription', { name: template.name }),
+            confirmButtonName: t('tools.actions.delete'),
+            cancelButtonName: t('cancel')
         }
         const isConfirmed = await confirm(confirmPayload)
 
@@ -230,7 +232,7 @@ const Marketplace = () => {
                 const deleteResp = await marketplacesApi.deleteCustomTemplate(template.id)
                 if (deleteResp.data) {
                     enqueueSnackbar({
-                        message: 'Custom Template deleted successfully!',
+                        message: t('marketplaces.toast.deleteCustomTemplateSuccess'),
                         options: {
                             key: new Date().getTime() + Math.random(),
                             variant: 'success',
@@ -245,17 +247,16 @@ const Marketplace = () => {
                 }
             } catch (error) {
                 enqueueSnackbar({
-                    message: `Failed to delete custom template: ${
-                        typeof error.response.data === 'object' ? error.response.data.message : error.response.data
-                    }`,
+                    message: t('marketplaces.toast.deleteCustomTemplateFailed', {
+                        message:
+                            typeof error.response.data === 'object' ? error.response.data.message : error.response.data
+                    }),
                     options: {
                         key: new Date().getTime() + Math.random(),
                         variant: 'error',
                         persist: true,
                         action: (key) => (
-                            <Button style={{ color: 'white' }} onClick={() => closeSnackbar(key)}>
-                                <IconX />
-                            </Button>
+                            <Button style={{ color: 'white' }} onClick={() => closeSnackbar(key)}><IconX /></Button>
                         )
                     }
                 })
@@ -321,10 +322,10 @@ const Marketplace = () => {
 
     const onUseTemplate = (selectedTool) => {
         const dialogProp = {
-            title: 'Add New Tool',
+            title: t('tools.dialog.import.title'),
             type: 'IMPORT',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Add',
+            cancelButtonName: t('cancel'),
+            confirmButtonName: t('tools.common.add'),
             data: selectedTool
         }
         setToolDialogProps(dialogProp)
@@ -485,7 +486,7 @@ const Marketplace = () => {
                                         }}
                                     >
                                         <InputLabel size='small' id='filter-badge-label'>
-                                            Tag
+                                            {t('marketplaces.filters.tag')}
                                         </InputLabel>
                                         <Select
                                             labelId='filter-badge-label'
@@ -494,8 +495,20 @@ const Marketplace = () => {
                                             multiple
                                             value={badgeFilter}
                                             onChange={handleBadgeFilterChange}
-                                            input={<OutlinedInput label='Tag' />}
-                                            renderValue={(selected) => selected.join(', ')}
+                                            input={<OutlinedInput label={t('marketplaces.filters.tag')} />}
+                                            renderValue={(selected) =>
+                                                selected
+                                                    .map((name) =>
+                                                        name === 'POPULAR'
+                                                            ? t('marketplaces.badges.popular')
+                                                            : name === 'NEW'
+                                                            ? t('marketplaces.badges.new')
+                                                            : name === 'DEPRECATED'
+                                                            ? t('marketplaces.badges.deprecated')
+                                                            : name
+                                                    )
+                                                    .join(', ')
+                                            }
                                             MenuProps={MenuProps}
                                             sx={getSelectStyles(theme.palette.grey[900] + 25, theme?.customization?.isDarkMode)}
                                         >
@@ -506,7 +519,17 @@ const Marketplace = () => {
                                                     sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1 }}
                                                 >
                                                     <Checkbox checked={badgeFilter.indexOf(name) > -1} sx={{ p: 0 }} />
-                                                    <ListItemText primary={name} />
+                                                    <ListItemText
+                                                        primary={
+                                                            name === 'POPULAR'
+                                                                ? t('marketplaces.badges.popular')
+                                                                : name === 'NEW'
+                                                                ? t('marketplaces.badges.new')
+                                                                : name === 'DEPRECATED'
+                                                                ? t('marketplaces.badges.deprecated')
+                                                                : name
+                                                        }
+                                                    />
                                                 </MenuItem>
                                             ))}
                                         </Select>
@@ -521,7 +544,7 @@ const Marketplace = () => {
                                         }}
                                     >
                                         <InputLabel size='small' id='type-badge-label'>
-                                            Type
+                                            {t('marketplaces.filters.type')}
                                         </InputLabel>
                                         <Select
                                             size='small'
@@ -530,8 +553,20 @@ const Marketplace = () => {
                                             multiple
                                             value={typeFilter}
                                             onChange={handleTypeFilterChange}
-                                            input={<OutlinedInput label='Type' />}
-                                            renderValue={(selected) => selected.join(', ')}
+                                            input={<OutlinedInput label={t('marketplaces.filters.type')} />}
+                                            renderValue={(selected) =>
+                                                selected
+                                                    .map((name) =>
+                                                        name === 'Chatflow'
+                                                            ? t('marketplaces.types.chatflow')
+                                                            : name === 'AgentflowV2'
+                                                            ? t('marketplaces.types.agentflowV2')
+                                                            : name === 'Tool'
+                                                            ? t('marketplaces.types.tool')
+                                                            : name
+                                                    )
+                                                    .join(', ')
+                                            }
                                             MenuProps={MenuProps}
                                             sx={getSelectStyles(theme.palette.grey[900] + 25, theme?.customization?.isDarkMode)}
                                         >
@@ -542,7 +577,17 @@ const Marketplace = () => {
                                                     sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1 }}
                                                 >
                                                     <Checkbox checked={typeFilter.indexOf(name) > -1} sx={{ p: 0 }} />
-                                                    <ListItemText primary={name} />
+                                                    <ListItemText
+                                                        primary={
+                                                            name === 'Chatflow'
+                                                                ? t('marketplaces.types.chatflow')
+                                                                : name === 'AgentflowV2'
+                                                                ? t('marketplaces.types.agentflowV2')
+                                                                : name === 'Tool'
+                                                                ? t('marketplaces.types.tool')
+                                                                : name
+                                                        }
+                                                    />
                                                 </MenuItem>
                                             ))}
                                         </Select>
@@ -557,7 +602,7 @@ const Marketplace = () => {
                                         }}
                                     >
                                         <InputLabel size='small' id='type-fw-label'>
-                                            Framework
+                                            {t('marketplaces.filters.framework')}
                                         </InputLabel>
                                         <Select
                                             size='small'
@@ -566,8 +611,18 @@ const Marketplace = () => {
                                             multiple
                                             value={frameworkFilter}
                                             onChange={handleFrameworkFilterChange}
-                                            input={<OutlinedInput label='Framework' />}
-                                            renderValue={(selected) => selected.join(', ')}
+                                            input={<OutlinedInput label={t('marketplaces.filters.framework')} />}
+                                            renderValue={(selected) =>
+                                                selected
+                                                    .map((name) =>
+                                                        name === 'Langchain'
+                                                            ? t('marketplaces.frameworks.langchain')
+                                                            : name === 'LlamaIndex'
+                                                            ? t('marketplaces.frameworks.llamaIndex')
+                                                            : name
+                                                    )
+                                                    .join(', ')
+                                            }
                                             MenuProps={MenuProps}
                                             sx={getSelectStyles(theme.palette.grey[900] + 25, theme?.customization?.isDarkMode)}
                                         >
@@ -578,7 +633,15 @@ const Marketplace = () => {
                                                     sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1 }}
                                                 >
                                                     <Checkbox checked={frameworkFilter.indexOf(name) > -1} sx={{ p: 0 }} />
-                                                    <ListItemText primary={name} />
+                                                    <ListItemText
+                                                        primary={
+                                                            name === 'Langchain'
+                                                                ? t('marketplaces.frameworks.langchain')
+                                                                : name === 'LlamaIndex'
+                                                                ? t('marketplaces.frameworks.llamaIndex')
+                                                                : name
+                                                        }
+                                                    />
                                                 </MenuItem>
                                             ))}
                                         </Select>
@@ -587,9 +650,9 @@ const Marketplace = () => {
                             }
                             onSearchChange={onSearchChange}
                             search={true}
-                            searchPlaceholder='Search Name/Description/Node'
-                            title='Marketplace'
-                            description='Explore and use pre-built templates'
+                            searchPlaceholder={t('marketplaces.searchPlaceholder')}
+                            title={t('marketplaces.title')}
+                            description={t('marketplaces.description')}
                         >
                             <ToggleButtonGroup
                                 sx={{ borderRadius: 2, height: '100%' }}
@@ -606,7 +669,7 @@ const Marketplace = () => {
                                     }}
                                     variant='contained'
                                     value='card'
-                                    title='Card View'
+                                    title={t('marketplaces.view.card')}
                                 >
                                     <IconLayoutGrid />
                                 </ToggleButton>
@@ -618,7 +681,7 @@ const Marketplace = () => {
                                     }}
                                     variant='contained'
                                     value='list'
-                                    title='List View'
+                                    title={t('marketplaces.view.list')}
                                 >
                                     <IconList />
                                 </ToggleButton>
@@ -627,8 +690,16 @@ const Marketplace = () => {
                         {hasPermission('templates:marketplace') && hasPermission('templates:custom') && (
                             <Stack direction='row' justifyContent='space-between' sx={{ mb: 2 }}>
                                 <Tabs value={activeTabValue} onChange={handleTabChange} textColor='primary' aria-label='tabs'>
-                                    <PermissionTab permissionId='templates:marketplace' value={0} label='Community Templates' />
-                                    <PermissionTab permissionId='templates:custom' value={1} label='My Templates' />
+                                    <PermissionTab
+                                        permissionId='templates:marketplace'
+                                        value={0}
+                                        label={t('marketplaces.tabs.community')}
+                                    />
+                                    <PermissionTab
+                                        permissionId='templates:custom'
+                                        value={1}
+                                        label={t('marketplaces.tabs.my')}
+                                    />
                                 </Tabs>
                                 <Autocomplete
                                     id='useCases'
@@ -650,7 +721,7 @@ const Marketplace = () => {
                                             </li>
                                         )
                                     }}
-                                    renderInput={(params) => <TextField {...params} label='Usecases' />}
+                                    renderInput={(params) => <TextField {...params} label={t('marketplaces.filters.usecases')} />}
                                     sx={{
                                         width: 300
                                     }}
@@ -732,7 +803,15 @@ const Marketplace = () => {
                                                                             right: 20
                                                                         }
                                                                     }}
-                                                                    badgeContent={data.badge}
+                                                                    badgeContent={
+                                                                        data.badge === 'POPULAR'
+                                                                            ? t('marketplaces.badges.popular')
+                                                                            : data.badge === 'NEW'
+                                                                            ? t('marketplaces.badges.new')
+                                                                            : data.badge === 'DEPRECATED'
+                                                                            ? t('marketplaces.badges.deprecated')
+                                                                            : data.badge
+                                                                    }
                                                                     color={data.badge === 'POPULAR' ? 'primary' : 'error'}
                                                                 >
                                                                     {(data.type === 'Chatflow' ||
@@ -794,7 +873,7 @@ const Marketplace = () => {
                                                     alt='WorkflowEmptySVG'
                                                 />
                                             </Box>
-                                            <div>No Marketplace Yet</div>
+                                            <div>{t('marketplaces.empty')}</div>
                                         </Stack>
                                     )}
                             </TabPanel>
