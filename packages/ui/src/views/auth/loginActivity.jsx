@@ -53,6 +53,7 @@ import { IconCircleX, IconChevronLeft, IconChevronRight, IconTrash, IconX, IconL
 import { useError } from '@/store/context/ErrorContext'
 import { enqueueSnackbar as enqueueSnackbarAction, closeSnackbar as closeSnackbarAction } from '@/store/actions'
 import { PermissionButton } from '@/ui-component/button/RBACButtons'
+import { useTranslation } from 'react-i18next'
 
 const activityTypes = [
     'Login Success',
@@ -96,6 +97,7 @@ const LoginActivity = () => {
     const dispatch = useDispatch()
     useNotifier()
     const { error, setError } = useError()
+    const { t } = useTranslation()
 
     const enqueueSnackbar = (...args) => dispatch(enqueueSnackbarAction(...args))
     const closeSnackbar = (...args) => dispatch(closeSnackbarAction(...args))
@@ -184,19 +186,19 @@ const LoginActivity = () => {
     function getActivityDescription(activityCode) {
         switch (activityCode) {
             case 0:
-                return 'Login Success'
+                return t('auth.activity.types.loginSuccess', { defaultValue: 'Login Success' })
             case 1:
-                return 'Logout Success'
+                return t('auth.activity.types.logoutSuccess', { defaultValue: 'Logout Success' })
             case -1:
-                return 'Unknown User'
+                return t('auth.activity.types.unknownUser', { defaultValue: 'Unknown User' })
             case -2:
-                return 'Incorrect Credential'
+                return t('auth.activity.types.incorrectCredential', { defaultValue: 'Incorrect Credential' })
             case -3:
-                return 'User Disabled'
+                return t('auth.activity.types.userDisabled', { defaultValue: 'User Disabled' })
             case -4:
-                return 'No Assigned Workspace'
+                return t('auth.activity.types.noWorkspace', { defaultValue: 'No Assigned Workspace' })
             default:
-                return 'Unknown Activity'
+                return t('auth.activity.types.unknownActivity', { defaultValue: 'Unknown Activity' })
         }
     }
 
@@ -221,13 +223,16 @@ const LoginActivity = () => {
 
     const deleteLoginActivity = async () => {
         const confirmPayload = {
-            title: `Delete`,
-            description: `Delete ${selected.length} ${selected.length > 1 ? 'records' : 'record'}? `,
-            confirmButtonName: 'Delete',
-            cancelButtonName: 'Cancel'
+            title: t('auth.activity.delete', { defaultValue: 'Delete' }),
+            description: t('auth.activity.deleteConfirm', {
+                defaultValue: 'Delete {{count}} {{suffix}}?',
+                count: selected.length,
+                suffix: selected.length > 1 ? 'records' : 'record'
+            }),
+            confirmButtonName: t('auth.activity.delete', { defaultValue: 'Delete' }),
+            cancelButtonName: t('auth.cancel', { defaultValue: 'Cancel' })
         }
         const isConfirmed = await confirm(confirmPayload)
-        //
         if (isConfirmed) {
             try {
                 const deleteResp = await auditApi.deleteLoginActivity({
@@ -235,7 +240,10 @@ const LoginActivity = () => {
                 })
                 if (deleteResp.data) {
                     enqueueSnackbar({
-                        message: selected.length + ' Login Activity Records Deleted Successfully',
+                        message: t('auth.activity.deleteSuccess', {
+                            defaultValue: '{{count}} Login Activity Records Deleted Successfully',
+                            count: selected.length
+                        }),
                         options: {
                             key: new Date().getTime() + Math.random(),
                             variant: 'success',
@@ -250,9 +258,11 @@ const LoginActivity = () => {
                 }
             } catch (error) {
                 enqueueSnackbar({
-                    message: `Failed to delete records: ${
-                        typeof error.response.data === 'object' ? error.response.data.message : error.response.data
-                    }`,
+                    message: t('auth.activity.deleteFailed', {
+                        defaultValue: 'Failed to delete records: {{message}}',
+                        message:
+                            typeof error.response.data === 'object' ? error.response.data.message : error.response.data
+                    }),
                     options: {
                         key: new Date().getTime() + Math.random(),
                         variant: 'error',
@@ -309,7 +319,7 @@ const LoginActivity = () => {
                     <ErrorBoundary error={error} />
                 ) : (
                     <Stack flexDirection='column' sx={{ gap: 3 }}>
-                        <ViewHeader search={false} title='Login Activity'></ViewHeader>
+                        <ViewHeader search={false} title={t('auth.activity.title', { defaultValue: 'Login Activity' })}></ViewHeader>
                         <Stack flexDirection='row'>
                             <Box sx={{ p: 2, height: 'auto', width: '100%' }}>
                                 <div
@@ -330,7 +340,7 @@ const LoginActivity = () => {
                                         }}
                                     >
                                         <div style={{ marginRight: 10 }}>
-                                            <b style={{ marginRight: 10 }}>From: </b>
+                                            <b style={{ marginRight: 10 }}>{t('auth.activity.from', { defaultValue: 'From:' })}</b>
                                             <DatePicker
                                                 selected={startDate}
                                                 onChange={(date) => onStartDateSelected(date)}
@@ -341,7 +351,7 @@ const LoginActivity = () => {
                                             />
                                         </div>
                                         <div style={{ marginRight: 10 }}>
-                                            <b style={{ marginRight: 10 }}>To: </b>
+                                            <b style={{ marginRight: 10 }}>{t('auth.activity.to', { defaultValue: 'To:' })}</b>
                                             <DatePicker
                                                 selected={endDate}
                                                 onChange={(date) => onEndDateSelected(date)}
@@ -365,7 +375,7 @@ const LoginActivity = () => {
                                                 }}
                                             >
                                                 <InputLabel size='small' id='type-label'>
-                                                    Filter By
+                                                    {t('auth.activity.filterBy', { defaultValue: 'Filter By' })}
                                                 </InputLabel>
                                                 <Select
                                                     size='small'
@@ -386,7 +396,37 @@ const LoginActivity = () => {
                                                             sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1 }}
                                                         >
                                                             <Checkbox checked={typeFilter.indexOf(name) > -1} sx={{ p: 0 }} />
-                                                            <ListItemText primary={name} />
+                                                            <ListItemText
+                                                                primary={
+                                                                    name === 'Login Success'
+                                                                        ? t('auth.activity.types.loginSuccess', {
+                                                                              defaultValue: name
+                                                                          })
+                                                                        : name === 'Logout Success'
+                                                                        ? t('auth.activity.types.logoutSuccess', {
+                                                                              defaultValue: name
+                                                                          })
+                                                                        : name === 'Unknown User'
+                                                                        ? t('auth.activity.types.unknownUser', {
+                                                                              defaultValue: name
+                                                                          })
+                                                                        : name === 'Incorrect Credential'
+                                                                        ? t('auth.activity.types.incorrectCredential', {
+                                                                              defaultValue: name
+                                                                          })
+                                                                        : name === 'User Disabled'
+                                                                        ? t('auth.activity.types.userDisabled', {
+                                                                              defaultValue: name
+                                                                          })
+                                                                        : name === 'No Assigned Workspace'
+                                                                        ? t('auth.activity.types.noWorkspace', {
+                                                                              defaultValue: name
+                                                                          })
+                                                                        : t('auth.activity.types.unknownActivity', {
+                                                                              defaultValue: name
+                                                                          })
+                                                                }
+                                                            />
                                                         </MenuItem>
                                                     ))}
                                                 </Select>
@@ -426,7 +466,12 @@ const LoginActivity = () => {
                                                     }
                                                 />
                                             </IconButton>
-                                            Showing {Math.min(start, totalRecords)}-{end} of {totalRecords} Records
+                                            {t('auth.activity.showing', {
+                                                defaultValue: 'Showing {{start}}-{{end}} of {{total}} Records',
+                                                start: Math.min(start, totalRecords),
+                                                end: end,
+                                                total: totalRecords
+                                            })}
                                             <IconButton
                                                 size='small'
                                                 onClick={() => changePage(currentPage + 1)}
@@ -456,7 +501,7 @@ const LoginActivity = () => {
                                             color='error'
                                             startIcon={<IconTrash />}
                                         >
-                                            {'Delete Selected'}
+                                            {t('auth.activity.deleteSelected', { defaultValue: 'Delete Selected' })}
                                         </PermissionButton>
                                     </div>
                                 </div>
@@ -482,11 +527,17 @@ const LoginActivity = () => {
                                                         onChange={onSelectAllClick}
                                                     />
                                                 </StyledTableCell>
-                                                <StyledTableCell>Activity</StyledTableCell>
-                                                <StyledTableCell>User</StyledTableCell>
-                                                <StyledTableCell>Date</StyledTableCell>
-                                                <StyledTableCell>Method</StyledTableCell>
-                                                <StyledTableCell>Message</StyledTableCell>
+                                                <StyledTableCell>
+                                                    {t('auth.activity.table.activity', { defaultValue: 'Activity' })}
+                                                </StyledTableCell>
+                                                <StyledTableCell>{t('auth.activity.table.user', { defaultValue: 'User' })}</StyledTableCell>
+                                                <StyledTableCell>{t('auth.activity.table.date', { defaultValue: 'Date' })}</StyledTableCell>
+                                                <StyledTableCell>
+                                                    {t('auth.activity.table.method', { defaultValue: 'Method' })}
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    {t('auth.activity.table.message', { defaultValue: 'Message' })}
+                                                </StyledTableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -615,7 +666,11 @@ const LoginActivity = () => {
                                                                 {moment(item.attemptedDateTime).format('MMMM Do, YYYY, HH:mm')}
                                                             </StyledTableCell>
                                                             <StyledTableCell>
-                                                                {item.loginMode ? item.loginMode : 'Email/Password'}
+                                                                {item.loginMode
+                                                                    ? item.loginMode
+                                                                    : t('auth.activity.loginMode.emailPassword', {
+                                                                          defaultValue: 'Email/Password'
+                                                                      })}
                                                             </StyledTableCell>
                                                             <StyledTableCell>{item.message}</StyledTableCell>
                                                         </StyledTableRow>

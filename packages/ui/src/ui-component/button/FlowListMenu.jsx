@@ -19,6 +19,7 @@ import ExportTemplateOutlinedIcon from '@mui/icons-material/BookmarksOutlined'
 import Button from '@mui/material/Button'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import { IconX } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 
 import chatflowsApi from '@/api/chatflows'
 
@@ -78,6 +79,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
     const { confirm } = useConfirm()
     const dispatch = useDispatch()
     const updateChatflowApi = useApi(chatflowsApi.updateChatflow)
+    const { t } = useTranslation()
 
     useNotifier()
     const enqueueSnackbar = (...args) => dispatch(enqueueSnackbarAction(...args))
@@ -100,7 +102,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
     const [exportTemplateDialogOpen, setExportTemplateDialogOpen] = useState(false)
     const [exportTemplateDialogProps, setExportTemplateDialogProps] = useState({})
 
-    const title = isAgentCanvas ? 'Agents' : 'Chatflow'
+    const title = isAgentCanvas ? t('chatflows.type.agents') : t('chatflows.type.chatflow')
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget)
@@ -118,7 +120,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
     const handleFlowStarterPrompts = () => {
         setAnchorEl(null)
         setConversationStartersDialogProps({
-            title: 'Starter Prompts - ' + chatflow.name,
+            title: `${t('chatflowConfig.tabs.starterPrompts')} - ${chatflow.name}`,
             chatflow: chatflow
         })
         setConversationStartersDialogOpen(true)
@@ -135,7 +137,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
     const handleFlowChatFeedback = () => {
         setAnchorEl(null)
         setChatFeedbackDialogProps({
-            title: 'Chat Feedback - ' + chatflow.name,
+            title: `${t('chatflowConfig.tabs.chatFeedback')} - ${chatflow.name}`,
             chatflow: chatflow
         })
         setChatFeedbackDialogOpen(true)
@@ -144,7 +146,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
     const handleAllowedDomains = () => {
         setAnchorEl(null)
         setAllowedDomainsDialogProps({
-            title: 'Allowed Domains - ' + chatflow.name,
+            title: `${t('chatflows.actions.allowedDomains')} - ${chatflow.name}`,
             chatflow: chatflow
         })
         setAllowedDomainsDialogOpen(true)
@@ -153,7 +155,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
     const handleSpeechToText = () => {
         setAnchorEl(null)
         setSpeechToTextDialogProps({
-            title: 'Speech To Text - ' + chatflow.name,
+            title: `${t('chatflowConfig.tabs.speechToText')} - ${chatflow.name}`,
             chatflow: chatflow
         })
         setSpeechToTextDialogOpen(true)
@@ -231,10 +233,10 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
     const handleDelete = async () => {
         setAnchorEl(null)
         const confirmPayload = {
-            title: `Delete`,
-            description: `Delete ${title} ${chatflow.name}?`,
-            confirmButtonName: 'Delete',
-            cancelButtonName: 'Cancel'
+            title: t('chatflows.actions.delete'),
+            description: t('chatflows.actions.deleteConfirmDescription', { type: title, name: chatflow.name }),
+            confirmButtonName: t('chatflows.actions.delete'),
+            cancelButtonName: t('cancel')
         }
         const isConfirmed = await confirm(confirmPayload)
 
@@ -312,7 +314,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
                 onClick={handleClick}
                 endIcon={<KeyboardArrowDownIcon />}
             >
-                Options
+                {t('chatflows.actions.options')}
             </Button>
             <StyledMenu
                 id='demo-customized-menu'
@@ -329,7 +331,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
                     disableRipple
                 >
                     <EditIcon />
-                    Rename
+                    {t('chatflows.actions.rename')}
                 </PermissionMenuItem>
                 <PermissionMenuItem
                     permissionId={isAgentCanvas ? 'agentflows:duplicate' : 'chatflows:duplicate'}
@@ -337,7 +339,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
                     disableRipple
                 >
                     <FileCopyIcon />
-                    Duplicate
+                    {t('chatflows.actions.duplicate')}
                 </PermissionMenuItem>
                 <PermissionMenuItem
                     permissionId={isAgentCanvas ? 'agentflows:export' : 'chatflows:export'}
@@ -345,11 +347,11 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
                     disableRipple
                 >
                     <FileDownloadIcon />
-                    Export
+                    {t('chatflows.actions.export')}
                 </PermissionMenuItem>
                 <PermissionMenuItem permissionId={'templates:flowexport'} onClick={handleExportTemplate} disableRipple>
                     <ExportTemplateOutlinedIcon />
-                    Save As Template
+                    {t('chatflows.actions.saveAsTemplate')}
                 </PermissionMenuItem>
                 <Divider sx={{ my: 0.5 }} />
                 <PermissionMenuItem
@@ -358,7 +360,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
                     disableRipple
                 >
                     <PictureInPictureAltIcon />
-                    Starter Prompts
+                    {t('chatflowConfig.tabs.starterPrompts')}
                 </PermissionMenuItem>
                 <PermissionMenuItem
                     permissionId={isAgentCanvas ? 'agentflows:config' : 'chatflows:config'}
@@ -366,7 +368,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
                     disableRipple
                 >
                     <ThumbsUpDownOutlinedIcon />
-                    Chat Feedback
+                    {t('chatflowConfig.tabs.chatFeedback')}
                 </PermissionMenuItem>
                 <PermissionMenuItem
                     permissionId={isAgentCanvas ? 'agentflows:domains' : 'chatflows:domains'}
@@ -374,7 +376,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
                     disableRipple
                 >
                     <VpnLockOutlinedIcon />
-                    Allowed Domains
+                    {t('chatflows.actions.allowedDomains')}
                 </PermissionMenuItem>
                 <PermissionMenuItem
                     permissionId={isAgentCanvas ? 'agentflows:config' : 'chatflows:config'}
@@ -382,7 +384,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
                     disableRipple
                 >
                     <MicNoneOutlinedIcon />
-                    Speech To Text
+                    {t('chatflowConfig.tabs.speechToText')}
                 </PermissionMenuItem>
                 <PermissionMenuItem
                     permissionId={isAgentCanvas ? 'agentflows:update' : 'chatflows:update'}
@@ -390,7 +392,7 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
                     disableRipple
                 >
                     <FileCategoryIcon />
-                    Update Category
+                    {t('chatflows.actions.updateCategory')}
                 </PermissionMenuItem>
                 <Divider sx={{ my: 0.5 }} />
                 <PermissionMenuItem
@@ -399,15 +401,15 @@ export default function FlowListMenu({ chatflow, isAgentCanvas, isAgentflowV2, s
                     disableRipple
                 >
                     <FileDeleteIcon />
-                    Delete
+                    {t('chatflows.actions.delete')}
                 </PermissionMenuItem>
             </StyledMenu>
             <SaveChatflowDialog
                 show={flowDialogOpen}
                 dialogProps={{
-                    title: `Rename ${title}`,
-                    confirmButtonName: 'Rename',
-                    cancelButtonName: 'Cancel'
+                    title: t('chatflows.actions.renameTitle', { type: title }),
+                    confirmButtonName: t('chatflows.actions.rename'),
+                    cancelButtonName: t('cancel')
                 }}
                 onCancel={() => setFlowDialogOpen(false)}
                 onConfirm={saveFlowRename}

@@ -31,6 +31,7 @@ import AzureSSOLoginIcon from '@/assets/images/microsoft-azure.svg'
 import { store } from '@/store'
 import { loginSuccess } from '@/store/reducers/authSlice'
 import { IconCircleCheck, IconExclamationCircle } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 
 // ==============================|| Register ||============================== //
 
@@ -65,37 +66,38 @@ const RegisterPage = () => {
     const theme = useTheme()
     useNotifier()
     const { isEnterpriseLicensed, isCloud, isOpenSource } = useConfig()
+    const { t } = useTranslation()
 
     const usernameInput = {
-        label: 'Username',
+        label: t('auth.register.fullName', { defaultValue: 'Full Name' }),
         name: 'username',
         type: 'text',
-        placeholder: 'John Doe'
+        placeholder: t('auth.register.displayName', { defaultValue: 'Display Name' })
     }
 
     const passwordInput = {
-        label: 'Password',
+        label: t('auth.password', { defaultValue: 'Password' }),
         name: 'password',
         type: 'password',
-        placeholder: '********'
+        placeholder: t('auth.passwordPlaceholder', { defaultValue: '********' })
     }
 
     const confirmPasswordInput = {
-        label: 'Confirm Password',
+        label: t('auth.confirmPassword', { defaultValue: 'Confirm Password' }),
         name: 'confirmPassword',
         type: 'password',
-        placeholder: '********'
+        placeholder: t('auth.passwordPlaceholder', { defaultValue: '********' })
     }
 
     const emailInput = {
-        label: 'EMail',
+        label: t('auth.email', { defaultValue: 'Email' }),
         name: 'email',
         type: 'email',
-        placeholder: 'user@company.com'
+        placeholder: t('auth.emailPlaceholder', { defaultValue: 'user@company.com' })
     }
 
     const inviteCodeInput = {
-        label: 'Invite Code',
+        label: t('auth.register.inviteCode', { defaultValue: 'Invite Code' }),
         name: 'inviteCode',
         type: 'text'
     }
@@ -181,10 +183,13 @@ const RegisterPage = () => {
         if (registerApi.error) {
             if (isEnterpriseLicensed) {
                 setAuthError(
-                    `Error in registering user. Please contact your administrator. (${registerApi.error?.response?.data?.message})`
+                    t('auth.register.errorAdmin', {
+                        defaultValue: 'Error in registering user. Please contact your administrator.',
+                        message: registerApi.error?.response?.data?.message
+                    })
                 )
             } else if (isCloud) {
-                setAuthError(`Error in registering user. Please try again.`)
+                setAuthError(t('auth.register.errorTryAgain', { defaultValue: 'Error in registering user. Please try again.' }))
             }
             setLoading(false)
         }
@@ -236,9 +241,18 @@ const RegisterPage = () => {
             setUsername('')
             setEmail('')
             if (isEnterpriseLicensed) {
-                setSuccessMsg('Registration Successful. You will be redirected to the sign in page shortly.')
+                setSuccessMsg(
+                    t('auth.register.successRedirect', {
+                        defaultValue: 'Registration Successful. You will be redirected to the sign in page shortly.'
+                    })
+                )
             } else if (isCloud) {
-                setSuccessMsg('To complete your registration, please click on the verification link we sent to your email address')
+                setSuccessMsg(
+                    t('auth.register.successVerifyEmail', {
+                        defaultValue:
+                            'To complete your registration, please click on the verification link we sent to your email address'
+                    })
+                )
             }
             setTimeout(() => {
                 navigate('/signin')
@@ -246,7 +260,6 @@ const RegisterPage = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [registerApi.data])
-
     return (
         <>
             <Box
@@ -280,11 +293,11 @@ const RegisterPage = () => {
                         </Alert>
                     )}
                     <Stack sx={{ gap: 1 }}>
-                        <Typography variant='h1'>Sign Up</Typography>
+                        <Typography variant='h1'>{t('auth.register.title', { defaultValue: 'Sign Up' })}</Typography>
                         <Typography variant='body2' sx={{ color: theme.palette.grey[600] }}>
-                            Already have an account?{' '}
+                            {t('auth.register.alreadyAccount', { defaultValue: 'Already have an account?' })}{' '}
                             <Link style={{ color: theme.palette.primary.main }} to='/signin'>
-                                Sign In
+                                {t('auth.register.signInLink', { defaultValue: 'Sign In' })}
                             </Link>
                             .
                         </Typography>
@@ -294,25 +307,27 @@ const RegisterPage = () => {
                             <Box>
                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                                     <Typography>
-                                        Full Name<span style={{ color: 'red' }}>&nbsp;*</span>
+                                        {t('auth.register.fullName', { defaultValue: 'Full Name' })}
+                                        <span style={{ color: 'red' }}>&nbsp;*</span>
                                     </Typography>
                                     <div style={{ flexGrow: 1 }}></div>
                                 </div>
                                 <Input
                                     inputParam={usernameInput}
-                                    placeholder='Display Name'
+                                    placeholder={t('auth.register.displayName', { defaultValue: 'Display Name' })}
                                     onChange={(newValue) => setUsername(newValue)}
                                     value={username}
                                     showDialog={false}
                                 />
                                 <Typography variant='caption'>
-                                    <i>Is used for display purposes only.</i>
+                                    <i>{t('auth.register.displayOnly', { defaultValue: 'Is used for display purposes only.' })}</i>
                                 </Typography>
                             </Box>
                             <Box>
                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                                     <Typography>
-                                        Email<span style={{ color: 'red' }}>&nbsp;*</span>
+                                        {t('auth.email', { defaultValue: 'Email' })}
+                                        <span style={{ color: 'red' }}>&nbsp;*</span>
                                     </Typography>
                                     <div style={{ flexGrow: 1 }}></div>
                                 </div>
@@ -323,50 +338,63 @@ const RegisterPage = () => {
                                     showDialog={false}
                                 />
                                 <Typography variant='caption'>
-                                    <i>Kindly use a valid email address. Will be used as login id.</i>
+                                    <i>
+                                        {t('auth.register.emailNote', {
+                                            defaultValue: 'Kindly use a valid email address. Will be used as login id.'
+                                        })}
+                                    </i>
                                 </Typography>
                             </Box>
                             {isEnterpriseLicensed && (
                                 <Box>
                                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                                         <Typography>
-                                            Invite Code<span style={{ color: 'red' }}>&nbsp;*</span>
+                                            {t('auth.register.inviteCode', { defaultValue: 'Invite Code' })}
+                                            <span style={{ color: 'red' }}>&nbsp;*</span>
                                         </Typography>
                                         <div style={{ flexGrow: 1 }}></div>
                                     </div>
                                     <OutlinedInput
                                         fullWidth
                                         type='string'
-                                        placeholder='Paste in the invite code.'
+                                        placeholder={t('auth.register.invitePlaceholder', { defaultValue: 'Paste in the invite code.' })}
                                         multiline={false}
                                         inputParam={inviteCodeInput}
                                         onChange={(e) => setToken(e.target.value)}
                                         value={token}
                                     />
                                     <Typography variant='caption'>
-                                        <i>Please copy the token you would have received in your email.</i>
+                                        <i>
+                                            {t('auth.register.copyInviteToken', {
+                                                defaultValue: 'Please copy the token you would have received in your email.'
+                                            })}
+                                        </i>
                                     </Typography>
                                 </Box>
                             )}
                             <Box>
                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                                     <Typography>
-                                        Password<span style={{ color: 'red' }}>&nbsp;*</span>
+                                        {t('auth.password', { defaultValue: 'Password' })}
+                                        <span style={{ color: 'red' }}>&nbsp;*</span>
                                     </Typography>
                                     <div style={{ flexGrow: 1 }}></div>
                                 </div>
                                 <Input inputParam={passwordInput} onChange={(newValue) => setPassword(newValue)} value={password} />
                                 <Typography variant='caption'>
                                     <i>
-                                        Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase
-                                        letter, one digit, and one special character.
+                                        {t('auth.passwordRequirement', {
+                                            defaultValue:
+                                                'Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one special character.'
+                                        })}
                                     </i>
                                 </Typography>
                             </Box>
                             <Box>
                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                                     <Typography>
-                                        Confirm Password<span style={{ color: 'red' }}>&nbsp;*</span>
+                                        {t('auth.confirmPassword', { defaultValue: 'Confirm Password' })}
+                                        <span style={{ color: 'red' }}>&nbsp;*</span>
                                     </Typography>
                                     <div style={{ flexGrow: 1 }}></div>
                                 </div>
@@ -376,13 +404,19 @@ const RegisterPage = () => {
                                     value={confirmPassword}
                                 />
                                 <Typography variant='caption'>
-                                    <i>Confirm your password. Must match the password typed above.</i>
+                                    <i>
+                                        {t('auth.register.confirmPasswordNote', {
+                                            defaultValue: 'Confirm your password. Must match the password typed above.'
+                                        })}
+                                    </i>
                                 </Typography>
                             </Box>
                             <StyledButton variant='contained' style={{ borderRadius: 12, height: 40, marginRight: 5 }} type='submit'>
-                                Create Account
+                                {t('auth.register.createButton', { defaultValue: 'Create Account' })}
                             </StyledButton>
-                            {configuredSsoProviders.length > 0 && <Divider sx={{ width: '100%' }}>OR</Divider>}
+                            {configuredSsoProviders.length > 0 && (
+                                <Divider sx={{ width: '100%' }}>{t('auth.or', { defaultValue: 'OR' })}</Divider>
+                            )}
                             {configuredSsoProviders &&
                                 configuredSsoProviders.map(
                                     (ssoProvider) =>
@@ -399,7 +433,7 @@ const RegisterPage = () => {
                                                     </Icon>
                                                 }
                                             >
-                                                Sign In With Microsoft
+                                                {t('auth.sso.microsoft', { defaultValue: 'Sign In With Microsoft' })}
                                             </Button>
                                         )
                                 )}
@@ -418,7 +452,7 @@ const RegisterPage = () => {
                                                     </Icon>
                                                 }
                                             >
-                                                Sign In With Google
+                                                {t('auth.sso.google', { defaultValue: 'Sign In With Google' })}
                                             </Button>
                                         )
                                 )}
@@ -437,7 +471,7 @@ const RegisterPage = () => {
                                                     </Icon>
                                                 }
                                             >
-                                                Sign In With Auth0 by Okta
+                                                {t('auth.sso.auth0', { defaultValue: 'Sign In With Auth0 by Okta' })}
                                             </Button>
                                         )
                                 )}
@@ -456,7 +490,7 @@ const RegisterPage = () => {
                                                     </Icon>
                                                 }
                                             >
-                                                Sign In With Github
+                                                {t('auth.sso.github', { defaultValue: 'Sign In With Github' })}
                                             </Button>
                                         )
                                 )}

@@ -22,18 +22,20 @@ import useNotifier from '@/utils/useNotifier'
 
 // Icons
 import { IconCircleCheck, IconExclamationCircle } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 
 // ==============================|| ForgotPasswordPage ||============================== //
 
 const ForgotPasswordPage = () => {
     const theme = useTheme()
     useNotifier()
+    const { t } = useTranslation()
 
     const usernameInput = {
-        label: 'Username',
+        label: t('auth.email', { defaultValue: 'Email' }),
         name: 'username',
         type: 'email',
-        placeholder: 'user@company.com'
+        placeholder: t('auth.emailPlaceholder', { defaultValue: 'user@company.com' })
     }
     const [usernameVal, setUsernameVal] = useState('')
     const { isEnterpriseLicensed } = useConfig()
@@ -62,7 +64,11 @@ const ForgotPasswordPage = () => {
                     : forgotPasswordApi.error.response.data
             setResponseMsg({
                 type: 'error',
-                msg: errMessage ?? 'Failed to send instructions, please contact your administrator.'
+                msg:
+                    errMessage ??
+                    t('auth.forgot.sendFailed', {
+                        defaultValue: 'Failed to send instructions, please contact your administrator.'
+                    })
             })
             setLoading(false)
         }
@@ -73,7 +79,7 @@ const ForgotPasswordPage = () => {
         if (forgotPasswordApi.data) {
             setResponseMsg({
                 type: 'success',
-                msg: 'Password reset instructions sent to the email.'
+                msg: t('auth.forgot.sent', { defaultValue: 'Password reset instructions sent to the email.' })
             })
             setLoading(false)
         }
@@ -95,11 +101,11 @@ const ForgotPasswordPage = () => {
                         </Alert>
                     )}
                     <Stack sx={{ gap: 1 }}>
-                        <Typography variant='h1'>Forgot Password?</Typography>
+                        <Typography variant='h1'>{t('auth.forgot.title', { defaultValue: 'Forgot Password?' })}</Typography>
                         <Typography variant='body2' sx={{ color: theme.palette.grey[600] }}>
-                            Have a reset password code?{' '}
+                            {t('auth.forgot.haveCode', { defaultValue: 'Have a reset password code?' })}{' '}
                             <Link style={{ color: theme.palette.primary.main }} to='/reset-password'>
-                                Change your password here
+                                {t('auth.forgot.changeHere', { defaultValue: 'Change your password here' })}
                             </Link>
                             .
                         </Typography>
@@ -109,7 +115,8 @@ const ForgotPasswordPage = () => {
                             <Box>
                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                                     <Typography>
-                                        Email<span style={{ color: 'red' }}>&nbsp;*</span>
+                                        {t('auth.email', { defaultValue: 'Email' })}
+                                        <span style={{ color: 'red' }}>&nbsp;*</span>
                                     </Typography>
                                     <Typography align='left'></Typography>
                                     <div style={{ flexGrow: 1 }}></div>
@@ -122,7 +129,12 @@ const ForgotPasswordPage = () => {
                                 />
                                 {isEnterpriseLicensed && (
                                     <Typography variant='caption'>
-                                        <i>If you forgot the email you used for signing up, please contact your administrator.</i>
+                                        <i>
+                                            {t('auth.forgot.contactAdmin', {
+                                                defaultValue:
+                                                    'If you forgot the email you used for signing up, please contact your administrator.'
+                                            })}
+                                        </i>
                                     </Typography>
                                 )}
                             </Box>
@@ -132,7 +144,7 @@ const ForgotPasswordPage = () => {
                                 disabled={!usernameVal}
                                 type='submit'
                             >
-                                Send Reset Password Instructions
+                                {t('auth.forgot.sendInstructions', { defaultValue: 'Send Reset Password Instructions' })}
                             </StyledButton>
                         </Stack>
                     </form>

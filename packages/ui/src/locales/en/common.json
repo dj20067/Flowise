@@ -6,7 +6,26 @@
     "cardView": "Card View",
     "listView": "List View",
     "addNew": "Add New",
-    "empty": "No Chatflows Yet"
+    "empty": "No Chatflows Yet",
+    "type": {
+      "chatflow": "Chatflow",
+      "agents": "Agents"
+    },
+    "actions": {
+      "options": "Options",
+      "rename": "Rename",
+      "renameTitle": "Rename {{type}}",
+      "duplicate": "Duplicate",
+      "export": "Export",
+      "saveAsTemplate": "Save As Template",
+      "starterPrompts": "Starter Prompts",
+      "chatFeedback": "Chat Feedback",
+      "allowedDomains": "Allowed Domains",
+      "speechToText": "Speech To Text",
+      "updateCategory": "Update Category",
+      "delete": "Delete",
+      "deleteConfirmDescription": "Delete {{type}} {{name}}?"
+    }
   },
   "header": {
     "language": "Language",
@@ -23,6 +42,105 @@
       "version": "Version"
     }
   },
+  "auth": {
+    "signInTitle": "Sign In",
+    "noAccountQuestion": "Don’t have an account?",
+    "signUpFree": "Sign up for free",
+    "haveInviteQuestion": "Have an invite code?",
+    "signUpAccount": "Sign up for an account",
+    "email": "Email",
+    "emailPlaceholder": "user@company.com",
+    "password": "Password",
+    "passwordPlaceholder": "********",
+    "passwordRequirement": "Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one special character.",
+    "forgotPassword": "Forgot password?",
+    "migrateFromExisting": "Migrate from existing account?",
+    "loginButton": "Login",
+    "or": "OR",
+    "sso": {
+      "microsoft": "Sign In With Microsoft",
+      "google": "Sign In With Google",
+      "auth0": "Sign In With Auth0 by Okta",
+      "github": "Sign In With Github"
+    },
+    "resendVerificationEmail": "Resend Verification Email",
+    "verificationSent": "Verification email has been sent successfully.",
+    "resendVerificationFailed": "Failed to send verification email.",
+    "cancel": "Cancel",
+    "forgot": {
+      "title": "Forgot Password?",
+      "haveCode": "Have a reset password code?",
+      "changeHere": "Change your password here",
+      "contactAdmin": "If you forgot the email you used for signing up, please contact your administrator.",
+      "sendInstructions": "Send Reset Password Instructions",
+      "sendFailed": "Failed to send instructions, please contact your administrator.",
+      "sent": "Password reset instructions sent to the email."
+    },
+    "reset": {
+      "title": "Reset Password",
+      "backToLogin": "Back to Login",
+      "tokenLabel": "Reset Token",
+      "tokenPlaceholder": "Paste in the reset token.",
+      "copyToken": "Please copy the token you received in your email.",
+      "tokenBlank": "Token cannot be left blank!",
+      "passwordMismatch": "New Password and Confirm Password do not match.",
+      "success": "Password reset successful",
+      "failed": "Failed to reset password!",
+      "newPassword": "New Password",
+      "confirmPasswordNote": "Confirm your new password. Must match the password typed above.",
+      "updateButton": "Update Password"
+    },
+    "register": {
+      "title": "Sign Up",
+      "alreadyAccount": "Already have an account?",
+      "signInLink": "Sign In",
+      "fullName": "Full Name",
+      "displayName": "Display Name",
+      "displayOnly": "Is used for display purposes only.",
+      "emailNote": "Kindly use a valid email address. Will be used as login id.",
+      "inviteCode": "Invite Code",
+      "invitePlaceholder": "Paste in the invite code.",
+      "copyInviteToken": "Please copy the token you would have received in your email.",
+      "confirmPasswordNote": "Confirm your password. Must match the password typed above.",
+      "createButton": "Create Account",
+      "successRedirect": "Registration Successful. You will be redirected to the sign in page shortly.",
+      "successVerifyEmail": "To complete your registration, please click on the verification link we sent to your email address",
+      "errorAdmin": "Error in registering user. Please contact your administrator.",
+      "errorTryAgain": "Error in registering user. Please try again."
+    },
+    "activity": {
+      "title": "Login Activity",
+      "from": "From:",
+      "to": "To:",
+      "filterBy": "Filter By",
+      "showing": "Showing {{start}}-{{end}} of {{total}} Records",
+      "deleteSelected": "Delete Selected",
+      "delete": "Delete",
+      "deleteConfirm": "Delete {{count}} {{suffix}}?",
+      "deleteSuccess": "{{count}} Login Activity Records Deleted Successfully",
+      "deleteFailed": "Failed to delete records: {{message}}",
+      "table": {
+        "activity": "Activity",
+        "user": "User",
+        "date": "Date",
+        "method": "Method",
+        "message": "Message"
+      },
+      "types": {
+        "loginSuccess": "Login Success",
+        "logoutSuccess": "Logout Success",
+        "unknownUser": "Unknown User",
+        "incorrectCredential": "Incorrect Credential",
+        "userDisabled": "User Disabled",
+        "noWorkspace": "No Assigned Workspace",
+        "unknownActivity": "Unknown Activity"
+      },
+      "loginMode": {
+        "emailPassword": "Email/Password"
+      }
+    }
+  },
+  "cancel": "Cancel",
   "chatflowConfig": {
     "title": "Chatflow Configuration",
     "tabs": {
