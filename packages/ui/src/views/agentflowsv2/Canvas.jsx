@@ -55,6 +55,7 @@ import {
 } from '@/utils/genericHelper'
 import useNotifier from '@/utils/useNotifier'
 import { usePrompt } from '@/utils/usePrompt'
+import { useTranslation } from 'react-i18next'
 
 // const
 import { FLOWISE_CREDENTIAL_ID, AGENTFLOW_ICONS } from '@/store/constant'
@@ -68,6 +69,7 @@ const AgentflowCanvas = () => {
     const theme = useTheme()
     const navigate = useNavigate()
     const customization = useSelector((state) => state.customization)
+    const { t } = useTranslation()
 
     const { state } = useLocation()
     const templateFlowData = state ? state.templateFlowData : ''
@@ -76,6 +78,7 @@ const AgentflowCanvas = () => {
     const chatflowId =
         URLpath[URLpath.length - 1] === 'canvas' || URLpath[URLpath.length - 1] === 'agentcanvas' ? '' : URLpath[URLpath.length - 1]
     const canvasTitle = URLpath.includes('agentcanvas') ? 'Agent' : 'Chatflow'
+    const localizedCanvasTitle = URLpath.includes('agentcanvas') ? t('canvas.title.agent') : t('canvas.title.chatflow')
 
     const { confirm } = useConfirm()
 
@@ -171,10 +174,10 @@ const AgentflowCanvas = () => {
 
     const handleDeleteFlow = async () => {
         const confirmPayload = {
-            title: `Delete`,
-            description: `Delete ${canvasTitle} ${chatflow.name}?`,
-            confirmButtonName: 'Delete',
-            cancelButtonName: 'Cancel'
+            title: t('canvas.common.delete'),
+            description: t('canvas.common.deleteConfirm', { title: localizedCanvasTitle, name: chatflow.name }),
+            confirmButtonName: t('canvas.common.delete'),
+            cancelButtonName: t('cancel')
         }
         const isConfirmed = await confirm(confirmPayload)
 
@@ -531,7 +534,12 @@ const AgentflowCanvas = () => {
             setEdges(initialFlow.edges || [])
             dispatch({ type: SET_CHATFLOW, chatflow })
         } else if (getSpecificChatflowApi.error) {
-            errorFailed(`Failed to retrieve ${canvasTitle}: ${getSpecificChatflowApi.error.response.data.message}`)
+            errorFailed(
+                t('canvas.errors.retrieveFailed', {
+                    title: localizedCanvasTitle,
+                    message: getSpecificChatflowApi.error.response.data.message
+                })
+            )
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -545,7 +553,12 @@ const AgentflowCanvas = () => {
             saveChatflowSuccess()
             window.history.replaceState(state, null, `/v2/agentcanvas/${chatflow.id}`)
         } else if (createNewChatflowApi.error) {
-            errorFailed(`Failed to save ${canvasTitle}: ${createNewChatflowApi.error.response.data.message}`)
+            errorFailed(
+                t('canvas.errors.saveFailed', {
+                    title: localizedCanvasTitle,
+                    message: createNewChatflowApi.error.response.data.message
+                })
+            )
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -557,7 +570,12 @@ const AgentflowCanvas = () => {
             dispatch({ type: SET_CHATFLOW, chatflow: updateChatflowApi.data })
             saveChatflowSuccess()
         } else if (updateChatflowApi.error) {
-            errorFailed(`Failed to save ${canvasTitle}: ${updateChatflowApi.error.response.data.message}`)
+            errorFailed(
+                t('canvas.errors.saveFailed', {
+                    title: localizedCanvasTitle,
+                    message: updateChatflowApi.error.response.data.message
+                })
+            )
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps

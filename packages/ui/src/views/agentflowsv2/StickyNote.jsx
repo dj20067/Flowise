@@ -14,6 +14,7 @@ import MainCard from '@/ui-component/cards/MainCard'
 
 // const
 import { flowContext } from '@/store/context/ReactFlowContext'
+import { useTranslation } from 'react-i18next'
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     background: theme.palette.card.main,
@@ -37,6 +38,7 @@ const StickyNote = ({ data }) => {
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
     const ref = useRef(null)
+    const { t } = useTranslation()
 
     const { reactFlowInstance, deleteNode, duplicateNode } = useContext(flowContext)
     const [inputParam] = data.inputParams
@@ -65,7 +67,7 @@ const StickyNote = ({ data }) => {
                 <ButtonGroup sx={{ gap: 1 }} variant='outlined' aria-label='Basic button group'>
                     <IconButton
                         size={'small'}
-                        title='Duplicate'
+                        title={t('agentcanvas.node.toolbar.duplicate')}
                         onClick={() => {
                             duplicateNode(data.id)
                         }}
@@ -80,7 +82,7 @@ const StickyNote = ({ data }) => {
                     </IconButton>
                     <IconButton
                         size={'small'}
-                        title='Delete'
+                        title={t('agentcanvas.node.toolbar.delete')}
                         onClick={() => {
                             deleteNode(data.id)
                         }}

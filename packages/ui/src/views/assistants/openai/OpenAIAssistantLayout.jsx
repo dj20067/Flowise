@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 // material-ui
 import { Box, Stack, Skeleton } from '@mui/material'
@@ -27,6 +28,7 @@ import { gridSpacing } from '@/store/constant'
 // ==============================|| OpenAIAssistantLayout ||============================== //
 
 const OpenAIAssistantLayout = () => {
+    const { t } = useTranslation()
     const navigate = useNavigate()
 
     const getAllAssistantsApi = useApi(assistantsApi.getAllAssistants)
@@ -40,7 +42,7 @@ const OpenAIAssistantLayout = () => {
 
     const loadExisting = () => {
         const dialogProp = {
-            title: 'Load Existing Assistant'
+            title: t('assistants.openai.dialogs.load.title')
         }
         setLoadDialogProps(dialogProp)
         setShowLoadDialog(true)
@@ -58,10 +60,10 @@ const OpenAIAssistantLayout = () => {
 
     const addNew = (selectedOpenAIAssistantId, credential) => {
         const dialogProp = {
-            title: 'Add New Assistant',
+            title: t('assistants.openai.dialogs.add.title'),
             type: 'ADD',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Add',
+            cancelButtonName: t('assistants.dialogs.common.cancel'),
+            confirmButtonName: t('assistants.dialogs.common.add'),
             selectedOpenAIAssistantId,
             credential
         }
@@ -71,10 +73,10 @@ const OpenAIAssistantLayout = () => {
 
     const edit = (selectedAssistant) => {
         const dialogProp = {
-            title: 'Edit Assistant',
+            title: t('assistants.openai.dialogs.edit.title'),
             type: 'EDIT',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Save',
+            cancelButtonName: t('assistants.dialogs.common.cancel'),
+            confirmButtonName: t('assistants.dialogs.common.save'),
             data: selectedAssistant
         }
         setDialogProps(dialogProp)
@@ -118,9 +120,9 @@ const OpenAIAssistantLayout = () => {
                             isBackButton={true}
                             onSearchChange={onSearchChange}
                             search={true}
-                            searchPlaceholder='Search Assistants'
-                            title='OpenAI Assistant'
-                            description='Create assistants using OpenAI Assistant API'
+                            searchPlaceholder={t('assistants.openai.searchPlaceholder')}
+                            title={t('assistants.openai.title')}
+                            description={t('assistants.openai.description')}
                             onBack={() => navigate(-1)}
                         >
                             <PermissionButton
@@ -130,7 +132,7 @@ const OpenAIAssistantLayout = () => {
                                 startIcon={<IconFileUpload />}
                                 sx={{ borderRadius: 2, height: 40 }}
                             >
-                                Load
+                                {t('assistants.openai.buttons.load')}
                             </PermissionButton>
                             <StyledPermissionButton
                                 permissionId={'assistants:create'}
@@ -139,7 +141,7 @@ const OpenAIAssistantLayout = () => {
                                 onClick={addNew}
                                 startIcon={<IconPlus />}
                             >
-                                Add
+                                {t('assistants.openai.buttons.add')}
                             </StyledPermissionButton>
                         </ViewHeader>
                         {isLoading ? (
@@ -174,6 +176,7 @@ const OpenAIAssistantLayout = () => {
                                     />
                                 </Box>
                                 <div>No OpenAI Assistants Added Yet</div>
+                                <div>{t('assistants.openai.empty.noAssistants')}</div>
                             </Stack>
                         )}
                     </Stack>

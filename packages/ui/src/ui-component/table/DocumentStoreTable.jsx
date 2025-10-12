@@ -2,6 +2,7 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { styled } from '@mui/material/styles'
+import { useTranslation } from 'react-i18next'
 import {
     Box,
     Paper,
@@ -41,6 +42,7 @@ const StyledTableRow = styled(TableRow)(() => ({
 export const DocumentStoreTable = ({ data, isLoading, onRowClick, images }) => {
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
+    const { t } = useTranslation()
 
     const localStorageKeyOrder = 'doc_store_order'
     const localStorageKeyOrderBy = 'doc_store_orderBy'
@@ -80,14 +82,14 @@ export const DocumentStoreTable = ({ data, isLoading, onRowClick, images }) => {
                             <StyledTableCell>&nbsp;</StyledTableCell>
                             <StyledTableCell>
                                 <TableSortLabel active={orderBy === 'name'} direction={order} onClick={() => handleRequestSort('name')}>
-                                    Name
+                                    {t('documentStores.table.headers.name')}
                                 </TableSortLabel>
                             </StyledTableCell>
-                            <StyledTableCell>Description</StyledTableCell>
-                            <StyledTableCell>Connected flows</StyledTableCell>
-                            <StyledTableCell>Total characters</StyledTableCell>
-                            <StyledTableCell>Total chunks</StyledTableCell>
-                            <StyledTableCell>Loader Types</StyledTableCell>
+                            <StyledTableCell>{t('documentStores.table.headers.description')}</StyledTableCell>
+                            <StyledTableCell>{t('documentStores.table.headers.connectedFlows')}</StyledTableCell>
+                            <StyledTableCell>{t('documentStores.table.headers.totalCharacters')}</StyledTableCell>
+                            <StyledTableCell>{t('documentStores.table.headers.totalChunks')}</StyledTableCell>
+                            <StyledTableCell>{t('documentStores.table.headers.loaderTypes')}</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -227,7 +229,7 @@ export const DocumentStoreTable = ({ data, isLoading, onRowClick, images }) => {
                                                                     fontWeight: 200
                                                                 }}
                                                             >
-                                                                + {images.length - 3} More
+                                                                + {images.length - 3} {t('documentStores.card.stats.more')}
                                                             </Typography>
                                                         )}
                                                     </Box>

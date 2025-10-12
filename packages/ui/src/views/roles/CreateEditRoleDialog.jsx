@@ -29,8 +29,10 @@ import useNotifier from '@/utils/useNotifier'
 import { HIDE_CANVAS_DIALOG, SHOW_CANVAS_DIALOG } from '@/store/actions'
 
 import './CreateEditRoleDialog.css'
+import { useTranslation } from 'react-i18next'
 
 const CreateEditRoleDialog = ({ show, dialogProps, onCancel, onConfirm, setError }) => {
+    const { t } = useTranslation()
     const portalElement = document.getElementById('portal')
 
     const dispatch = useDispatch()
@@ -308,14 +310,19 @@ const CreateEditRoleDialog = ({ show, dialogProps, onCancel, onConfirm, setError
             <DialogTitle sx={{ fontSize: '1rem' }} id='alert-dialog-title'>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     <IconUser style={{ marginRight: '10px' }} />
-                    {dialogProps.type === 'EDIT' ? 'Edit Role' : dialogProps.type === 'VIEW' ? 'View Role' : 'Create New Role'}
+                    {dialogProps.type === 'EDIT'
+                        ? t('roles.dialog.title.edit')
+                        : dialogProps.type === 'VIEW'
+                        ? t('roles.dialog.title.view')
+                        : t('roles.dialog.title.create')}
                 </div>
             </DialogTitle>
             <DialogContent sx={{ backgroundColor: 'transparent' }}>
                 <div className='role-editor'>
                     <Box>
                         <Typography sx={{ mb: 1 }} variant='h5'>
-                            <span style={{ color: 'red' }}>*&nbsp;&nbsp;</span>Role Name
+                            <span style={{ color: 'red' }}>*&nbsp;&nbsp;</span>
+                            {t('roles.form.name.label')}
                         </Typography>
                         <OutlinedInput
                             id='roleName'
@@ -323,7 +330,7 @@ const CreateEditRoleDialog = ({ show, dialogProps, onCancel, onConfirm, setError
                             size='small'
                             fullWidth
                             disabled={dialogProps.type === 'EDIT' || dialogProps.type === 'VIEW'}
-                            placeholder='Enter role name'
+                            placeholder={t('roles.form.name.placeholder')}
                             value={roleName}
                             name='roleName'
                             onChange={handleRoleNameChange}
@@ -331,7 +338,7 @@ const CreateEditRoleDialog = ({ show, dialogProps, onCancel, onConfirm, setError
                     </Box>
                     <Box>
                         <Typography sx={{ mb: 1 }} variant='h5'>
-                            Role Description
+                            {t('roles.form.description.label')}
                         </Typography>
                         <OutlinedInput
                             id='roleDesc'
@@ -339,14 +346,14 @@ const CreateEditRoleDialog = ({ show, dialogProps, onCancel, onConfirm, setError
                             size='small'
                             fullWidth
                             disabled={dialogProps.type === 'VIEW'}
-                            placeholder='Description of the role'
+                            placeholder={t('roles.form.description.placeholder')}
                             value={roleDescription}
                             name='roleDesc'
                             onChange={handleRoleDescChange}
                         />
                     </Box>
                     <div className='permissions-container'>
-                        <p>Permissions</p>
+                        <p>{t('roles.permissions.label')}</p>
                         <div className='permissions-list-wrapper'>
                             {permissions &&
                                 Object.keys(permissions).map((category) => (
@@ -363,7 +370,7 @@ const CreateEditRoleDialog = ({ show, dialogProps, onCancel, onConfirm, setError
                                                 hidden={dialogProps.type === 'VIEW'}
                                                 onClick={() => handleSelectAll(category)}
                                             >
-                                                Select All
+                                                {t('roles.permissions.selectAll')}
                                             </button>
                                         </div>
                                         <div className='permissions-list'>
@@ -395,11 +402,11 @@ const CreateEditRoleDialog = ({ show, dialogProps, onCancel, onConfirm, setError
             </DialogContent>
             <DialogActions>
                 <Button variant='outlined' onClick={onCancel}>
-                    {dialogProps.type !== 'VIEW' ? 'Cancel' : 'Close'}
+                    {dialogProps.type !== 'VIEW' ? t('roles.dialog.buttons.cancel') : t('roles.dialog.buttons.close')}
                 </Button>
                 {dialogProps.type !== 'VIEW' && (
                     <StyledButton disabled={checkDisabled()} variant='contained' onClick={createRole}>
-                        {dialogProps.type !== 'EDIT' ? 'Create Role' : 'Update Role'}
+                        {dialogProps.type !== 'EDIT' ? t('roles.dialog.buttons.create') : t('roles.dialog.buttons.update')}
                     </StyledButton>
                 )}
             </DialogActions>

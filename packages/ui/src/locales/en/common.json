@@ -43,6 +43,156 @@
     }
   },
   "cancel": "Cancel",
+  "documentStores": {
+    "title": "Document Store",
+    "description": "Store and upsert documents for LLM retrieval (RAG)",
+    "searchPlaceholder": "Search Name",
+    "actions": {
+      "addNew": "Add New"
+    },
+    "empty": "No Document Stores Created Yet",
+    "dialog": {
+      "add": { "title": "Add New Document Store", "cancel": "Cancel", "confirm": "Add" },
+      "edit": { "title": "Edit Document Store", "cancel": "Cancel", "confirm": "Update" },
+      "delete": {
+        "title": "Delete",
+        "storeDescription": "Delete Store {{name}} ? This will delete all the associated loaders and document chunks.",
+        "loaderDescription": "Delete Loader {{name}} ? This will delete all the associated document chunks."
+      },
+      "selectLoader": { "title": "Select Document Loader", "searchPlaceholder": "Search", "clearSearch": "Clear Search" },
+      "refreshConfirm": {
+        "title": "Refresh all loaders and upsert all chunks?",
+        "description": "This will re-process all loaders and upsert all chunks. This action might take some time.",
+        "confirm": "Refresh",
+        "cancel": "Cancel"
+      },
+      "upsertAPI": { "title": "Upsert API" }
+    },
+    "header": { "refreshTitle": "Refresh Document Store", "moreActions": "More Actions" },
+    "menu": {
+      "viewEditChunks": "View & Edit Chunks",
+      "upsertAllChunks": "Upsert All Chunks",
+      "retrievalQuery": "Retrieval Query",
+      "refresh": "Refresh",
+      "refreshTooltip": "Re-process all loaders and upsert all chunks",
+      "delete": "Delete"
+    },
+    "detail": {
+      "chatflowsUsed": "Chatflows Used:",
+      "empty": "No Document Added Yet",
+      "addLoader": "Add Document Loader",
+      "table": {
+        "loader": "Loader",
+        "splitter": "Splitter",
+        "sources": "Source(s)",
+        "chunks": "Chunks",
+        "chars": "Chars",
+        "actions": "Actions"
+      },
+      "staleWarning": "Some files are pending processing. Please Refresh to get the latest status."
+    },
+    "table": {
+      "name": "Name",
+      "description": "Description",
+      "connectedFlows": "Connected flows",
+      "totalChars": "Total characters",
+      "totalChunks": "Total chunks",
+      "loaderTypes": "Loader Types",
+      "more": "More"
+    },
+    "card": {
+      "stats": { "flows": "flows", "chars": "chars", "chunks": "chunks", "more": "More" }
+    },
+    "snackbar": {
+      "storeDeleted": "Store, Loader and associated document chunks deleted",
+      "loaderDeleted": "Loader and associated document chunks deleted",
+      "deleteStoreFailed": "Failed to delete Document Store: {{message}}",
+      "deleteLoaderFailed": "Failed to delete Document Loader: {{message}}",
+      "refreshSuccess": "Document store refresh successfully!",
+      "refreshFailed": "Failed to refresh document store: {{message}}"
+    }
+  },
+  "agentflows": {
+    "title": "Agentflows",
+    "description": "Multi-agent systems, workflow orchestration",
+    "searchPlaceholder": "Search Name or Category",
+    "view": {
+      "card": "Card View",
+      "list": "List View"
+    },
+    "version": {
+      "v1": "V1",
+      "v2": "V2",
+      "newBadge": "NEW"
+    },
+    "actions": {
+      "addNew": "Add New"
+    },
+    "deprecation": {
+      "title": "V1 Agentflows are deprecated.",
+      "message": "We recommend migrating to V2 for improved performance and continued support.",
+      "dismiss": "Dismiss"
+    },
+    "empty": "No Agents Yet",
+    "table": {
+      "headers": {
+        "name": "Name",
+        "category": "Category",
+        "nodes": "Nodes",
+        "lastModifiedDate": "Last Modified Date",
+        "actions": "Actions"
+      },
+      "more": "More"
+    }
+  },
+  "canvas": {
+    "title": {
+      "agent": "Agents",
+      "chatflow": "Chatflow"
+    },
+    "common": {
+      "back": "Back",
+      "settings": "Settings",
+      "apiEndpoint": "API Endpoint",
+      "editName": "Edit Name",
+      "saveName": "Save Name",
+      "save": "Save",
+      "saveTitle": "Save {{title}}",
+      "saveNew": "Save New {{title}}",
+      "embedTitle": "Embed in website or use as API",
+      "delete": "Delete",
+      "deleteConfirm": "Delete {{title}} {{name}}?"
+    },
+    "dialogs": {
+      "viewMessages": "View Messages",
+      "viewLeads": "View Leads",
+      "exportAsTemplate": "Export As Template",
+      "upsertHistory": "View Upsert History",
+      "configuration": "{{title}} Configuration",
+      "saveBeforeTemplate": "Please save the flow before exporting as template"
+    },
+    "errors": {
+      "retrieveFailed": "Failed to retrieve {{title}}: {{message}}",
+      "saveFailed": "Failed to save {{title}}: {{message}}"
+    }
+  },
+  "agentcanvas": {
+    "node": {
+      "toolbar": {
+        "duplicate": "Duplicate",
+        "delete": "Delete",
+        "info": "Info"
+      },
+      "status": {
+        "error": "Error"
+      },
+      "warnings": {
+        "versionOutdated": "Node version {{oldVersion}} outdated\nUpdate to latest version {{newVersion}}",
+        "noVersion": "Node outdated\nUpdate to latest version {{newVersion}}",
+        "deprecatingDefault": "This node will be deprecated in the next release. Change to a new node tagged with NEW"
+      }
+    }
+  },
   "auth": {
     "signInTitle": "Sign In",
     "noAccountQuestion": "Don’t have an account?",
@@ -174,6 +324,7 @@
         "timeout": "Timeout",
         "stopped": "Stopped"
       }
+      
     },
     "actions": {
       "apply": "Apply",
@@ -218,7 +369,151 @@
     "login-activity": "Login Activity",
     "others": "Others",
     "logs": "Logs",
-    "account": "Account Settings"
+  "account": "Account Settings"
+  },
+  "assistants": {
+    "index": {
+      "title": "Assistants",
+      "description": "Chat assistants with instructions, tools, and files to respond to user queries",
+      "cards": {
+        "custom": {
+          "title": "Custom Assistant",
+          "description": "Create custom assistant using your choice of LLMs",
+          "iconText": "Custom"
+        },
+        "openai": {
+          "title": "OpenAI Assistant",
+          "description": "Create assistant using OpenAI Assistant API",
+          "iconText": "OpenAI"
+        },
+        "azure": {
+          "title": "Azure Assistant (Coming Soon)",
+          "description": "Create assistant using Azure Assistant API",
+          "iconText": "Azure",
+          "alertUnderDevelopment": "Under Development"
+        }
+      }
+    },
+    "dialogs": {
+      "common": {
+        "cancel": "Cancel",
+        "add": "Add",
+        "save": "Save"
+      }
+    },
+    "openai": {
+      "title": "OpenAI Assistant",
+      "description": "Create assistants using OpenAI Assistant API",
+      "searchPlaceholder": "Search Assistants",
+      "buttons": {
+        "load": "Load",
+        "add": "Add"
+      },
+      "empty": {
+        "noAssistants": "No OpenAI Assistants Added Yet"
+      },
+      "dialogs": {
+        "load": {
+          "title": "Load Existing Assistant",
+          "fields": {
+            "credential": "OpenAI Credential",
+            "assistants": "Assistants",
+            "connectCredential": "Connect Credential"
+          },
+          "confirm": "Load"
+        },
+        "add": {
+          "title": "Add New Assistant",
+          "fields": {
+            "credential": "OpenAI Credential",
+            "connectCredential": "Connect Credential",
+            "model": "Assistant Model",
+            "name": "Assistant Name",
+            "description": "Assistant Description",
+            "iconSrc": "Assistant Icon Src",
+            "instructions": "Assistant Instruction",
+            "temperature": "Assistant Temperature",
+            "topP": "Assistant Top P",
+            "tools": "Assistant Tools",
+            "codeInterpreterFiles": "Code Interpreter Files",
+            "fileSearchFiles": "File Search Files"
+          },
+          "tooltips": {
+            "name": "The name of the assistant. The maximum length is 256 characters.",
+            "description": "The description of the assistant. The maximum length is 512 characters.",
+            "instructions": "The system instructions that the assistant uses. The maximum length is 32768 characters.",
+            "temperature": "Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.",
+            "topP": "Controls diversity via nucleus sampling: 0.5 means half of all likelihood-weighted options are considered.",
+            "tools": "A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant.",
+            "codeInterpreterFiles": "Code Interpreter enables the assistant to write and run code. This tool can process files with diverse data and formatting, and generate files such as graphs",
+            "fileSearchFiles": "File search enables the assistant with knowledge from files that you or your users upload. Once a file is uploaded, the assistant automatically decides when to retrieve content based on user requests"
+          },
+          "placeholders": {
+            "name": "My New Assistant",
+            "description": "Description of what the Assistant does",
+            "instructions": "You are a personal math tutor. When asked a question, write and run Python code to answer the question.",
+            "fileUpload": "Choose a file to upload"
+          },
+          "options": {
+            "codeInterpreter": "Code Interpreter",
+            "fileSearch": "File Search"
+          },
+          "buttons": {
+            "addVectorStore": "Add Vector Store",
+            "sync": "Sync",
+            "delete": "Delete"
+          }
+        },
+        "edit": {
+          "title": "Edit Assistant"
+        },
+        "delete": {
+          "title": "Delete Assistant",
+          "description": "Select delete method for {{name}}"
+        }
+      },
+      "vectorStore": {
+        "add": {
+          "title": "Add Vector Store"
+        }
+      },
+      "snackbar": {
+        "getFailed": "Failed to get assistant: {{message}}",
+        "addSuccess": "New Assistant added",
+        "addFailed": "Failed to add new Assistant: {{message}}",
+        "saveSuccess": "Assistant saved",
+        "saveFailed": "Failed to save Assistant: {{message}}",
+        "syncSuccess": "Assistant successfully synced!",
+        "syncFailed": "Failed to sync Assistant: {{message}}",
+        "deleteSuccess": "Assistant deleted",
+        "deleteFailed": "Failed to delete Assistant: {{message}}",
+        "fileUploadSuccess": "File uploaded successfully!",
+        "fileUploadFailed": "Failed to upload file: {{message}}"
+      }
+    },
+    "custom": {
+      "title": "Custom Assistant",
+      "description": "Create custom assistants with your choice of LLMs",
+      "searchPlaceholder": "Search Assistants",
+      "buttons": {
+        "add": "Add"
+      },
+      "empty": {
+        "noAssistants": "No Custom Assistants Added Yet"
+      },
+      "dialogs": {
+        "add": {
+          "title": "Add New Custom Assistant",
+          "fields": {
+            "name": "Name"
+          }
+        }
+      },
+      "snackbar": {
+        "addSuccess": "New Custom Assistant created.",
+        "addFailedPrefix": "Failed to add new Custom Assistant"
+      }
+    }
   },
   "marketplaces": {
     "title": "Marketplaces",
@@ -462,6 +757,62 @@
       "chooseOption": "Choose an option"
     }
   },
+  "apikey": {
+    "view": {
+      "searchPlaceholder": "Search API Keys",
+      "title": "API Keys",
+      "description": "Flowise API & SDK authentication keys"
+    },
+    "actions": {
+      "import": "Import",
+      "createKey": "Create Key",
+      "add": "Add",
+      "save": "Save",
+      "upload": "Upload",
+      "copy": "Copy",
+      "show": "Show"
+    },
+    "empty": {
+      "title": "No API Keys Yet"
+    },
+    "table": {
+      "keyName": "Key Name",
+      "apiKey": "API Key",
+      "usage": "Usage",
+      "updated": "Updated",
+      "chatflowName": "Chatflow Name",
+      "modifiedOn": "Modified On",
+      "category": "Category"
+    },
+    "popover": {
+      "copied": "Copied!"
+    },
+    "confirm": {
+      "delete": {
+        "title": "Delete",
+        "descriptionNoUsage": "Delete key [{{name}}]?",
+        "descriptionWithUsage": "Delete key [{{name}}]?\n There are {{count}} chatflows using this key."
+      }
+    },
+    "snackbar": {
+      "deleteSuccess": "API key deleted",
+      "deleteErrorPrefix": "Failed to delete API key: ",
+      "addSuccess": "New API key added",
+      "addErrorPrefix": "Failed to add new API key: ",
+      "saveSuccess": "API Key saved",
+      "saveErrorPrefix": "Failed to save API key: "
+    },
+    "dialog": {
+      "add": { "title": "Add New API Key" },
+      "edit": { "title": "Edit API Key" },
+      "apiKey": "API Key",
+      "copyApiKey": "Copy API Key",
+      "keyName": "Key Name",
+      "placeholder": {
+        "keyName": "My New Key"
+      }
+    }
+  },
   "variables": {
     "view": {
       "searchPlaceholder": "Search Variables",
@@ -505,6 +856,184 @@
     "types": {
       "static": "Static",
       "runtime": "Runtime"
+    }
+  }
+  ,
+  "roles": {
+    "view": {
+      "searchPlaceholder": "Search Roles",
+      "title": "Roles"
+    },
+    "actions": {
+      "addRole": "Add Role"
+    },
+    "empty": {
+      "title": "No Roles Yet"
+    },
+    "table": {
+      "name": "Name",
+      "description": "Description",
+      "permissions": "Permissions",
+      "assignedUsers": "Assigned Users"
+    },
+    "row": {
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteBlocked": "Remove users with the role from Workspace first"
+    },
+    "drawer": {
+      "assignedUsers": {
+        "title": "Assigned Users",
+        "table": {
+          "user": "User",
+          "workspace": "Workspace"
+        }
+      }
+    },
+    "confirm": {
+      "delete": {
+        "title": "Delete",
+        "description": "Delete Role {{name}}?",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      }
+    },
+    "snackbar": {
+      "deleteSuccess": "Role deleted",
+      "deleteErrorPrefix": "Failed to delete Role"
+    },
+    "dialog": {
+      "title": {
+        "edit": "Edit Role",
+        "view": "View Role",
+        "create": "Create New Role"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "close": "Close",
+        "create": "Create Role",
+        "update": "Update Role"
+      }
+    },
+    "form": {
+      "name": {
+        "label": "Role Name",
+        "placeholder": "Enter role name"
+      },
+      "description": {
+        "label": "Role Description",
+        "placeholder": "Description of the role"
+      }
+    },
+    "permissions": {
+      "label": "Permissions",
+      "selectAll": "Select All"
+    }
+  },
+  "users": {
+    "view": {
+      "searchPlaceholder": "Search Users",
+      "title": "User Management"
+    },
+    "actions": { "inviteUser": "Invite User" },
+    "empty": { "title": "No Users Yet" },
+    "table": {
+      "columns": {
+        "emailName": "Email/Name",
+        "assignedRoles": "Assigned Roles",
+        "status": "Status",
+        "lastLogin": "Last Login"
+      }
+    },
+    "drawer": {
+      "assignedRoles": {
+        "title": "Assigned Roles",
+        "table": { "role": "Role", "workspace": "Workspace" }
+      }
+    },
+    "row": { "edit": "Edit", "delete": "Delete" },
+    "badge": { "organizationOwner": "ORGANIZATION OWNER" },
+    "status": { "active": "Active", "invited": "Invited", "inactive": "Inactive" },
+    "lastLogin": { "never": "Never" },
+    "confirm": {
+      "delete": {
+        "title": "Delete",
+        "description": "Remove {{name}} from organization?",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      }
+    },
+    "snackbar": {
+      "deleteSuccess": "User removed from organization successfully",
+      "deleteErrorPrefix": "Failed to delete User: "
+    },
+    "dialog": {
+      "buttons": {
+        "cancel": "Cancel",
+        "sendInvite": "Send Invite",
+        "updateInvite": "Update Invite",
+        "save": "Save"
+      }
+    }
+  },
+  "workspaces": {
+    "view": {
+      "title": "Workspaces",
+      "searchPlaceholder": "Search Workspaces",
+      "addNew": "Add New"
+    },
+    "empty": { "title": "No Workspaces Yet" },
+    "table": {
+      "columns": {
+        "name": "Name",
+        "description": "Description",
+        "users": "Users",
+        "lastUpdated": "Last Updated"
+      }
+    },
+    "row": {
+      "activeBadge": "Active",
+      "actions": {
+        "viewUsers": "Workspace Users",
+        "edit": "Edit",
+        "delete": "Delete"
+      }
+    },
+    "drawer": {
+      "users": {
+        "title": "Users",
+        "table": { "user": "User", "role": "Role" },
+        "badges": { "organizationOwner": "ORGANIZATION OWNER", "personalWorkspace": "PERSONAL WORKSPACE" }
+      }
+    },
+    "confirm": {
+      "delete": {
+        "title": "Delete workspace {{name}}?",
+        "description": "This action cannot be undone.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      }
+    },
+    "snackbar": {
+      "deleteSuccess": "Workspace deleted successfully",
+      "deleteFailedPrefix": "Failed to delete Workspace:"
+    },
+    "dialog": {
+      "buttons": { "cancel": "Cancel", "add": "Add", "save": "Save" },
+      "titles": { "add": "Add New Workspace", "edit": "Edit Workspace" },
+      "fields": { "name": "Workspace Name", "description": "Description" },
+      "errors": { "reservedName": "Workspace name is reserved and cannot be used" },
+      "snackbar": {
+        "addSuccess": "Workspace created successfully!",
+        "addFailedPrefix": "Failed to create workspace:",
+        "saveSuccess": "Workspace updated successfully!",
+        "saveFailedPrefix": "Failed to save workspace:"
+      }
+    },
+    "dialogs": {
+      "switching": { "text": "Switching workspace..." },
+      "deleting": { "text": "Deleting workspace..." }
     }
   }
 }

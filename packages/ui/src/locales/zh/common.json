@@ -43,6 +43,154 @@
     }
   },
   "cancel": "取消",
+  "documentStores": {
+    "title": "文档存储",
+    "description": "存储并写入文档以供 LLM 检索（RAG）",
+    "searchPlaceholder": "搜索名称",
+    "actions": { "addNew": "新建" },
+    "empty": "暂无文档存储",
+    "dialog": {
+      "add": { "title": "新建文档存储", "cancel": "取消", "confirm": "添加" },
+      "edit": { "title": "编辑文档存储", "cancel": "取消", "confirm": "更新" },
+      "delete": {
+        "title": "删除",
+        "storeDescription": "删除存储 {{name}}？这将删除所有关联的加载器和文档分块。",
+        "loaderDescription": "删除加载器 {{name}}？这将删除所有关联的文档分块。"
+      },
+      "selectLoader": { "title": "选择文档加载器", "searchPlaceholder": "搜索", "clearSearch": "清空搜索" },
+      "refreshConfirm": {
+        "title": "刷新所有加载器并写入所有分块？",
+        "description": "这将重新处理所有加载器并写入所有分块。该操作可能需要一些时间。",
+        "confirm": "刷新",
+        "cancel": "取消"
+      },
+      "upsertAPI": { "title": "写入 API" }
+    },
+    "header": { "refreshTitle": "刷新文档存储", "moreActions": "更多操作" },
+    "menu": {
+      "viewEditChunks": "查看与编辑分块",
+      "upsertAllChunks": "写入全部分块",
+      "retrievalQuery": "检索查询",
+      "refresh": "刷新",
+      "refreshTooltip": "重新处理所有加载器并写入所有分块",
+      "delete": "删除"
+    },
+    "detail": {
+      "chatflowsUsed": "使用到的聊天流程：",
+      "empty": "尚未添加文档",
+      "addLoader": "添加文档加载器",
+      "table": {
+        "loader": "加载器",
+        "splitter": "切分器",
+        "sources": "来源",
+        "chunks": "分块",
+        "chars": "字符",
+        "actions": "操作"
+      },
+      "staleWarning": "部分文件正在待处理。请刷新以获取最新状态。"
+    },
+    "table": {
+      "name": "名称",
+      "description": "描述",
+      "connectedFlows": "关联流程",
+      "totalChars": "总字符数",
+      "totalChunks": "总分块数",
+      "loaderTypes": "加载器类型",
+      "more": "更多"
+    },
+    "card": {
+      "stats": { "flows": "个流程", "chars": "字符", "chunks": "分块", "more": "更多" }
+    },
+    "snackbar": {
+      "storeDeleted": "已删除存储、加载器及其关联的文档分块",
+      "loaderDeleted": "已删除加载器及其关联的文档分块",
+      "deleteStoreFailed": "删除文档存储失败：{{message}}",
+      "deleteLoaderFailed": "删除文档加载器失败：{{message}}",
+      "refreshSuccess": "文档存储刷新成功！",
+      "refreshFailed": "刷新文档存储失败：{{message}}"
+    }
+  },
+  "agentflows": {
+    "title": "智能体流程",
+    "description": "多智能体系统与流程编排",
+    "searchPlaceholder": "搜索名称或分类",
+    "view": {
+      "card": "卡片视图",
+      "list": "列表视图"
+    },
+    "version": {
+      "v1": "V1",
+      "v2": "V2",
+      "newBadge": "新品"
+    },
+    "actions": {
+      "addNew": "新增"
+    },
+    "deprecation": {
+      "title": "V1 智能体流程已弃用。",
+      "message": "建议迁移至 V2 以获得更好的性能与持续支持。",
+      "dismiss": "关闭"
+    },
+    "empty": "暂无智能体",
+    "table": {
+      "headers": {
+        "name": "名称",
+        "category": "分类",
+        "nodes": "节点",
+        "lastModifiedDate": "最近修改时间",
+        "actions": "操作"
+      },
+      "more": "更多"
+    }
+  },
+  "canvas": {
+    "title": {
+      "agent": "智能体",
+      "chatflow": "聊天流程"
+    },
+    "common": {
+      "back": "返回",
+      "settings": "设置",
+      "apiEndpoint": "API 接口",
+      "editName": "编辑名称",
+      "saveName": "保存名称",
+      "save": "保存",
+      "saveTitle": "保存{{title}}",
+      "saveNew": "保存新{{title}}",
+      "embedTitle": "嵌入网站或作为 API 使用",
+      "delete": "删除",
+      "deleteConfirm": "删除{{title}} {{name}}?"
+    },
+    "dialogs": {
+      "viewMessages": "查看消息",
+      "viewLeads": "查看线索",
+      "exportAsTemplate": "导出为模板",
+      "upsertHistory": "查看写入历史",
+      "configuration": "{{title}} 配置",
+      "saveBeforeTemplate": "请先保存流程，再导出为模板"
+    },
+    "errors": {
+      "retrieveFailed": "获取{{title}}失败：{{message}}",
+      "saveFailed": "保存{{title}}失败：{{message}}"
+    }
+  },
+  "agentcanvas": {
+    "node": {
+      "toolbar": {
+        "duplicate": "复制",
+        "delete": "删除",
+        "info": "信息"
+      },
+      "status": {
+        "error": "错误"
+      },
+      "warnings": {
+        "versionOutdated": "节点版本 {{oldVersion}} 已过期\n请更新到最新版本 {{newVersion}}",
+        "noVersion": "节点已过期\n请更新到最新版本 {{newVersion}}",
+        "deprecatingDefault": "该节点将在下个版本弃用。请更换为标注为 NEW 的新节点"
+      }
+    }
+  },
   "chatflowConfig": {
     "title": "聊天流程配置",
     "tabs": {
@@ -217,7 +365,151 @@
     "login-activity": "登录活动",
     "others": "其他",
     "logs": "日志",
-    "account": "账号设置"
+  "account": "账号设置"
+  },
+  "assistants": {
+    "index": {
+      "title": "助手",
+      "description": "通过指令、工具和文件配置的聊天助手，用于响应用户询问",
+      "cards": {
+        "custom": {
+          "title": "自定义助手",
+          "description": "使用你选择的 LLM 创建自定义助手",
+          "iconText": "自定义"
+        },
+        "openai": {
+          "title": "OpenAI 助手",
+          "description": "使用 OpenAI Assistant API 创建助手",
+          "iconText": "OpenAI"
+        },
+        "azure": {
+          "title": "Azure 助手（即将推出）",
+          "description": "使用 Azure Assistant API 创建助手",
+          "iconText": "Azure",
+          "alertUnderDevelopment": "开发中"
+        }
+      }
+    },
+    "dialogs": {
+      "common": {
+        "cancel": "取消",
+        "add": "添加",
+        "save": "保存"
+      }
+    },
+    "openai": {
+      "title": "OpenAI 助手",
+      "description": "使用 OpenAI Assistant API 创建助手",
+      "searchPlaceholder": "搜索助手",
+      "buttons": {
+        "load": "加载",
+        "add": "添加"
+      },
+      "empty": {
+        "noAssistants": "暂无 OpenAI 助手"
+      },
+      "dialogs": {
+        "load": {
+          "title": "加载已有助手",
+          "fields": {
+            "credential": "OpenAI 凭据",
+            "assistants": "助手",
+            "connectCredential": "连接凭据"
+          },
+          "confirm": "加载"
+        },
+        "add": {
+          "title": "新增助手",
+          "fields": {
+            "credential": "OpenAI 凭据",
+            "connectCredential": "连接凭据",
+            "model": "助手模型",
+            "name": "助手名称",
+            "description": "助手描述",
+            "iconSrc": "助手图标地址",
+            "instructions": "助手指令",
+            "temperature": "助手温度",
+            "topP": "助手 Top P",
+            "tools": "助手工具",
+            "codeInterpreterFiles": "代码解释器文件",
+            "fileSearchFiles": "文件搜索文件"
+          },
+          "tooltips": {
+            "name": "助手的名称。最大长度为 256 个字符。",
+            "description": "助手的描述。最大长度为 512 个字符。",
+            "instructions": "助手使用的系统指令。最大长度为 32768 个字符。",
+            "temperature": "控制随机性：降低会使补全更少随机。接近 0 时模型更确定且重复。",
+            "topP": "通过核采样控制多样性：0.5 表示考虑一半的加权选项。",
+            "tools": "启用在助手上的工具列表。每个助手最多可配置 128 个工具。",
+            "codeInterpreterFiles": "代码解释器使助手能够编写和运行代码。此工具可处理多种数据与格式的文件，并生成如图表等文件。",
+            "fileSearchFiles": "文件搜索为助手提供来自你或用户上传文件的知识。文件上传后，助手会根据请求自动判断何时检索内容。"
+          },
+          "placeholders": {
+            "name": "我的新助手",
+            "description": "该助手的功能描述",
+            "instructions": "你是一名个人数学导师。收到问题时，编写并运行 Python 代码来回答。",
+            "fileUpload": "选择要上传的文件"
+          },
+          "options": {
+            "codeInterpreter": "代码解释器",
+            "fileSearch": "文件搜索"
+          },
+          "buttons": {
+            "addVectorStore": "添加向量存储",
+            "sync": "同步",
+            "delete": "删除"
+          }
+        },
+        "edit": {
+          "title": "编辑助手"
+        },
+        "delete": {
+          "title": "删除助手",
+          "description": "为 {{name}} 选择删除方式"
+        }
+      },
+      "vectorStore": {
+        "add": {
+          "title": "添加向量存储"
+        }
+      },
+      "snackbar": {
+        "getFailed": "获取助手失败：{{message}}",
+        "addSuccess": "新增助手已创建。",
+        "addFailed": "新增助手失败：{{message}}",
+        "saveSuccess": "助手已保存",
+        "saveFailed": "保存助手失败：{{message}}",
+        "syncSuccess": "助手同步成功！",
+        "syncFailed": "助手同步失败：{{message}}",
+        "deleteSuccess": "助手已删除",
+        "deleteFailed": "删除助手失败：{{message}}",
+        "fileUploadSuccess": "文件上传成功！",
+        "fileUploadFailed": "文件上传失败：{{message}}"
+      }
+    },
+    "custom": {
+      "title": "自定义助手",
+      "description": "使用你选择的 LLM 创建自定义助手",
+      "searchPlaceholder": "搜索助手",
+      "buttons": {
+        "add": "添加"
+      },
+      "empty": {
+        "noAssistants": "暂无自定义助手"
+      },
+      "dialogs": {
+        "add": {
+          "title": "新增自定义助手",
+          "fields": {
+            "name": "名称"
+          }
+        }
+      },
+      "snackbar": {
+        "addSuccess": "自定义助手已创建。",
+        "addFailedPrefix": "新增自定义助手失败"
+      }
+    }
   },
   "marketplaces": {
     "title": "市场",
@@ -461,6 +753,62 @@
       "chooseOption": "请选择"
     }
   },
+  "apikey": {
+    "view": {
+      "searchPlaceholder": "搜索 API 密钥",
+      "title": "API 密钥",
+      "description": "用于 Flowise API 与 SDK 的认证密钥"
+    },
+    "actions": {
+      "import": "导入",
+      "createKey": "创建密钥",
+      "add": "添加",
+      "save": "保存",
+      "upload": "上传",
+      "copy": "复制",
+      "show": "显示"
+    },
+    "empty": {
+      "title": "暂无 API 密钥"
+    },
+    "table": {
+      "keyName": "名称",
+      "apiKey": "API 密钥",
+      "usage": "使用情况",
+      "updated": "最近更新",
+      "chatflowName": "Chatflow 名称",
+      "modifiedOn": "修改时间",
+      "category": "分类"
+    },
+    "popover": {
+      "copied": "已复制！"
+    },
+    "confirm": {
+      "delete": {
+        "title": "删除",
+        "descriptionNoUsage": "删除密钥 [{{name}}]？",
+        "descriptionWithUsage": "删除密钥 [{{name}}]？\n 有 {{count}} 个 Chatflow 使用此密钥。"
+      }
+    },
+    "snackbar": {
+      "deleteSuccess": "API 密钥已删除",
+      "deleteErrorPrefix": "删除 API 密钥失败：",
+      "addSuccess": "已添加新的 API 密钥",
+      "addErrorPrefix": "添加 API 密钥失败：",
+      "saveSuccess": "API 密钥已保存",
+      "saveErrorPrefix": "保存 API 密钥失败："
+    },
+    "dialog": {
+      "add": { "title": "添加新的 API 密钥" },
+      "edit": { "title": "编辑 API 密钥" },
+      "apiKey": "API 密钥",
+      "copyApiKey": "复制 API 密钥",
+      "keyName": "密钥名称",
+      "placeholder": {
+        "keyName": "我的新密钥"
+      }
+    }
+  },
   "variables": {
     "view": {
       "searchPlaceholder": "搜索变量",
@@ -504,6 +852,184 @@
     "types": {
       "static": "静态",
       "runtime": "运行时"
+    }
+  }
+  ,
+  "roles": {
+    "view": {
+      "searchPlaceholder": "搜索角色",
+      "title": "角色"
+    },
+    "actions": {
+      "addRole": "新增角色"
+    },
+    "empty": {
+      "title": "暂无角色"
+    },
+    "table": {
+      "name": "名称",
+      "description": "描述",
+      "permissions": "权限",
+      "assignedUsers": "已分配用户"
+    },
+    "row": {
+      "view": "查看",
+      "edit": "编辑",
+      "delete": "删除",
+      "deleteBlocked": "请先从工作区移除使用该角色的用户"
+    },
+    "drawer": {
+      "assignedUsers": {
+        "title": "已分配用户",
+        "table": {
+          "user": "用户",
+          "workspace": "工作区"
+        }
+      }
+    },
+    "confirm": {
+      "delete": {
+        "title": "删除",
+        "description": "删除角色 {{name}}？",
+        "confirm": "删除",
+        "cancel": "取消"
+      }
+    },
+    "snackbar": {
+      "deleteSuccess": "角色已删除",
+      "deleteErrorPrefix": "删除角色失败"
+    },
+    "dialog": {
+      "title": {
+        "edit": "编辑角色",
+        "view": "查看角色",
+        "create": "创建新角色"
+      },
+      "buttons": {
+        "cancel": "取消",
+        "close": "关闭",
+        "create": "创建角色",
+        "update": "更新角色"
+      }
+    },
+    "form": {
+      "name": {
+        "label": "角色名称",
+        "placeholder": "请输入角色名称"
+      },
+      "description": {
+        "label": "角色描述",
+        "placeholder": "该角色的描述"
+      }
+    },
+    "permissions": {
+      "label": "权限",
+      "selectAll": "全选"
+    }
+  },
+  "users": {
+    "view": {
+      "searchPlaceholder": "搜索用户",
+      "title": "用户管理"
+    },
+    "actions": { "inviteUser": "邀请用户" },
+    "empty": { "title": "暂无用户" },
+    "table": {
+      "columns": {
+        "emailName": "邮箱/姓名",
+        "assignedRoles": "已分配角色",
+        "status": "状态",
+        "lastLogin": "最近登录"
+      }
+    },
+    "drawer": {
+      "assignedRoles": {
+        "title": "已分配角色",
+        "table": { "role": "角色", "workspace": "工作区" }
+      }
+    },
+    "row": { "edit": "编辑", "delete": "删除" },
+    "badge": { "organizationOwner": "组织所有者" },
+    "status": { "active": "活跃", "invited": "已邀请", "inactive": "未激活" },
+    "lastLogin": { "never": "从未" },
+    "confirm": {
+      "delete": {
+        "title": "删除",
+        "description": "将 {{name}} 从组织移除？",
+        "confirm": "删除",
+        "cancel": "取消"
+      }
+    },
+    "snackbar": {
+      "deleteSuccess": "已从组织移除用户",
+      "deleteErrorPrefix": "删除用户失败："
+    },
+    "dialog": {
+      "buttons": {
+        "cancel": "取消",
+        "sendInvite": "发送邀请",
+        "updateInvite": "更新邀请",
+        "save": "保存"
+      }
+    }
+  },
+  "workspaces": {
+    "view": {
+      "title": "工作区",
+      "searchPlaceholder": "搜索工作区",
+      "addNew": "新建"
+    },
+    "empty": { "title": "暂无工作区" },
+    "table": {
+      "columns": {
+        "name": "名称",
+        "description": "描述",
+        "users": "用户数",
+        "lastUpdated": "最近更新"
+      }
+    },
+    "row": {
+      "activeBadge": "当前",
+      "actions": {
+        "viewUsers": "工作区用户",
+        "edit": "编辑",
+        "delete": "删除"
+      }
+    },
+    "drawer": {
+      "users": {
+        "title": "用户",
+        "table": { "user": "用户", "role": "角色" },
+        "badges": { "organizationOwner": "组织所有者", "personalWorkspace": "个人工作区" }
+      }
+    },
+    "confirm": {
+      "delete": {
+        "title": "删除工作区 {{name}}？",
+        "description": "此操作无法撤销。",
+        "confirm": "删除",
+        "cancel": "取消"
+      }
+    },
+    "snackbar": {
+      "deleteSuccess": "删除工作区成功",
+      "deleteFailedPrefix": "删除工作区失败："
+    },
+    "dialog": {
+      "buttons": { "cancel": "取消", "add": "添加", "save": "保存" },
+      "titles": { "add": "新建工作区", "edit": "编辑工作区" },
+      "fields": { "name": "工作区名称", "description": "描述" },
+      "errors": { "reservedName": "该名称为保留名，不能使用" },
+      "snackbar": {
+        "addSuccess": "工作区创建成功！",
+        "addFailedPrefix": "创建工作区失败：",
+        "saveSuccess": "工作区更新成功！",
+        "saveFailedPrefix": "保存工作区失败："
+      }
+    },
+    "dialogs": {
+      "switching": { "text": "正在切换工作区..." },
+      "deleting": { "text": "正在删除工作区..." }
     }
   }
 }

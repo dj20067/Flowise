@@ -49,6 +49,7 @@ import { IconEdit, IconPlus, IconEye, IconEyeOff, IconX, IconTrash } from '@tabl
 import roles_emptySVG from '@/assets/images/roles_empty.svg'
 
 import { useError } from '@/store/context/ErrorContext'
+import { useTranslation } from 'react-i18next'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     borderColor: theme.palette.grey[900] + 25,
@@ -181,6 +182,7 @@ ViewPermissionsDrawer.propTypes = {
 }
 
 function ShowRoleRow(props) {
+    const { t } = useTranslation()
     const [openAssignedUsersDrawer, setOpenAssignedUsersDrawer] = useState(false)
     const [openViewPermissionsDrawer, setOpenViewPermissionsDrawer] = useState(false)
     const [selectedRoleId, setSelectedRoleId] = useState('')
@@ -241,7 +243,7 @@ function ShowRoleRow(props) {
                         </Typography>
                         <PermissionIconButton
                             permissionId={'roles:manage'}
-                            title='View'
+                            title={t('roles.row.view')}
                             color='primary'
                             onClick={() => setOpenViewPermissionsDrawer(!openViewPermissionsDrawer)}
                         >
@@ -266,7 +268,7 @@ function ShowRoleRow(props) {
                 <StyledTableCell>
                     <PermissionIconButton
                         permissionId={'roles:manage'}
-                        title='Edit'
+                        title={t('roles.row.edit')}
                         color='primary'
                         onClick={() => props.onEditClick(props.role)}
                     >
@@ -276,7 +278,7 @@ function ShowRoleRow(props) {
                         permissionId={'roles:manage'}
                         disabled={props.role.userCount > 0}
                         color='error'
-                        title={props.role.userCount > 0 ? 'Remove users with the role from Workspace first' : 'Delete'}
+                        title={props.role.userCount > 0 ? t('roles.row.deleteBlocked') : t('roles.row.delete')}
                         onClick={() => props.onDeleteClick(props.role)}
                     >
                         <IconTrash />
@@ -286,7 +288,7 @@ function ShowRoleRow(props) {
             <Drawer anchor='right' open={openAssignedUsersDrawer} onClose={() => setOpenAssignedUsersDrawer(false)} sx={{ minWidth: 320 }}>
                 <Box sx={{ p: 4, height: 'auto', width: 650 }}>
                     <Typography sx={{ textAlign: 'left', mb: 2 }} variant='h2'>
-                        Assigned Users
+                        {t('roles.drawer.assignedUsers.title')}
                     </Typography>
                     <TableContainer
                         style={{ display: 'flex', flexDirection: 'row' }}
@@ -301,8 +303,12 @@ function ShowRoleRow(props) {
                                 }}
                             >
                                 <TableRow>
-                                    <StyledTableCell sx={{ width: '50%' }}>User</StyledTableCell>
-                                    <StyledTableCell sx={{ width: '50%' }}>Workspace</StyledTableCell>
+                                    <StyledTableCell sx={{ width: '50%' }}>
+                                        {t('roles.drawer.assignedUsers.table.user')}
+                                    </StyledTableCell>
+                                    <StyledTableCell sx={{ width: '50%' }}>
+                                        {t('roles.drawer.assignedUsers.table.workspace')}
+                                    </StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -335,6 +341,7 @@ ShowRoleRow.propTypes = {
 // ==============================|| Roles ||============================== //
 
 const Roles = () => {
+    const { t } = useTranslation()
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
     const dispatch = useDispatch()
@@ -407,10 +414,10 @@ const Roles = () => {
 
     const deleteRole = async (role) => {
         const confirmPayload = {
-            title: `Delete`,
-            description: `Delete Role ${role.name}?`,
-            confirmButtonName: 'Delete',
-            cancelButtonName: 'Cancel'
+            title: t('roles.confirm.delete.title'),
+            description: t('roles.confirm.delete.description', { name: role.name }),
+            confirmButtonName: t('roles.confirm.delete.confirm'),
+            cancelButtonName: t('roles.confirm.delete.cancel')
         }
         const isConfirmed = await confirm(confirmPayload)
 
@@ -419,7 +426,7 @@ const Roles = () => {
                 const deleteResp = await roleApi.deleteRole(role.id, currentUser.activeOrganizationId)
                 if (deleteResp.data) {
                     enqueueSnackbar({
-                        message: 'Role deleted',
+                        message: t('roles.snackbar.deleteSuccess'),
                         options: {
                             key: new Date().getTime() + Math.random(),
                             variant: 'success',
@@ -434,7 +441,7 @@ const Roles = () => {
                 }
             } catch (error) {
                 enqueueSnackbar({
-                    message: `Failed to delete Role: ${
+                    message: `${t('roles.snackbar.deleteErrorPrefix')}: ${
                         typeof error.response.data === 'object' ? error.response.data.message : error.response.data
                     }`,
                     options: {
@@ -485,7 +492,12 @@ const Roles = () => {
                     <ErrorBoundary error={error} />
                 ) : (
                     <Stack flexDirection='column' sx={{ gap: 3 }}>
-                        <ViewHeader onSearchChange={onSearchChange} search={true} searchPlaceholder='Search Roles' title='Roles'>
+                        <ViewHeader
+                            onSearchChange={onSearchChange}
+                            search={true}
+                            searchPlaceholder={t('roles.view.searchPlaceholder')}
+                            title={t('roles.view.title')}
+                        >
                             <StyledPermissionButton
                                 permissionId={'roles:manage'}
                                 variant='contained'
@@ -494,7 +506,7 @@ const Roles = () => {
                                 startIcon={<IconPlus />}
                                 id='btn_createUser'
                             >
-                                Add Role
+                                {t('roles.actions.addRole')}
                             </StyledPermissionButton>
                         </ViewHeader>
                         {!isLoading && roles.length === 0 ? (
@@ -506,7 +518,7 @@ const Roles = () => {
                                         alt='roles_emptySVG'
                                     />
                                 </Box>
-                                <div>No Roles Yet</div>
+                                <div>{t('roles.empty.title')}</div>
                             </Stack>
                         ) : (
                             <>
@@ -517,7 +529,7 @@ const Roles = () => {
                                             sx={{ border: 1, borderColor: theme.palette.grey[900] + 25, borderRadius: 2 }}
                                             component={Paper}
                                         >
-                                            <Table sx={{ minWidth: 650 }} aria-label='users table'>
+                                            <Table sx={{ minWidth: 650 }} aria-label='roles table'>
                                                 <TableHead
                                                     sx={{
                                                         backgroundColor: customization.isDarkMode
@@ -527,10 +539,10 @@ const Roles = () => {
                                                     }}
                                                 >
                                                     <TableRow>
-                                                        <StyledTableCell>Name</StyledTableCell>
-                                                        <StyledTableCell>Description</StyledTableCell>
-                                                        <StyledTableCell>Permissions</StyledTableCell>
-                                                        <StyledTableCell>Assigned Users</StyledTableCell>
+                                                        <StyledTableCell>{t('roles.table.name')}</StyledTableCell>
+                                                        <StyledTableCell>{t('roles.table.description')}</StyledTableCell>
+                                                        <StyledTableCell>{t('roles.table.permissions')}</StyledTableCell>
+                                                        <StyledTableCell>{t('roles.table.assignedUsers')}</StyledTableCell>
                                                         <StyledTableCell> </StyledTableCell>
                                                     </TableRow>
                                                 </TableHead>

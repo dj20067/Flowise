@@ -32,6 +32,7 @@ import CancelIcon from '@mui/icons-material/Cancel'
 
 // const
 import { baseURL, AGENTFLOW_ICONS } from '@/store/constant'
+import { useTranslation } from 'react-i18next'
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     background: theme.palette.card.main,
@@ -59,6 +60,7 @@ const AgentFlowNode = ({ data }) => {
     const canvas = useSelector((state) => state.canvas)
     const ref = useRef(null)
     const updateNodeInternals = useUpdateNodeInternals()
+    const { t } = useTranslation()
     // eslint-disable-next-line
     const [position, setPosition] = useState(0)
     const [isHovered, setIsHovered] = useState(false)
@@ -165,8 +167,8 @@ const AgentFlowNode = ({ data }) => {
 
     useEffect(() => {
         const nodeOutdatedMessage = (oldVersion, newVersion) =>
-            `Node version ${oldVersion} outdated\nUpdate to latest version ${newVersion}`
-        const nodeVersionEmptyMessage = (newVersion) => `Node outdated\nUpdate to latest version ${newVersion}`
+            t('agentcanvas.node.warnings.versionOutdated', { oldVersion, newVersion })
+        const nodeVersionEmptyMessage = (newVersion) => t('agentcanvas.node.warnings.noVersion', { newVersion })
 
         const componentNode = canvas.componentNodes.find((nd) => nd.name === data.name)
         if (componentNode) {
@@ -175,10 +177,7 @@ const AgentFlowNode = ({ data }) => {
             } else if (data.version && componentNode.version > data.version) {
                 setWarningMessage(nodeOutdatedMessage(data.version, componentNode.version))
             } else if (componentNode.badge === 'DEPRECATING') {
-                setWarningMessage(
-                    componentNode?.deprecateMessage ??
-                        'This node will be deprecated in the next release. Change to a new node tagged with NEW'
-                )
+                setWarningMessage(componentNode?.deprecateMessage ?? t('agentcanvas.node.warnings.deprecatingDefault'))
             } else {
                 setWarningMessage('')
             }
@@ -192,7 +191,7 @@ const AgentFlowNode = ({ data }) => {
                     {data.name !== 'startAgentflow' && (
                         <IconButton
                             size={'small'}
-                            title='Duplicate'
+                            title={t('agentcanvas.node.toolbar.duplicate')}
                             onClick={() => {
                                 duplicateNode(data.id)
                             }}
@@ -208,7 +207,7 @@ const AgentFlowNode = ({ data }) => {
                     )}
                     <IconButton
                         size={'small'}
-                        title='Delete'
+                        title={t('agentcanvas.node.toolbar.delete')}
                         onClick={() => {
                             deleteNode(data.id)
                         }}
@@ -223,7 +222,7 @@ const AgentFlowNode = ({ data }) => {
                     </IconButton>
                     <IconButton
                         size={'small'}
-                        title='Info'
+                        title={t('agentcanvas.node.toolbar.info')}
                         onClick={() => {
                             setInfoDialogProps({ data })
                             setShowInfoDialog(true)
@@ -257,7 +256,7 @@ const AgentFlowNode = ({ data }) => {
                 border={false}
             >
                 {data && data.status && (
-                    <Tooltip title={data.status === 'ERROR' ? data.error || 'Error' : ''}>
+                    <Tooltip title={data.status === 'ERROR' ? data.error || t('agentcanvas.node.status.error') : ''}>
                         <Avatar
                             variant='rounded'
                             sx={{

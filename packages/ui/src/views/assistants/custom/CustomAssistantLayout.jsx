@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 // material-ui
 import { Box, Stack, Skeleton } from '@mui/material'
@@ -26,6 +27,7 @@ import { IconPlus } from '@tabler/icons-react'
 // ==============================|| CustomAssistantLayout ||============================== //
 
 const CustomAssistantLayout = () => {
+    const { t } = useTranslation()
     const navigate = useNavigate()
 
     const getAllAssistantsApi = useApi(assistantsApi.getAllAssistants)
@@ -42,10 +44,10 @@ const CustomAssistantLayout = () => {
 
     const addNew = () => {
         const dialogProp = {
-            title: 'Add New Custom Assistant',
+            title: t('assistants.custom.dialogs.add.title'),
             type: 'ADD',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Add'
+            cancelButtonName: t('assistants.dialogs.common.cancel'),
+            confirmButtonName: t('assistants.dialogs.common.add')
         }
         setDialogProps(dialogProp)
         setShowDialog(true)
@@ -98,9 +100,9 @@ const CustomAssistantLayout = () => {
                             isBackButton={true}
                             onSearchChange={onSearchChange}
                             search={true}
-                            searchPlaceholder='Search Assistants'
-                            title='Custom Assistant'
-                            description='Create custom assistants with your choice of LLMs'
+                            searchPlaceholder={t('assistants.custom.searchPlaceholder')}
+                            title={t('assistants.custom.title')}
+                            description={t('assistants.custom.description')}
                             onBack={() => navigate(-1)}
                         >
                             <StyledPermissionButton
@@ -110,7 +112,7 @@ const CustomAssistantLayout = () => {
                                 onClick={addNew}
                                 startIcon={<IconPlus />}
                             >
-                                Add
+                                {t('assistants.custom.buttons.add')}
                             </StyledPermissionButton>
                         </ViewHeader>
                         {isLoading ? (
@@ -144,7 +146,7 @@ const CustomAssistantLayout = () => {
                                         alt='AssistantEmptySVG'
                                     />
                                 </Box>
-                                <div>No Custom Assistants Added Yet</div>
+                                <div>{t('assistants.custom.empty.noAssistants')}</div>
                             </Stack>
                         )}
                     </Stack>
