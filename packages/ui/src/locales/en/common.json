@@ -219,4 +219,91 @@
     "logs": "Logs",
     "account": "Account Settings"
   }
+  ,
+  "tools": {
+    "title": "Tools",
+    "description": "External functions or APIs the agent can use to take action",
+    "searchPlaceholder": "Search Tools",
+    "view": {
+      "card": "Card View",
+      "list": "List View"
+    },
+    "actions": {
+      "load": "Load",
+      "create": "Create",
+      "delete": "Delete",
+      "saveAsTemplate": "Save As Template",
+      "export": "Export",
+      "pasteJSON": "Paste JSON",
+      "addItem": "Add Item",
+      "howToUseFunction": "How to use Function",
+      "seeExample": "See Example",
+      "useTemplate": "Use Template"
+    },
+    "dialog": {
+      "import": { "title": "Add New Tool" },
+      "add": { "title": "Add New Tool" },
+      "edit": { "title": "Edit Tool" }
+    },
+    "common": {
+      "save": "Save",
+      "add": "Add",
+      "confirm": "Confirm"
+    },
+    "export": { "title": "Export As Template" },
+    "schema": {
+      "property": "Property",
+      "type": "Type",
+      "description": "Description",
+      "required": "Required"
+    },
+    "form": {
+      "toolName": "Tool Name",
+      "toolDescription": "Tool description",
+      "toolIconSource": "Tool Icon Source",
+      "inputSchema": "Input Schema",
+      "javascriptFunction": "Javascript Function"
+    },
+    "placeholders": {
+      "toolName": "My New Tool",
+      "toolDescription": "Description of what the tool does. This is for ChatGPT to determine when to use this tool.",
+      "toolIconSource": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/airtable.svg"
+    },
+    "tooltips": {
+      "toolName": "Tool name must be small capital letter with underscore. Ex: my_tool",
+      "toolDescription": "Description of what the tool does. This is for ChatGPT to determine when to use this tool.",
+      "inputSchema": "What is the input format in JSON?",
+      "javascriptFunction": "Function to execute when tool is being used. You can use properties specified in Input Schema as variables. For example, if the property is <code>userid</code>, you can use as <code>$userid</code>. Return value must be a string. You can also override the code from API by following this <a target=\"_blank\" href=\"https://docs.flowiseai.com/tools/custom-tool#override-function-from-api\">guide</a>"
+    },
+    "deleteDialog": {
+      "title": "Delete Tool",
+      "content": "Delete tool {{name}}?"
+    },
+    "snackbar": {
+      "failedExport": "Failed to export Tool",
+      "added": "New Tool added",
+      "failedAdd": "Failed to add new Tool",
+      "saved": "Tool saved",
+      "failedSave": "Failed to save Tool",
+      "deleted": "Tool deleted",
+      "failedDelete": "Failed to delete Tool"
+    },
+    "pasteJSON": {
+      "title": "Paste JSON Schema",
+      "errors": {
+        "arrayRequired": "Input must be an array of properties",
+        "invalidJSON": "Invalid JSON format. Please check your input."
+      }
+    },
+    "howTo": {
+      "title": "How To Use Function",
+      "lib": "You can use any libraries imported in Flowise",
+      "varsPrefix": "You can use properties specified in Input Schema as variables with prefix $:",
+      "varsProperty": "Property =",
+      "varsVariable": "Variable =",
+      "defaultFlow": "You can get default flow config:",
+      "customVars": "You can get custom variables:",
+      "mustReturn": "Must return a string value at the end of function"
+    }
+  }
 }

@@ -219,4 +219,91 @@
     "logs": "日志",
     "account": "账号设置"
   }
+  ,
+  "tools": {
+    "title": "工具",
+    "description": "代理可调用的外部函数或 API",
+    "searchPlaceholder": "搜索工具",
+    "view": {
+      "card": "卡片视图",
+      "list": "列表视图"
+    },
+    "actions": {
+      "load": "加载",
+      "create": "新建",
+      "delete": "删除",
+      "saveAsTemplate": "保存为模板",
+      "export": "导出",
+      "pasteJSON": "粘贴 JSON",
+      "addItem": "新增条目",
+      "howToUseFunction": "如何使用函数",
+      "seeExample": "查看示例",
+      "useTemplate": "使用模板"
+    },
+    "dialog": {
+      "import": { "title": "新建工具" },
+      "add": { "title": "新建工具" },
+      "edit": { "title": "编辑工具" }
+    },
+    "common": {
+      "save": "保存",
+      "add": "添加",
+      "confirm": "确认"
+    },
+    "export": { "title": "导出为模板" },
+    "schema": {
+      "property": "属性",
+      "type": "类型",
+      "description": "描述",
+      "required": "必填"
+    },
+    "form": {
+      "toolName": "工具名称",
+      "toolDescription": "工具描述",
+      "toolIconSource": "工具图标地址",
+      "inputSchema": "输入模式",
+      "javascriptFunction": "JavaScript 函数"
+    },
+    "placeholders": {
+      "toolName": "我的新工具",
+      "toolDescription": "该工具的作用描述。用于帮助模型判断何时使用该工具。",
+      "toolIconSource": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/airtable.svg"
+    },
+    "tooltips": {
+      "toolName": "工具名须使用小写字母和下划线，例如：my_tool",
+      "toolDescription": "该工具的作用描述。用于帮助模型判断何时使用该工具。",
+      "inputSchema": "JSON 的输入格式是什么？",
+      "javascriptFunction": "当工具被使用时执行的函数。你可以将输入模式中指定的属性作为变量使用。例如，属性为 <code>userid</code>，则可用 <code>$userid</code>。返回值必须是字符串。你也可以按此<a target=\"_blank\" href=\"https://docs.flowiseai.com/tools/custom-tool#override-function-from-api\">指南</a>从 API 覆盖代码"
+    },
+    "deleteDialog": {
+      "title": "删除工具",
+      "content": "删除工具 {{name}}？"
+    },
+    "snackbar": {
+      "failedExport": "导出工具失败",
+      "added": "新工具已添加",
+      "failedAdd": "添加新工具失败",
+      "saved": "工具已保存",
+      "failedSave": "保存工具失败",
+      "deleted": "工具已删除",
+      "failedDelete": "删除工具失败"
+    },
+    "pasteJSON": {
+      "title": "粘贴 JSON 模式",
+      "errors": {
+        "arrayRequired": "输入必须是属性数组",
+        "invalidJSON": "JSON 格式无效，请检查输入。"
+      }
+    },
+    "howTo": {
+      "title": "如何使用函数",
+      "lib": "可以使用 Flowise 中已导入的任何库",
+      "varsPrefix": "可以将输入模式中指定的属性作为变量使用，变量前缀为 $：",
+      "varsProperty": "属性 =",
+      "varsVariable": "变量 =",
+      "defaultFlow": "可以获取默认流程配置：",
+      "customVars": "可以获取自定义变量：",
+      "mustReturn": "函数结尾必须返回字符串值"
+    }
+  }
 }
