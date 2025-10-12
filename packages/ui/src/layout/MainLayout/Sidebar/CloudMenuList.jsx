@@ -6,6 +6,7 @@ import { store } from '@/store'
 // material-ui
 import { Divider, Box, Button, List, ListItemButton, ListItemIcon, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { useTranslation } from 'react-i18next'
 
 // project imports
 import useNotifier from '@/utils/useNotifier'
@@ -26,6 +27,7 @@ const CloudMenuList = () => {
     const dispatch = useDispatch()
     useNotifier()
     const theme = useTheme()
+    const { t } = useTranslation()
 
     const enqueueSnackbar = (...args) => dispatch(enqueueSnackbarAction(...args))
     const closeSnackbar = (...args) => dispatch(closeSnackbarAction(...args))
@@ -36,7 +38,7 @@ const CloudMenuList = () => {
     const signOutClicked = () => {
         logoutApi.request()
         enqueueSnackbar({
-            message: 'Logging out...',
+            message: t('header.cloud.loggingOut', { defaultValue: 'Logging out...' }),
             options: {
                 key: new Date().getTime() + Math.random(),
                 variant: 'success',
@@ -80,7 +82,7 @@ const CloudMenuList = () => {
                                     <IconFileText size='1.3rem' strokeWidth='1.5' />
                                 </ListItemIcon>
                                 <Typography variant='body1' color='inherit' sx={{ my: 0.5 }}>
-                                    Documentation
+                                    {t('header.cloud.documentation', { defaultValue: 'Documentation' })}
                                 </Typography>
                             </ListItemButton>
                         </a>
@@ -98,7 +100,7 @@ const CloudMenuList = () => {
                                 <IconLogout size='1.3rem' strokeWidth='1.5' />
                             </ListItemIcon>
                             <Typography variant='body1' color='inherit' sx={{ my: 0.5 }}>
-                                Logout
+                                {t('header.cloud.logout', { defaultValue: 'Logout' })}
                             </Typography>
                         </ListItemButton>
                     </List>

@@ -9,7 +9,19 @@
     "empty": "暂无聊天流程"
   },
   "header": {
-    "language": "语言"
+    "language": "语言",
+    "cloud": {
+      "documentation": "文档",
+      "logout": "退出登录",
+      "loggingOut": "正在退出..."
+    },
+    "profile": {
+      "updateProfile": "更新资料",
+      "logout": "退出登录",
+      "export": "导出",
+      "import": "导入",
+      "version": "版本"
+    }
   },
   "chatflowConfig": {
     "title": "聊天流程配置",

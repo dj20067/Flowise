@@ -9,7 +9,19 @@
     "empty": "No Chatflows Yet"
   },
   "header": {
-    "language": "Language"
+    "language": "Language",
+    "cloud": {
+      "documentation": "Documentation",
+      "logout": "Logout",
+      "loggingOut": "Logging out..."
+    },
+    "profile": {
+      "updateProfile": "Update Profile",
+      "logout": "Logout",
+      "export": "Export",
+      "import": "Import",
+      "version": "Version"
+    }
   },
   "chatflowConfig": {
     "title": "Chatflow Configuration",

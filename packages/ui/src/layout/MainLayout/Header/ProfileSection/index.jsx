@@ -54,6 +54,7 @@ import exportImportApi from '@/api/exportimport'
 import useApi from '@/hooks/useApi'
 import { useConfig } from '@/store/context/ConfigContext'
 import { getErrorMessage } from '@/utils/errorHandler'
+import { useTranslation } from 'react-i18next'
 
 const dataToExport = [
     'Agentflows',
@@ -213,6 +214,7 @@ ImportDialog.propTypes = {
 
 const ProfileSection = ({ handleLogout }) => {
     const theme = useTheme()
+    const { t } = useTranslation()
 
     const customization = useSelector((state) => state.customization)
     const { isCloud } = useConfig()
@@ -473,7 +475,13 @@ const ProfileSection = ({ handleLogout }) => {
                                                     <ListItemIcon>
                                                         <IconFileExport stroke={1.5} size='1.3rem' />
                                                     </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant='body2'>Export</Typography>} />
+                                                    <ListItemText
+                                                        primary={
+                                                            <Typography variant='body2'>
+                                                                {t('header.profile.export', { defaultValue: 'Export' })}
+                                                            </Typography>
+                                                        }
+                                                    />
                                                 </PermissionListItemButton>
                                                 <PermissionListItemButton
                                                     permissionId='workspace:import'
@@ -485,7 +493,13 @@ const ProfileSection = ({ handleLogout }) => {
                                                     <ListItemIcon>
                                                         <IconFileUpload stroke={1.5} size='1.3rem' />
                                                     </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant='body2'>Import</Typography>} />
+                                                    <ListItemText
+                                                        primary={
+                                                            <Typography variant='body2'>
+                                                                {t('header.profile.import', { defaultValue: 'Import' })}
+                                                            </Typography>
+                                                        }
+                                                    />
                                                 </PermissionListItemButton>
                                                 <input ref={inputRef} type='file' hidden onChange={fileChange} accept='.json' />
                                                 <ListItemButton
@@ -498,7 +512,13 @@ const ProfileSection = ({ handleLogout }) => {
                                                     <ListItemIcon>
                                                         <IconInfoCircle stroke={1.5} size='1.3rem' />
                                                     </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant='body2'>Version</Typography>} />
+                                                    <ListItemText
+                                                        primary={
+                                                            <Typography variant='body2'>
+                                                                {t('header.profile.version', { defaultValue: 'Version' })}
+                                                            </Typography>
+                                                        }
+                                                    />
                                                 </ListItemButton>
                                                 {isAuthenticated && !currentUser.isSSO && !isCloud && (
                                                     <ListItemButton
@@ -511,7 +531,13 @@ const ProfileSection = ({ handleLogout }) => {
                                                         <ListItemIcon>
                                                             <IconUserEdit stroke={1.5} size='1.3rem' />
                                                         </ListItemIcon>
-                                                        <ListItemText primary={<Typography variant='body2'>Update Profile</Typography>} />
+                                                        <ListItemText
+                                                            primary={
+                                                                <Typography variant='body2'>
+                                                                    {t('header.profile.updateProfile', { defaultValue: 'Update Profile' })}
+                                                                </Typography>
+                                                            }
+                                                        />
                                                     </ListItemButton>
                                                 )}
                                                 <ListItemButton
@@ -521,7 +547,13 @@ const ProfileSection = ({ handleLogout }) => {
                                                     <ListItemIcon>
                                                         <IconLogout stroke={1.5} size='1.3rem' />
                                                     </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant='body2'>Logout</Typography>} />
+                                                    <ListItemText
+                                                        primary={
+                                                            <Typography variant='body2'>
+                                                                {t('header.profile.logout', { defaultValue: 'Logout' })}
+                                                            </Typography>
+                                                        }
+                                                    />
                                                 </ListItemButton>
                                             </List>
                                         </Box>
