@@ -39,10 +39,10 @@ const allSSOProviders = ['azure', 'google', 'auth0', 'github']
 export class IdentityManager {
     private static instance: IdentityManager
     private stripeManager?: StripeManager
-    licenseValid: boolean = true  // 开发模式：设置为true
+    licenseValid: boolean = true // 开发模式：设置为true
     permissions: Permissions
     ssoProviderName: string = ''
-    currentInstancePlatform: Platform = Platform.ENTERPRISE  // 开发模式：设置为企业版
+    currentInstancePlatform: Platform = Platform.ENTERPRISE // 开发模式：设置为企业版
     // create a map to store the sso provider name and the sso provider instance
     ssoProviders: Map<string, SSOBase> = new Map()
 
@@ -57,7 +57,12 @@ export class IdentityManager {
     public async initialize() {
         console.log('IdentityManager: Starting initialization...')
         await this._validateLicenseKey()
-        console.log('IdentityManager: After _validateLicenseKey, licenseValid:', this.licenseValid, 'platform:', this.currentInstancePlatform)
+        console.log(
+            'IdentityManager: After _validateLicenseKey, licenseValid:',
+            this.licenseValid,
+            'platform:',
+            this.currentInstancePlatform
+        )
         this.permissions = new Permissions()
         if (process.env.STRIPE_SECRET_KEY) {
             this.stripeManager = await StripeManager.getInstance()
@@ -104,11 +109,11 @@ export class IdentityManager {
 
     private _validateLicenseKey = async () => {
         // 开发测试模式：直接设置为企业版并跳过所有验证
-        this.licenseValid = true;
-        this.currentInstancePlatform = Platform.ENTERPRISE;
-        console.log('Development mode: Enterprise features enabled without license validation');
-        return;
-        
+        this.licenseValid = true
+        this.currentInstancePlatform = Platform.ENTERPRISE
+        console.log('Development mode: Enterprise features enabled without license validation')
+        return
+
         // 以下是原始的验证逻辑（已被注释掉用于测试）
         /*
         const LICENSE_URL = process.env.LICENSE_URL
@@ -288,6 +293,10 @@ export class IdentityManager {
 
     public static checkFeatureByPlan(feature: string) {
         return (req: Request, res: Response, next: NextFunction) => {
+            // Bypass all enterprise feature checks when env flag is enabled
+            if (process.env.DISABLE_EE_CHECKS === 'true') {
+                return next()
+            }
             const user = req.user
             if (user) {
                 if (!user.features || Object.keys(user.features).length === 0) {
