@@ -50,6 +50,7 @@ import { baseURL } from '@/store/constant'
 import { SET_COMPONENT_CREDENTIALS } from '@/store/actions'
 import { useError } from '@/store/context/ErrorContext'
 import ShareWithWorkspaceDialog from '@/ui-component/dialog/ShareWithWorkspaceDialog'
+import { useTranslation } from 'react-i18next'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     borderColor: theme.palette.grey[900] + 25,
@@ -79,6 +80,7 @@ const Credentials = () => {
     const dispatch = useDispatch()
     useNotifier()
     const { error, setError } = useError()
+    const { t } = useTranslation()
 
     const enqueueSnackbar = (...args) => dispatch(enqueueSnackbarAction(...args))
     const closeSnackbar = (...args) => dispatch(closeSnackbarAction(...args))
@@ -109,7 +111,7 @@ const Credentials = () => {
 
     const listCredential = () => {
         const dialogProp = {
-            title: 'Add New Credential',
+            title: t('credentials.list.title', { defaultValue: 'Add New Credential' }),
             componentsCredentials
         }
         setCredentialListDialogProps(dialogProp)
@@ -119,8 +121,8 @@ const Credentials = () => {
     const addNew = (credentialComponent) => {
         const dialogProp = {
             type: 'ADD',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Add',
+            cancelButtonName: t('cancel', { defaultValue: 'Cancel' }),
+            confirmButtonName: t('credentials.actions.add', { defaultValue: 'Add' }),
             credentialComponent
         }
         setSpecificCredentialDialogProps(dialogProp)
@@ -130,8 +132,8 @@ const Credentials = () => {
     const edit = (credential) => {
         const dialogProp = {
             type: 'EDIT',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Save',
+            cancelButtonName: t('cancel', { defaultValue: 'Cancel' }),
+            confirmButtonName: t('credentials.actions.save', { defaultValue: 'Save' }),
             data: credential
         }
         setSpecificCredentialDialogProps(dialogProp)
@@ -141,12 +143,12 @@ const Credentials = () => {
     const share = (credential) => {
         const dialogProps = {
             type: 'EDIT',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Share',
+            cancelButtonName: t('cancel', { defaultValue: 'Cancel' }),
+            confirmButtonName: t('credentials.actions.share', { defaultValue: 'Share' }),
             data: {
                 id: credential.id,
                 name: credential.name,
-                title: 'Share Credential',
+                title: t('credentials.shareDialog.title', { defaultValue: 'Share Credential' }),
                 itemType: 'credential'
             }
         }
@@ -156,10 +158,13 @@ const Credentials = () => {
 
     const deleteCredential = async (credential) => {
         const confirmPayload = {
-            title: `Delete`,
-            description: `Delete credential ${credential.name}?`,
-            confirmButtonName: 'Delete',
-            cancelButtonName: 'Cancel'
+            title: t('credentials.confirm.delete.title', { defaultValue: 'Delete' }),
+            description: t('credentials.confirm.delete.description', {
+                defaultValue: `Delete credential ${credential.name}?`,
+                name: credential.name
+            }),
+            confirmButtonName: t('credentials.actions.delete', { defaultValue: 'Delete' }),
+            cancelButtonName: t('cancel', { defaultValue: 'Cancel' })
         }
         const isConfirmed = await confirm(confirmPayload)
 
@@ -168,7 +173,7 @@ const Credentials = () => {
                 const deleteResp = await credentialsApi.deleteCredential(credential.id)
                 if (deleteResp.data) {
                     enqueueSnackbar({
-                        message: 'Credential deleted',
+                        message: t('credentials.snackbar.deleteSuccess', { defaultValue: 'Credential deleted' }),
                         options: {
                             key: new Date().getTime() + Math.random(),
                             variant: 'success',
@@ -183,7 +188,7 @@ const Credentials = () => {
                 }
             } catch (error) {
                 enqueueSnackbar({
-                    message: `Failed to delete Credential: ${
+                    message: `${t('credentials.snackbar.deleteErrorPrefix', { defaultValue: 'Failed to delete Credential' })}: ${
                         typeof error.response.data === 'object' ? error.response.data.message : error.response.data
                     }`,
                     options: {
@@ -245,9 +250,11 @@ const Credentials = () => {
                         <ViewHeader
                             onSearchChange={onSearchChange}
                             search={true}
-                            searchPlaceholder='Search Credentials'
-                            title='Credentials'
-                            description='API keys, tokens, and secrets for 3rd party integrations'
+                            searchPlaceholder={t('credentials.view.searchPlaceholder', { defaultValue: 'Search Credentials' })}
+                            title={t('credentials.view.title', { defaultValue: 'Credentials' })}
+                            description={t('credentials.view.description', {
+                                defaultValue: 'API keys, tokens, and secrets for 3rd party integrations'
+                            })}
                         >
                             <StyledPermissionButton
                                 permissionId='credentials:create'
@@ -256,7 +263,7 @@ const Credentials = () => {
                                 onClick={listCredential}
                                 startIcon={<IconPlus />}
                             >
-                                Add Credential
+                                {t('credentials.actions.addCredential', { defaultValue: 'Add Credential' })}
                             </StyledPermissionButton>
                         </ViewHeader>
                         {!isLoading && credentials.length <= 0 ? (
@@ -268,7 +275,7 @@ const Credentials = () => {
                                         alt='CredentialEmptySVG'
                                     />
                                 </Box>
-                                <div>No Credentials Yet</div>
+                                <div>{t('credentials.empty.title', { defaultValue: 'No Credentials Yet' })}</div>
                             </Stack>
                         ) : (
                             <TableContainer
@@ -285,9 +292,15 @@ const Credentials = () => {
                                         }}
                                     >
                                         <TableRow>
-                                            <StyledTableCell>Name</StyledTableCell>
-                                            <StyledTableCell>Last Updated</StyledTableCell>
-                                            <StyledTableCell>Created</StyledTableCell>
+                                            <StyledTableCell>
+                                                {t('credentials.table.name', { defaultValue: 'Name' })}
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                {t('credentials.table.updated', { defaultValue: 'Last Updated' })}
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                {t('credentials.table.created', { defaultValue: 'Created' })}
+                                            </StyledTableCell>
                                             <StyledTableCell style={{ width: '5%' }}> </StyledTableCell>
                                             <StyledTableCell style={{ width: '5%' }}> </StyledTableCell>
                                             <StyledTableCell style={{ width: '5%' }}> </StyledTableCell>
@@ -391,7 +404,7 @@ const Credentials = () => {
                                                                     <PermissionIconButton
                                                                         permissionId={'credentials:share'}
                                                                         display={'feat:workspaces'}
-                                                                        title='Share'
+                                                                        title={t('credentials.actions.share', { defaultValue: 'Share' })}
                                                                         color='primary'
                                                                         onClick={() => share(credential)}
                                                                     >
@@ -401,7 +414,7 @@ const Credentials = () => {
                                                                 <StyledTableCell>
                                                                     <PermissionIconButton
                                                                         permissionId={'credentials:create,credentials:update'}
-                                                                        title='Edit'
+                                                                        title={t('credentials.actions.edit', { defaultValue: 'Edit' })}
                                                                         color='primary'
                                                                         onClick={() => edit(credential)}
                                                                     >
@@ -411,7 +424,7 @@ const Credentials = () => {
                                                                 <StyledTableCell>
                                                                     <PermissionIconButton
                                                                         permissionId={'credentials:delete'}
-                                                                        title='Delete'
+                                                                        title={t('credentials.actions.delete', { defaultValue: 'Delete' })}
                                                                         color='error'
                                                                         onClick={() => deleteCredential(credential)}
                                                                     >
@@ -422,7 +435,9 @@ const Credentials = () => {
                                                         )}
                                                         {credential.shared && (
                                                             <>
-                                                                <StyledTableCell colSpan={'3'}>Shared Credential</StyledTableCell>
+                                                                <StyledTableCell colSpan={'3'}>
+                                                                    {t('credentials.shared.label', { defaultValue: 'Shared Credential' })}
+                                                                </StyledTableCell>
                                                             </>
                                                         )}
                                                     </StyledTableRow>

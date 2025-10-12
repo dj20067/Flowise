@@ -31,11 +31,13 @@ import { initializeDefaultNodeData } from '@/utils/genericHelper'
 import { baseURL, REDACTED_CREDENTIAL_VALUE } from '@/store/constant'
 import { HIDE_CANVAS_DIALOG, SHOW_CANVAS_DIALOG } from '@/store/actions'
 import keySVG from '@/assets/images/key.svg'
+import { useTranslation } from 'react-i18next'
 
 const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setError }) => {
     const portalElement = document.getElementById('portal')
 
     const dispatch = useDispatch()
+    const { t } = useTranslation()
 
     // ==============================|| Snackbar ||============================== //
 
@@ -127,7 +129,7 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setEr
             const createResp = await credentialsApi.createCredential(obj)
             if (createResp.data) {
                 enqueueSnackbar({
-                    message: 'New Credential added',
+                    message: t('credentials.snackbar.addSuccess', { defaultValue: 'New Credential added' }),
                     options: {
                         key: new Date().getTime() + Math.random(),
                         variant: 'success',
@@ -142,10 +144,11 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setEr
             }
         } catch (error) {
             if (setError) setError(error)
+            const addErrorPrefix = t('credentials.snackbar.addErrorPrefix', { defaultValue: 'Failed to add new Credential' })
+            const addErrorDetail = typeof error.response?.data === 'object' ? error.response?.data?.message : error.response?.data
+            const addErrorMessage = `${addErrorPrefix}: ${addErrorDetail}`
             enqueueSnackbar({
-                message: `Failed to add new Credential: ${
-                    typeof error.response.data === 'object' ? error.response.data.message : error.response.data
-                }`,
+                message: addErrorMessage,
                 options: {
                     key: new Date().getTime() + Math.random(),
                     variant: 'error',
@@ -179,7 +182,7 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setEr
             const saveResp = await credentialsApi.updateCredential(credential.id, saveObj)
             if (saveResp.data) {
                 enqueueSnackbar({
-                    message: 'Credential saved',
+                    message: t('credentials.snackbar.saveSuccess', { defaultValue: 'Credential saved' }),
                     options: {
                         key: new Date().getTime() + Math.random(),
                         variant: 'success',
@@ -194,10 +197,11 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setEr
             }
         } catch (error) {
             if (setError) setError(error)
+            const saveErrorPrefix = t('credentials.snackbar.saveErrorPrefix', { defaultValue: 'Failed to save Credential' })
+            const saveErrorDetail = typeof error.response?.data === 'object' ? error.response?.data?.message : error.response?.data
+            const saveErrorMessage = `${saveErrorPrefix}: ${saveErrorDetail}`
             enqueueSnackbar({
-                message: `Failed to save Credential: ${
-                    typeof error.response.data === 'object' ? error.response.data.message : error.response.data
-                }`,
+                message: saveErrorMessage,
                 options: {
                     key: new Date().getTime() + Math.random(),
                     variant: 'error',
@@ -251,7 +255,7 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setEr
             }
 
             if (!credentialId) {
-                throw new Error('Failed to save credential')
+                throw new Error(t('credentials.errors.failedSave', { defaultValue: 'Failed to save credential' }))
             }
 
             const authResponse = await oauth2Api.authorize(credentialId)
@@ -265,7 +269,11 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setEr
                 )
 
                 if (!authWindow) {
-                    throw new Error('Failed to open authorization window. Please check if popups are blocked.')
+                    throw new Error(
+                        t('credentials.errors.oauthPopupBlocked', {
+                            defaultValue: 'Failed to open authorization window. Please check if popups are blocked.'
+                        })
+                    )
                 }
 
                 // Listen for messages from the popup window
@@ -276,7 +284,9 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setEr
 
                         if (event.data.type === 'OAUTH2_SUCCESS') {
                             enqueueSnackbar({
-                                message: 'OAuth2 authorization completed successfully',
+                                message: t('credentials.snackbar.oauthSuccess', {
+                                    defaultValue: 'OAuth2 authorization completed successfully'
+                                }),
                                 options: {
                                     key: new Date().getTime() + Math.random(),
                                     variant: 'success',
@@ -289,8 +299,11 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setEr
                             })
                             onConfirm(credentialId)
                         } else if (event.data.type === 'OAUTH2_ERROR') {
+                            const oauthErrorMsg =
+                                event.data.message ||
+                                t('credentials.snackbar.oauthErrorPrefix', { defaultValue: 'OAuth2 authorization failed' })
                             enqueueSnackbar({
-                                message: event.data.message || 'OAuth2 authorization failed',
+                                message: oauthErrorMsg,
                                 options: {
                                     key: new Date().getTime() + Math.random(),
                                     variant: 'error',
@@ -335,13 +348,19 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setEr
                     }
                 }, 300000) // 5 minutes
             } else {
-                throw new Error('Invalid response from authorization endpoint')
+                throw new Error(
+                    t('credentials.errors.oauthInvalidResponse', { defaultValue: 'Invalid response from authorization endpoint' })
+                )
             }
         } catch (error) {
             console.error('OAuth2 authorization error:', error)
             if (setError) setError(error)
+            const oauthErrorPrefix = t('credentials.snackbar.oauthErrorPrefix', { defaultValue: 'OAuth2 authorization failed' })
+            const oauthErrorReason =
+                error.response?.data?.message || error.message || t('credentials.errors.unknown', { defaultValue: 'Unknown error' })
+            const oauthErrorMessage = `${oauthErrorPrefix}: ${oauthErrorReason}`
             enqueueSnackbar({
-                message: `OAuth2 authorization failed: ${error.response?.data?.message || error.message || 'Unknown error'}`,
+                message: oauthErrorMessage,
                 options: {
                     key: new Date().getTime() + Math.random(),
                     variant: 'error',
@@ -419,7 +438,9 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setEr
                             }}
                         >
                             <IconHandStop size={25} color='white' />
-                            <span style={{ color: 'white', marginLeft: 10, fontWeight: 400 }}>Cannot edit shared credential.</span>
+                            <span style={{ color: 'white', marginLeft: 10, fontWeight: 400 }}>
+                                {t('credentials.shared.cannotEdit', { defaultValue: 'Cannot edit shared credential.' })}
+                            </span>
                         </div>
                     </div>
                 )}
@@ -444,7 +465,7 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setEr
                     <Box sx={{ p: 2 }}>
                         <Stack sx={{ position: 'relative' }} direction='row'>
                             <Typography variant='overline'>
-                                Credential Name
+                                {t('credentials.dialog.nameLabel', { defaultValue: 'Credential Name' })}
                                 <span style={{ color: 'red' }}>&nbsp;*</span>
                             </Typography>
                         </Stack>
@@ -462,7 +483,9 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setEr
                 {!shared && componentCredential && componentCredential.name && componentCredential.name.includes('OAuth2') && (
                     <Box sx={{ p: 2 }}>
                         <Stack sx={{ position: 'relative' }} direction='row'>
-                            <Typography variant='overline'>OAuth Redirect URL</Typography>
+                            <Typography variant='overline'>
+                                {t('credentials.dialog.oauth.redirect', { defaultValue: 'OAuth Redirect URL' })}
+                            </Typography>
                         </Stack>
                         <OutlinedInput
                             id='oauthRedirectUrl'
@@ -483,7 +506,7 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm, setEr
                 {!shared && componentCredential && componentCredential.name && componentCredential.name.includes('OAuth2') && (
                     <Box sx={{ p: 2 }}>
                         <Button variant='contained' color='secondary' onClick={() => setOAuth2()}>
-                            Authenticate
+                            {t('credentials.dialog.oauth.authenticate', { defaultValue: 'Authenticate' })}
                         </Button>
                     </Box>
                 )}

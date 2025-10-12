@@ -12,12 +12,14 @@ import { Input } from '@/ui-component/input/Input'
 import { SwitchInput } from '@/ui-component/switch/Switch'
 import { JsonEditorInput } from '@/ui-component/json/JsonEditor'
 import { TooltipWithParser } from '@/ui-component/tooltip/TooltipWithParser'
+import { useTranslation } from 'react-i18next'
 
 // ===========================|| NodeInputHandler ||=========================== //
 
 const CredentialInputHandler = ({ inputParam, data, disabled = false }) => {
     const customization = useSelector((state) => state.customization)
     const ref = useRef(null)
+    const { t } = useTranslation()
 
     const [showExpandDialog, setShowExpandDialog] = useState(false)
     const [expandDialogProps, setExpandDialogProps] = useState({})
@@ -27,8 +29,8 @@ const CredentialInputHandler = ({ inputParam, data, disabled = false }) => {
             value,
             inputParam,
             disabled,
-            confirmButtonName: 'Save',
-            cancelButtonName: 'Cancel'
+            confirmButtonName: t('credentials.actions.save', { defaultValue: 'Save' }),
+            cancelButtonName: t('cancel', { defaultValue: 'Cancel' })
         }
         setExpandDialogProps(dialogProp)
         setShowExpandDialog(true)
@@ -52,18 +54,18 @@ const CredentialInputHandler = ({ inputParam, data, disabled = false }) => {
                             </Typography>
                             <div style={{ flexGrow: 1 }}></div>
                             {inputParam.type === 'string' && inputParam.rows && (
-                                <IconButton
-                                    size='small'
-                                    sx={{
-                                        height: 25,
-                                        width: 25
-                                    }}
-                                    title='Expand'
-                                    color='primary'
-                                    onClick={() => onExpandDialogClicked(data[inputParam.name] ?? inputParam.default ?? '', inputParam)}
-                                >
-                                    <IconArrowsMaximize />
-                                </IconButton>
+                            <IconButton
+                                size='small'
+                                sx={{
+                                    height: 25,
+                                    width: 25
+                                }}
+                                title={t('credentials.actions.expand', { defaultValue: 'Expand' })}
+                                color='primary'
+                                onClick={() => onExpandDialogClicked(data[inputParam.name] ?? inputParam.default ?? '', inputParam)}
+                            >
+                                <IconArrowsMaximize />
+                            </IconButton>
                             )}
                         </div>
                         {inputParam.warning && (
@@ -117,7 +119,11 @@ const CredentialInputHandler = ({ inputParam, data, disabled = false }) => {
                                 name={inputParam.name}
                                 options={inputParam.options}
                                 onSelect={(newValue) => (data[inputParam.name] = newValue)}
-                                value={data[inputParam.name] ?? inputParam.default ?? 'choose an option'}
+                                value={
+                                    data[inputParam.name] ??
+                                    inputParam.default ??
+                                    t('credentials.common.chooseOption', { defaultValue: 'Choose an option' })
+                                }
                             />
                         )}
                     </Box>

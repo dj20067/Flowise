@@ -305,5 +305,70 @@
       "customVars": "You can get custom variables:",
       "mustReturn": "Must return a string value at the end of function"
     }
+  },
+  "credentials": {
+    "view": {
+      "searchPlaceholder": "Search Credentials",
+      "title": "Credentials",
+      "description": "API keys, tokens, and secrets for 3rd party integrations"
+    },
+    "actions": {
+      "addCredential": "Add Credential",
+      "add": "Add",
+      "save": "Save",
+      "share": "Share",
+      "edit": "Edit",
+      "delete": "Delete",
+      "expand": "Expand"
+    },
+    "table": {
+      "name": "Name",
+      "updated": "Last Updated",
+      "created": "Created"
+    },
+    "empty": {
+      "title": "No Credentials Yet"
+    },
+    "list": {
+      "title": "Add New Credential",
+      "searchPlaceholder": "Search credential",
+      "clearSearch": "Clear Search"
+    },
+    "confirm": {
+      "delete": {
+        "title": "Delete",
+        "description": "Delete credential {{name}}?"
+      }
+    },
+    "snackbar": {
+      "deleteSuccess": "Credential deleted",
+      "deleteErrorPrefix": "Failed to delete Credential",
+      "addSuccess": "New Credential added",
+      "addErrorPrefix": "Failed to add new Credential",
+      "saveSuccess": "Credential saved",
+      "saveErrorPrefix": "Failed to save Credential",
+      "oauthSuccess": "OAuth2 authorization completed successfully",
+      "oauthErrorPrefix": "OAuth2 authorization failed"
+    },
+    "errors": {
+      "failedSave": "Failed to save credential",
+      "oauthPopupBlocked": "Failed to open authorization window. Please check if popups are blocked.",
+      "oauthInvalidResponse": "Invalid response from authorization endpoint",
+      "unknown": "Unknown error"
+    },
+    "shared": {
+      "label": "Shared Credential",
+      "cannotEdit": "Cannot edit shared credential."
+    },
+    "dialog": {
+      "nameLabel": "Credential Name",
+      "oauth": {
+        "redirect": "OAuth Redirect URL",
+        "authenticate": "Authenticate"
+      }
+    },
+    "common": {
+      "chooseOption": "Choose an option"
+    }
   }
 }

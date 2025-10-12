@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { List, ListItemButton, Dialog, DialogContent, DialogTitle, Box, OutlinedInput, InputAdornment, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { IconSearch, IconX } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 
 // const
 import { baseURL } from '@/store/constant'
@@ -17,6 +18,7 @@ const CredentialListDialog = ({ show, dialogProps, onCancel, onCredentialSelecte
     const theme = useTheme()
     const [searchValue, setSearchValue] = useState('')
     const [componentsCredentials, setComponentsCredentials] = useState([])
+    const { t } = useTranslation()
 
     const filterSearch = (value) => {
         setSearchValue(value)
@@ -70,7 +72,7 @@ const CredentialListDialog = ({ show, dialogProps, onCancel, onCredentialSelecte
                         id='input-search-credential'
                         value={searchValue}
                         onChange={(e) => filterSearch(e.target.value)}
-                        placeholder='Search credential'
+                        placeholder={t('credentials.list.searchPlaceholder', { defaultValue: 'Search credential' })}
                         startAdornment={
                             <InputAdornment position='start'>
                                 <IconSearch stroke={1.5} size='1rem' color={theme.palette.grey[500]} />
@@ -86,7 +88,7 @@ const CredentialListDialog = ({ show, dialogProps, onCancel, onCredentialSelecte
                                         color: theme.palette.grey[900]
                                     }
                                 }}
-                                title='Clear Search'
+                                title={t('credentials.list.clearSearch', { defaultValue: 'Clear Search' })}
                             >
                                 <IconX
                                     stroke={1.5}
