@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // material-ui
-import { Button, Avatar, Box, ButtonBase, Switch, Typography, Link } from '@mui/material'
+import { Button, Avatar, Box, ButtonBase, Switch, Typography, Link, Select, MenuItem } from '@mui/material'
 import { useTheme, styled, darken } from '@mui/material/styles'
 
 // project imports
@@ -30,6 +30,7 @@ import accountApi from '@/api/account.api'
 // Hooks
 import useApi from '@/hooks/useApi'
 import useNotifier from '@/utils/useNotifier'
+import { useTranslation } from 'react-i18next'
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
@@ -156,6 +157,8 @@ const Header = ({ handleLeftDrawerToggle }) => {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
     const [isPricingOpen, setIsPricingOpen] = useState(false)
     const [starCount, setStarCount] = useState(0)
+    const { i18n } = useTranslation()
+    const [lang, setLang] = useState(i18n.language || localStorage.getItem('lang') || 'en')
 
     useNotifier()
 
@@ -310,7 +313,21 @@ const Header = ({ handleLeftDrawerToggle }) => {
                 />
             )}
             <MaterialUISwitch checked={isDark} onChange={changeDarkMode} />
-            <Box sx={{ ml: 2 }}></Box>
+            <Box sx={{ ml: 2 }}>
+                <Select
+                    size='small'
+                    value={lang}
+                    onChange={(e) => {
+                        const newLang = e.target.value
+                        setLang(newLang)
+                        i18n.changeLanguage(newLang)
+                        localStorage.setItem('lang', newLang)
+                    }}
+                >
+                    <MenuItem value='en'>EN</MenuItem>
+                    <MenuItem value='zh'>中文</MenuItem>
+                </Select>
+            </Box>
             <ProfileSection handleLogout={signOutClicked} />
         </>
     )

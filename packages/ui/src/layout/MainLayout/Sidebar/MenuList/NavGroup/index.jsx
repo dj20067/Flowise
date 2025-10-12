@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 // material-ui
 import { useTheme } from '@mui/material/styles'
 import { Divider, List, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 // project imports
 import NavItem from '../NavItem'
@@ -15,6 +16,7 @@ import { Available } from '@/ui-component/rbac/available'
 const NavGroup = ({ item }) => {
     const theme = useTheme()
     const { hasPermission, hasDisplay } = useAuth()
+    const { t } = useTranslation()
 
     const listItems = (menu, level = 1) => {
         // Filter based on display and permission
@@ -74,10 +76,10 @@ const NavGroup = ({ item }) => {
                 subheader={
                     item.title && (
                         <Typography variant='caption' sx={{ ...theme.typography.menuCaption }} display='block' gutterBottom>
-                            {item.title}
+                            {t(`menu.group.${item.id}`, { defaultValue: item.title })}
                             {item.caption && (
                                 <Typography variant='caption' sx={{ ...theme.typography.subMenuCaption }} display='block' gutterBottom>
-                                    {item.caption}
+                                    {t(`menu.group.caption.${item.id}`, { defaultValue: item.caption })}
                                 </Typography>
                             )}
                         </Typography>
@@ -97,7 +99,7 @@ const NavGroup = ({ item }) => {
                             <List
                                 subheader={
                                     <Typography variant='caption' sx={{ ...theme.typography.subMenuCaption }} display='block' gutterBottom>
-                                        {group.title}
+                                        {t(`menu.group.${group.id}`, { defaultValue: group.title })}
                                     </Typography>
                                 }
                                 sx={{ p: '16px', py: 2, display: 'flex', flexDirection: 'column', gap: 1 }}

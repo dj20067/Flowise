@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // material-ui
 import { useTheme } from '@mui/material/styles'
 import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 // project imports
 import { MENU_OPEN, SET_MENU } from '@/store/actions'
@@ -21,6 +22,7 @@ const NavItem = ({ item, level, navType, onClick, onUploadFile }) => {
     const dispatch = useDispatch()
     const customization = useSelector((state) => state.customization)
     const matchesSM = useMediaQuery(theme.breakpoints.down('lg'))
+    const { t } = useTranslation()
 
     const Icon = item.icon
     const itemIcon = item?.icon ? (
@@ -118,13 +120,13 @@ const NavItem = ({ item, level, navType, onClick, onUploadFile }) => {
                         color='inherit'
                         sx={{ my: 0.5 }}
                     >
-                        {item.title}
+                        {t(`menu.${item.id}`, { defaultValue: item.title })}
                     </Typography>
                 }
                 secondary={
                     item.caption && (
                         <Typography variant='caption' sx={{ ...theme.typography.subMenuCaption, mt: -0.6 }} display='block' gutterBottom>
-                            {item.caption}
+                            {t(`menu.caption.${item.id}`, { defaultValue: item.caption })}
                         </Typography>
                     )
                 }

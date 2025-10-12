@@ -1,0 +1,52 @@
+{
+  "chatflows": {
+    "searchPlaceholder": "搜索名称或分类",
+    "title": "聊天流程",
+    "description": "构建单代理系统、聊天机器人和简单的 LLM 流程",
+    "cardView": "卡片视图",
+    "listView": "列表视图",
+    "addNew": "新建",
+    "empty": "暂无聊天流程"
+  },
+  "header": {
+    "language": "语言"
+  },
+  "chatflowConfig": {
+    "title": "聊天流程配置",
+    "tabs": {
+      "security": "安全",
+      "starterPrompts": "初始提示",
+      "followUpPrompts": "跟进提示",
+      "speechToText": "语音转文字",
+      "chatFeedback": "聊天反馈",
+      "analyseChatflow": "流程分析",
+      "leads": "潜在客户",
+      "fileUpload": "文件上传",
+      "postProcessing": "后处理"
+    }
+  },
+  "menu": {
+    "chatflows": "聊天流程",
+    "agentflows": "智能体流程",
+    "executions": "执行记录",
+    "assistants": "助手",
+    "marketplaces": "市场",
+    "tools": "工具",
+    "credentials": "凭据",
+    "variables": "变量",
+    "apikey": "API 密钥",
+    "document-stores": "文档库",
+    "evaluations": "评估",
+    "datasets": "数据集",
+    "evaluators": "评估器",
+    "management": "用户与工作空间管理",
+    "sso": "单点登录配置",
+    "roles": "角色",
+    "users": "用户",
+    "workspaces": "工作空间",
+    "login-activity": "登录活动",
+    "others": "其他",
+    "logs": "日志",
+    "account": "账号设置"
+  }
+}

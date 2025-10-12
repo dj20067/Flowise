@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 // material-ui
 import { useTheme } from '@mui/material/styles'
 import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 // project imports
 import NavItem from '../NavItem'
@@ -18,6 +19,7 @@ import { IconChevronDown, IconChevronUp } from '@tabler/icons-react'
 const NavCollapse = ({ menu, level }) => {
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
+    const { t } = useTranslation()
 
     const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState(null)
@@ -74,13 +76,13 @@ const NavCollapse = ({ menu, level }) => {
                 <ListItemText
                     primary={
                         <Typography variant={selected === menu.id ? 'h5' : 'body1'} color='inherit' sx={{ my: 'auto' }}>
-                            {menu.title}
+                            {t(`menu.${menu.id}`, { defaultValue: menu.title })}
                         </Typography>
                     }
                     secondary={
                         menu.caption && (
                             <Typography variant='caption' sx={{ ...theme.typography.subMenuCaption }} display='block' gutterBottom>
-                                {menu.caption}
+                                {t(`menu.caption.${menu.id}`, { defaultValue: menu.caption })}
                             </Typography>
                         )
                     }

@@ -1,0 +1,52 @@
+{
+  "chatflows": {
+    "searchPlaceholder": "Search Name or Category",
+    "title": "Chatflows",
+    "description": "Build single-agent systems, chatbots and simple LLM flows",
+    "cardView": "Card View",
+    "listView": "List View",
+    "addNew": "Add New",
+    "empty": "No Chatflows Yet"
+  },
+  "header": {
+    "language": "Language"
+  },
+  "chatflowConfig": {
+    "title": "Chatflow Configuration",
+    "tabs": {
+      "security": "Security",
+      "starterPrompts": "Starter Prompts",
+      "followUpPrompts": "Follow-up Prompts",
+      "speechToText": "Speech to Text",
+      "chatFeedback": "Chat Feedback",
+      "analyseChatflow": "Analyse Chatflow",
+      "leads": "Leads",
+      "fileUpload": "File Upload",
+      "postProcessing": "Post Processing"
+    }
+  },
+  "menu": {
+    "chatflows": "Chatflows",
+    "agentflows": "Agentflows",
+    "executions": "Executions",
+    "assistants": "Assistants",
+    "marketplaces": "Marketplaces",
+    "tools": "Tools",
+    "credentials": "Credentials",
+    "variables": "Variables",
+    "apikey": "API Keys",
+    "document-stores": "Document Stores",
+    "evaluations": "Evaluations",
+    "datasets": "Datasets",
+    "evaluators": "Evaluators",
+    "management": "User & Workspace Management",
+    "sso": "SSO Config",
+    "roles": "Roles",
+    "users": "Users",
+    "workspaces": "Workspaces",
+    "login-activity": "Login Activity",
+    "others": "Others",
+    "logs": "Logs",
+    "account": "Account Settings"
+  }
+}
