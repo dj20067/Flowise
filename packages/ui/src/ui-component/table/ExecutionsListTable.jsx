@@ -22,6 +22,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import StopCircleIcon from '@mui/icons-material/StopCircle'
 import ErrorIcon from '@mui/icons-material/Error'
 import { IconLoader, IconCircleXFilled } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     borderColor: theme.palette.grey[900] + 25,
@@ -89,6 +90,7 @@ const getIconColor = (state) => {
 export const ExecutionsListTable = ({ data, isLoading, onExecutionRowClick, onSelectionChange }) => {
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
+    const { t } = useTranslation()
 
     const localStorageKeyOrder = 'executions_order'
     const localStorageKeyOrderBy = 'executions_orderBy'
@@ -173,29 +175,29 @@ export const ExecutionsListTable = ({ data, isLoading, onExecutionRowClick, onSe
                                     }}
                                 />
                             </StyledTableCell>
-                            <StyledTableCell>Status</StyledTableCell>
+                            <StyledTableCell>{t('executions.table.status')}</StyledTableCell>
                             <StyledTableCell>
                                 <TableSortLabel
                                     active={orderBy === 'updatedDate'}
                                     direction={order}
                                     onClick={() => handleRequestSort('updatedDate')}
                                 >
-                                    Last Updated
+                                    {t('executions.table.lastUpdated')}
                                 </TableSortLabel>
                             </StyledTableCell>
                             <StyledTableCell component='th' scope='row'>
                                 <TableSortLabel active={orderBy === 'name'} direction={order} onClick={() => handleRequestSort('name')}>
-                                    Agentflow
+                                    {t('executions.table.agentflow')}
                                 </TableSortLabel>
                             </StyledTableCell>
-                            <StyledTableCell>Session</StyledTableCell>
+                            <StyledTableCell>{t('executions.table.session')}</StyledTableCell>
                             <StyledTableCell>
                                 <TableSortLabel
                                     active={orderBy === 'createdDate'}
                                     direction={order}
                                     onClick={() => handleRequestSort('createdDate')}
                                 >
-                                    Created
+                                    {t('executions.table.created')}
                                 </TableSortLabel>
                             </StyledTableCell>
                         </TableRow>

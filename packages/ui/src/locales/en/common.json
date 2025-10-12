@@ -155,6 +155,46 @@
       "postProcessing": "Post Processing"
     }
   },
+  "executions": {
+    "title": "Agent Executions",
+    "description": "Monitor and manage agentflows executions",
+    "filters": {
+      "state": "State",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "agentflow": "Agentflow",
+      "sessionId": "Session ID",
+      "options": {
+        "all": "All",
+        "inProgress": "In Progress",
+        "finished": "Finished",
+        "error": "Error",
+        "terminated": "Terminated",
+        "timeout": "Timeout",
+        "stopped": "Stopped"
+      }
+    },
+    "actions": {
+      "apply": "Apply",
+      "reset": "Reset",
+      "deleteSelected": "Delete selected executions"
+    },
+    "table": {
+      "status": "Status",
+      "lastUpdated": "Last Updated",
+      "agentflow": "Agentflow",
+      "session": "Session",
+      "created": "Created"
+    },
+    "deleteDialog": {
+      "title": "Confirm Deletion",
+      "content": "Are you sure you want to delete {{count}} execution{{s}}? This action cannot be undone.",
+      "confirm": "Delete"
+    },
+    "empty": {
+      "title": "No Executions Yet"
+    }
+  },
   "menu": {
     "chatflows": "Chatflows",
     "agentflows": "Agentflows",

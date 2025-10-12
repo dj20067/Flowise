@@ -43,6 +43,7 @@ import { ExecutionsListTable } from '@/ui-component/table/ExecutionsListTable'
 import { ExecutionDetails } from './ExecutionDetails'
 import { omit } from 'lodash'
 import TablePagination, { DEFAULT_ITEMS_PER_PAGE } from '@/ui-component/pagination/TablePagination'
+import { useTranslation } from 'react-i18next'
 
 // ==============================|| AGENT EXECUTIONS ||============================== //
 
@@ -50,6 +51,7 @@ const AgentExecutions = () => {
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
     const borderColor = theme.palette.grey[900] + 25
+    const { t } = useTranslation()
 
     const getAllExecutions = useApi(executionsApi.getAllExecutions)
     const deleteExecutionsApi = useApi(executionsApi.deleteExecutions)
@@ -235,18 +237,18 @@ const AgentExecutions = () => {
                 <ErrorBoundary error={error} />
             ) : (
                 <Stack flexDirection='column' sx={{ gap: 3 }}>
-                    <ViewHeader title='Agent Executions' description='Monitor and manage agentflows executions' />
+                    <ViewHeader title={t('executions.title')} description={t('executions.description')} />
 
                     {/* Filter Section */}
                     <Box sx={{ mb: 2, width: '100%' }}>
                         <Grid container spacing={2} alignItems='center'>
                             <Grid item xs={12} md={2}>
                                 <FormControl fullWidth size='small'>
-                                    <InputLabel id='state-select-label'>State</InputLabel>
+                                    <InputLabel id='state-select-label'>{t('executions.filters.state')}</InputLabel>
                                     <Select
                                         labelId='state-select-label'
                                         value={filters.state}
-                                        label='State'
+                                        label={t('executions.filters.state')}
                                         onChange={(e) => handleFilterChange('state', e.target.value)}
                                         size='small'
                                         sx={{
@@ -258,13 +260,13 @@ const AgentExecutions = () => {
                                             }
                                         }}
                                     >
-                                        <MenuItem value=''>All</MenuItem>
-                                        <MenuItem value='INPROGRESS'>In Progress</MenuItem>
-                                        <MenuItem value='FINISHED'>Finished</MenuItem>
-                                        <MenuItem value='ERROR'>Error</MenuItem>
-                                        <MenuItem value='TERMINATED'>Terminated</MenuItem>
-                                        <MenuItem value='TIMEOUT'>Timeout</MenuItem>
-                                        <MenuItem value='STOPPED'>Stopped</MenuItem>
+                                        <MenuItem value=''>{t('executions.filters.options.all')}</MenuItem>
+                                        <MenuItem value='INPROGRESS'>{t('executions.filters.options.inProgress')}</MenuItem>
+                                        <MenuItem value='FINISHED'>{t('executions.filters.options.finished')}</MenuItem>
+                                        <MenuItem value='ERROR'>{t('executions.filters.options.error')}</MenuItem>
+                                        <MenuItem value='TERMINATED'>{t('executions.filters.options.terminated')}</MenuItem>
+                                        <MenuItem value='TIMEOUT'>{t('executions.filters.options.timeout')}</MenuItem>
+                                        <MenuItem value='STOPPED'>{t('executions.filters.options.stopped')}</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -280,7 +282,7 @@ const AgentExecutions = () => {
                                     customInput={
                                         <TextField
                                             size='small'
-                                            label='Start date'
+                                            label={t('executions.filters.startDate')}
                                             fullWidth
                                             sx={{
                                                 '& .MuiOutlinedInput-notchedOutline': {
@@ -304,7 +306,7 @@ const AgentExecutions = () => {
                                     customInput={
                                         <TextField
                                             size='small'
-                                            label='End date'
+                                            label={t('executions.filters.endDate')}
                                             fullWidth
                                             sx={{
                                                 '& .MuiOutlinedInput-notchedOutline': {
@@ -318,7 +320,7 @@ const AgentExecutions = () => {
                             <Grid sx={{ ml: -1 }} item xs={12} md={2}>
                                 <TextField
                                     fullWidth
-                                    label='Agentflow'
+                                    label={t('executions.filters.agentflow')}
                                     value={filters.agentflowName}
                                     onChange={(e) => handleFilterChange('agentflowName', e.target.value)}
                                     size='small'
@@ -332,7 +334,7 @@ const AgentExecutions = () => {
                             <Grid sx={{ ml: -1 }} item xs={12} md={2}>
                                 <TextField
                                     fullWidth
-                                    label='Session ID'
+                                    label={t('executions.filters.sessionId')}
                                     value={filters.sessionId}
                                     onChange={(e) => handleFilterChange('sessionId', e.target.value)}
                                     size='small'
@@ -351,13 +353,13 @@ const AgentExecutions = () => {
                                         onClick={() => applyFilters(currentPage, pageLimit)}
                                         size='small'
                                     >
-                                        Apply
+                                        {t('executions.actions.apply')}
                                     </Button>
                                     <Button variant='outlined' onClick={resetFilters} size='small'>
-                                        Reset
+                                        {t('executions.actions.reset')}
                                     </Button>
                                     <Available permissions={['executions:delete']}>
-                                        <Tooltip title='Delete selected executions'>
+                                        <Tooltip title={t('executions.actions.deleteSelected')}>
                                             <span>
                                                 <IconButton
                                                     sx={{ height: 30, width: 30 }}
@@ -426,19 +428,21 @@ const AgentExecutions = () => {
                         aria-labelledby='alert-dialog-title'
                         aria-describedby='alert-dialog-description'
                     >
-                        <DialogTitle id='alert-dialog-title'>Confirm Deletion</DialogTitle>
+                        <DialogTitle id='alert-dialog-title'>{t('executions.deleteDialog.title')}</DialogTitle>
                         <DialogContent>
                             <DialogContentText id='alert-dialog-description'>
-                                Are you sure you want to delete {selectedExecutionIds.length} execution
-                                {selectedExecutionIds.length !== 1 ? 's' : ''}? This action cannot be undone.
+                                {t('executions.deleteDialog.content', {
+                                    count: selectedExecutionIds.length,
+                                    s: selectedExecutionIds.length !== 1 ? 's' : ''
+                                })}
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleDeleteDialogClose} color='primary'>
-                                Cancel
+                                {t('cancel')}
                             </Button>
                             <Button onClick={handleDeleteExecutions} color='error'>
-                                Delete
+                                {t('chatflows.actions.delete')}
                             </Button>
                         </DialogActions>
                     </Dialog>
@@ -452,7 +456,7 @@ const AgentExecutions = () => {
                                     alt='execution_empty'
                                 />
                             </Box>
-                            <div>No Executions Yet</div>
+                            <div>{t('executions.empty.title')}</div>
                         </Stack>
                     )}
                 </Stack>
